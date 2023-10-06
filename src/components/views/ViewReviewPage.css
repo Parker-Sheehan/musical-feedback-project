@@ -1,0 +1,25 @@
+#song-profile-main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: hotpink;
+}
+
+#critique-box-container{
+    width: 90vw;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    background-color: pink;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.critique-box{
+    width: 40%;
+    height: 400px;
+    margin: 5%;
+    border-radius: 10px;
+    background-color: yellowgreen;
+}

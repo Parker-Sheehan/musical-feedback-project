@@ -1,0 +1,46 @@
+#profile-info-card{
+    margin: 50px;
+    width: 90vw;
+    height: 75vh;
+    background-color: pink;
+    border-radius: 10px;
+    display: flex;
+}
+
+.inside-profile-card{
+    width: 50%;
+    height: 100%;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile-picture{
+    height: 31vw;
+    width: 31vw;
+    border-radius: 50%;
+    background-color: red;
+
+}
+
+#stats-container{
+    margin: 50px;
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+#right-profile{
+    display: flex;
+    align-items: flex-start ;
+    justify-content: space-evenly;
+    padding-left: 75px;
+}
+
+#specific-score-container{
+    display: inline-grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 1em;
+}

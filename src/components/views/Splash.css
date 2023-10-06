@@ -1,0 +1,40 @@
+#splash-main{
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: cadetblue;
+}
+#hero-section {
+  display: inline-grid;
+  grid-template-columns: 2fr 2fr;
+  width: 90vw;
+  height: 70vh;
+  background-color: aquamarine;
+  margin: 50px;
+}
+
+.hero-inside {
+  background-color: yellowgreen;
+  margin: 50px;
+}
+
+
+#pretty-banner{
+  margin: 50px 0 50px 0;
+  height: 150px;
+  width: 100%;
+  max-width: 100%;
+  background-color: red;
+  overflow: hidden;
+}
+
+#boring-info-part{
+  display: inline-grid;
+  grid-template-columns: 2fr 2fr;
+  width: 70%;
+  height: 70vh;
+  background-color: indigo;
+  margin: 50px;
+}

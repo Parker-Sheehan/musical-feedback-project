@@ -1,0 +1,23 @@
+.song-card-block{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.song-card{
+    width: 30vw;
+    height: 30vw;
+    margin: 2.5vw;
+    background-color: lightskyblue;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 50px;
+    border-radius: 10px;
+}
+
+.view-critique-button{
+    height: 40px;
+    width: 80px;
+    background-color: lightseagreen;
+}
