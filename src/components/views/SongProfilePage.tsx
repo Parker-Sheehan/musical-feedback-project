@@ -22,7 +22,6 @@ export interface ReviewInfo {
   arrangmentThoughts: string;
   mixMasterScore: number;
   mixMasterThoughts: string;
-
 }
 
 const SongProfilePage = () => {

@@ -8,8 +8,24 @@ import ReviewSong from "./components/views/ReviewSong";
 import PostSong from "./components/views/PostSong";
 import SongProfilePage from "./components/views/SongProfilePage";
 import ViewReviewPage from "./components/views/ViewReviewPage";
+import { useAppDispatch } from "./store/store";
+import { queueNewReview } from "./store/slices/reviewSlice";
+import axios from "axios";
+
 
 function App() {
+  const dispatch = useAppDispatch()
+
+  const getRandomSong = async() => {
+    let randomSong = await axios.get('http://localhost:3000/getRandomSong')
+    dispatch(queueNewReview(randomSong.data))
+  }
+
+  getRandomSong()
+
+
+
+  
 
 
 
@@ -22,7 +38,7 @@ function App() {
           <Route path="/LogIn" element={<LogIn/>}/>
           <Route path="/SignUp" element={<SignUp/>}/>
           <Route path="/Profile" element={<ProfilePage/>}/>
-          <Route path="/ReviewSong" element={<ReviewSong/>}/>
+          <Route path="/ReviewSong" element={<ReviewSong/>} />
           <Route path="/PostSong" element={<PostSong/>}/>
           <Route path="/SongProfilePage/:id" element={<SongProfilePage/>}/>
           <Route path="/ViewReview/:id" element={<ViewReviewPage/>}/>

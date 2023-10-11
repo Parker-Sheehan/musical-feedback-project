@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import { SongInfo } from "../views/ProfilePage";
-interface SongInfoProp{
+export interface SongInfoProp{
   song:SongInfo
 }
 

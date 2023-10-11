@@ -1,8 +1,16 @@
+import { FC } from "react";
 import SongInfoCard from "../main/SongInfoCard";
+import { useAppSelector } from "../../store/store";
+
+
 const ReviewSong = () => {
+
+  let song = useAppSelector((state) => state.review)
+  console.log(song)
+
   return (
     <main id="song-profile-main">
-      <SongInfoCard />
+      <SongInfoCard song={song}/>
       <div id="critique-box-container">
         <div className="critique-box">
           <p>promt musicality?</p>
