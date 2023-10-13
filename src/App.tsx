@@ -8,26 +8,10 @@ import ReviewSong from "./components/views/ReviewSong";
 import PostSong from "./components/views/PostSong";
 import SongProfilePage from "./components/views/SongProfilePage";
 import ViewReviewPage from "./components/views/ViewReviewPage";
-import { useAppDispatch } from "./store/store";
-import { queueNewReview } from "./store/slices/reviewSlice";
-import axios from "axios";
-
-
-function App() {
-  const dispatch = useAppDispatch()
-
-  const getRandomSong = async() => {
-    let randomSong = await axios.get('http://localhost:3000/getRandomSong')
-    dispatch(queueNewReview(randomSong.data))
-  }
-
-  getRandomSong()
 
 
 
-  
-
-
+function App() {  
 
   return (
     <>

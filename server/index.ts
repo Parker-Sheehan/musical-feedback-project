@@ -39,11 +39,18 @@ interface ReviewInfo {
 
 interface UserInfo {
   id: number;
+  displayName: string;
   username: string;
   password: string;
   profilePicture: string;
   songInReview: number;
   genres: string[];
+}
+
+interface HasReviewed {
+  id: number;
+  userId: number;
+  songId: number;
 }
 
 let arrayOfSongs: SongInfo[] = [
@@ -77,13 +84,36 @@ let arrayOfSongs: SongInfo[] = [
 ];
 
 let arrayOfUsers: UserInfo[] = [
-  {id: 1,
+  {
+    id: 1,
+    displayName: "fabio",
     username: "test",
     password: "test",
-    profilePicture: "https://i.pinimg.com/originals/50/f0/c3/50f0c3351809f62d2d8d3fe255a72fa5.jpg";
+    profilePicture:
+      "https://i.pinimg.com/originals/50/f0/c3/50f0c3351809f62d2d8d3fe255a72fa5.jpg",
     songInReview: 0,
-    genres: ["trap", "drum and bass", "edm"]
-  }
+    genres: ["trap", "drum and bass", "edm"],
+  },
+  {
+    id: 2,
+    displayName: "ronny",
+    username: "test",
+    password: "test",
+    profilePicture:
+      "https://i.pinimg.com/originals/50/f0/c3/50f0c3351809f62d2d8d3fe255a72fa5.jpg",
+    songInReview: 0,
+    genres: ["trap", "drum and bass", "edm"],
+  },
+  {
+    id: 3,
+    displayName: "jacob",
+    username: "test",
+    password: "test",
+    profilePicture:
+      "https://i.pinimg.com/originals/50/f0/c3/50f0c3351809f62d2d8d3fe255a72fa5.jpg",
+    songInReview: 0,
+    genres: ["trap", "drum and bass", "edm"],
+  },
 ];
 
 let arrayOfReviews: ReviewInfo[] = [
@@ -242,6 +272,24 @@ let arrayOfReviews: ReviewInfo[] = [
   },
 ];
 
+let hasReviewedArray: HasReviewed[] = [
+  {
+    id: 1,
+    userId: 2,
+    songId: 1,
+  },
+  {
+    id: 2,
+    userId: 2,
+    songId: 2
+  },
+  {
+    id: 3,
+    userId: 1,
+    songId: 3
+  }
+];
+
 app.get("/getSongs", (req, res) => {
   console.log("in getSongs");
   res.send(arrayOfSongs);
@@ -291,11 +339,60 @@ app.put("/getReview/:id", (req, res) => {
   res.send(reviewInfo[0]);
 });
 
-app.get("/getRandomSong", (req, res) => {
-  let randomIndex = Math.floor(Math.random() * arrayOfSongs.length);
-  console.log(randomIndex);
-  let randomSong = arrayOfSongs[randomIndex];
-  res.send(randomSong);
+app.post("/getRandomSong/:id", (req, res) => {
+  let userId = req.params.id;
+  let user = arrayOfUsers.filter((currentUser) => {
+    if (currentUser.id === +userId) {
+      return currentUser;
+    }
+  });
+  if (user[0].songInReview !== 0) {
+    console.log("send user song in review");
+    const song = arrayOfSongs.filter((song) => {
+      if (song.id === user[0].songInReview) {
+        return song;
+      }
+    })[0];
+    res.send(song);
+  } else {
+    let userHasReviewed = hasReviewedArray.filter((hasReviewed) => {
+      if(hasReviewed.userId === user[0].id){
+        return hasReviewed
+      }
+    })
+    // console.log(userHasReviewed, 'useHasReviewed')
+    let userHasReviewedSongIdArray: number[] = []
+    userHasReviewed.forEach((song) => {
+      userHasReviewedSongIdArray.push(song.id)
+    })
+    console.log(userHasReviewedSongIdArray, "user has review these")
+    let usersSongsArray = arrayOfSongs.filter((song) => {
+      if(song.userId === user[0].id){
+        return song
+      }
+    })
+    // console.log(usersSongsArray, "user made these")
+    let usersSongsIdArray : number[] = []
+    usersSongsArray.forEach((song) => {
+      usersSongsIdArray.push(song.id)
+    })
+    console.log(usersSongsIdArray, "user made these ID")
+    let randomIndex = Math.floor(Math.random() * arrayOfSongs.length);
+    console.log(`random index was ${randomIndex}`)
+    while(userHasReviewedSongIdArray.includes(randomIndex + 1) || usersSongsIdArray.includes(randomIndex+1)){
+      randomIndex = Math.floor(Math.random() * arrayOfSongs.length)
+      console.log(randomIndex, "this should end on a viable index")
+    }
+    console.log(randomIndex);
+    let randomSong = arrayOfSongs[randomIndex];
+    console.log(randomSong)
+
+    user[0].songInReview = randomSong.id;
+    res.send(randomSong);
+  }
+
+  // on review submit set song in review to 0 to reset
+
 });
 
 // app.delete('/deleteSong/:song', (req,res) => {

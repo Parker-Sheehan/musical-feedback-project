@@ -1,9 +1,27 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import SongInfoCard from "../main/SongInfoCard";
-import { useAppSelector } from "../../store/store";
+import { useAppSelector, useAppDispatch } from "../../store/store";
+import { queueNewReview } from "../../store/slices/reviewSlice";
+import axios from "axios";
 
 
 const ReviewSong = () => {
+
+  // on review submit set song in review to 0 to reset
+
+  const dispatch = useAppDispatch()
+
+  const getRandomSong = async() => {
+    let randomSong = await axios.post('http://localhost:3000/getRandomSong/1')
+    dispatch(queueNewReview(randomSong.data))
+  }
+
+  useEffect(() => {
+    getRandomSong()
+
+  },[])
+
+
 
   let song = useAppSelector((state) => state.review)
   console.log(song)
@@ -48,6 +66,7 @@ const ReviewSong = () => {
           <input type="number" max={5} min={0} />
           <textarea name="" id=""></textarea>
         </div>
+        <button>Submit</button>
       </div>
     </main>
   );
