@@ -1,9 +1,11 @@
 import { useRef } from "react";
 import "./PostSong.css";
+import axios from "axios";
 
 interface NewSongObj {
   title: string;
-  link: string;
+  embeddedLink: string;
+  artLink: string;
   genre: string;
 }
 
@@ -20,6 +22,7 @@ const PostSong = () => {
     ) {
 
       let embeddedLink: string = ""
+      let artLink: string = ""
 
       try{
         const url = "https://soundcloud.com/oembed";
@@ -35,23 +38,30 @@ const PostSong = () => {
       });
       
       const text: string = await response.text();
+
+      console.log(text)
       
       let splitText: string[] = text.split(`src`)
-      let nextSplit: string[] = splitText[1].split(`&show_artwork`)
+      // console.log(splitText[0])
+      let albumArtLinkSplit: string[] = splitText[0].split('"thumbnail_url":"')
+      let albumArtLinkSplitTwo: string[] = albumArtLinkSplit[1].split('"')
+      let embeddedLinkSplit: string[] = splitText[1].split(`&show_artwork`)
       
-      embeddedLink = nextSplit[0].slice(3)
-
+      embeddedLink = embeddedLinkSplit[0].slice(3)
+      artLink = albumArtLinkSplitTwo[0]
+      
       }catch{
         return alert("use valid url")
       }
 
       const newSongInfoObj: NewSongObj = {
         title: titleRef.current?.value,
-        link: embeddedLink,
+        embeddedLink,
+        artLink,
         genre: genreRef.current?.value
       }
 
-
+      axios.post(`http://localhost:3000/createNewSong/4`, newSongInfoObj)
       console.log(newSongInfoObj)
 
     } else {

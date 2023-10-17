@@ -1,10 +1,10 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { SongInfo } from "../../components/views/ProfilePage"
 
 
 
 const initialState: SongInfo = {
-    id: 0, title: "", link: "", albumArt: ""
+    id: 0, title: "", embeddedLink: "", artLink: ""
 }
 
 
@@ -19,8 +19,8 @@ export const ReviewSlice=createSlice({
                 ...state,
                 id: data.id,
                 title: data.title,
-                link: data.link,
-                albumArt: data.albumArt,
+                embeddedLink: data.embeddedLink,
+                artLink: data.artLink,
               }
         }
     }

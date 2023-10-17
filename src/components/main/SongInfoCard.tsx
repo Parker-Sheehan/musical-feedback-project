@@ -12,7 +12,7 @@ const SongInfoCard: FC<SongInfoProp> = ({ song }) => {
         <div
           id="album-cover-card"
           style={{
-            backgroundImage: `url(${song?.albumArt})`,
+            backgroundImage: `url(${song?.artLink})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
@@ -27,7 +27,7 @@ const SongInfoCard: FC<SongInfoProp> = ({ song }) => {
           width="100%"
           height="100%"
           allow="autoplay"
-          src={song.link}
+          src={song.embeddedLink}
         ></iframe>
         </div>
       </div>

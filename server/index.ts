@@ -13,8 +13,9 @@ app.use(cors());
 interface SongInfo {
   id: number;
   userId: number;
+  artLink: string;
+  embeddedLink: string;
   title: string;
-  link: string;
   genre: string;
 }
 
@@ -57,21 +58,24 @@ let arrayOfSongs: SongInfo[] = [
     id: 1,
     userId: 1,
     title: "Angel Voices",
-    link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1427052748",
+    artLink: "https://i1.sndcdn.com/artworks-000377038188-z3jm7h-t500x500.jpg",
+    embeddedLink: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F474445329",
     genre: "edm",
   },
   {
     id: 2,
     userId: 2,
     title: "Good Space",
-    link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1448872240",
+    artLink: "https://i1.sndcdn.com/artworks-ylbfQTWEvsleLDep-6oWVdA-t500x500.jpg",
+    embeddedLink: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1448872240",
     genre: "trap",
   },
   {
     id: 3,
     userId: 3,
     title: "moment",
-    link: "https://soundcloud.com/vierrecloud/moment-1?si=82c4420afdcb44e581dfa65b7f70a403&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+    artLink: "https://i1.sndcdn.com/artworks-000572434217-zrbos8-t500x500.jpg",
+    embeddedLink: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F656099120",
     genre: "drum and bass",
   },
 ];
@@ -331,6 +335,26 @@ app.put("/getReview/:id", (req, res) => {
   console.log(reviewInfo);
   res.send(reviewInfo[0]);
 });
+
+app.post("/createNewSong/:id", (req,res) => {
+
+  let {id} = req.params
+  let {body} = req
+
+  let nextId = arrayOfSongs.slice(-1)[0].id + 1
+
+  let newSong : SongInfo = {
+    id: nextId,
+    userId: id,
+    title: body.title,
+    artLink: body.artLink,
+    embeddedLink: body.embeddedLink,
+    genre: body.genre,
+  }
+
+  arrayOfSongs.push(newSong)
+
+})
 
 app.post("/getRandomSong/:id", (req, res) => {
   let userId = req.params.id;

@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 export interface SongInfo {
   id: number,
   title: string,
-  link: string,
-  albumArt: string
+  embeddedLink: string,
+  artLink: string
 }
 
 const ProfilePage = () => {

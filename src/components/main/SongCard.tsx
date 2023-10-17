@@ -8,13 +8,13 @@ interface SongCardProps {
 }
 
 const SongCard: FC<SongCardProps> = ({ song }) => {
-  console.log(song.albumArt);
+  console.log(song);
   return (
     <div className="song-card-block">
       <div
         className="song-card"
         style={{
-          background: `url(${song.albumArt})`,
+          background: `url(${song.artLink})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
