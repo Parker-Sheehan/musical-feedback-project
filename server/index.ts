@@ -15,7 +15,6 @@ interface SongInfo {
   userId: number;
   title: string;
   link: string;
-  albumArt: string;
   genre: string;
 }
 
@@ -58,18 +57,14 @@ let arrayOfSongs: SongInfo[] = [
     id: 1,
     userId: 1,
     title: "Angel Voices",
-    link: "https://soundcloud.com/porter-robinson/virtual-self-angel-voices?si=9c5cab65a33f4de49aac720d08f4a82b&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
-    albumArt:
-      "https://i.scdn.co/image/ab6761610000e5ebd8b3a3a7c3fe3e6cfd835e46",
+    link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1427052748",
     genre: "edm",
   },
   {
     id: 2,
     userId: 2,
     title: "Good Space",
-    link: "https://soundcloud.com/skrillex/skrillex-starrah-good-space?si=82c4420afdcb44e581dfa65b7f70a403&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
-    albumArt:
-      "https://media.pitchfork.com/photos/63ee3b25a6c6ccc33ce86c05/1:1/w_600/Skrillex-Quest-for-Fire.jpg",
+    link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1448872240",
     genre: "trap",
   },
   {
@@ -77,8 +72,6 @@ let arrayOfSongs: SongInfo[] = [
     userId: 3,
     title: "moment",
     link: "https://soundcloud.com/vierrecloud/moment-1?si=82c4420afdcb44e581dfa65b7f70a403&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
-    albumArt:
-      "https://i.scdn.co/image/ab67616d0000b273716278881a0a609adf14ffc5",
     genre: "drum and bass",
   },
 ];
@@ -106,7 +99,7 @@ let arrayOfUsers: UserInfo[] = [
   },
   {
     id: 3,
-    displayName: "jacob",
+    displayName: "jayjay",
     username: "test",
     password: "test",
     profilePicture:
@@ -395,17 +388,8 @@ app.post("/getRandomSong/:id", (req, res) => {
 
 });
 
-// app.delete('/deleteSong/:song', (req,res) => {
-//     let songTitle = req.params.song
-//     let newArray = arrayOfSongs.filter((song) => {
-//         if(song.songTitle !== songTitle){
-//             return song
-//         }
-//     })
+app.post("/createSong",(req,res) =>{
 
-//     arrayOfSongs = newArray
-
-//     res.send(arrayOfSongs)
-// })
+})
 
 server.listen(3000, console.log("listening on port 3000"));
