@@ -2,6 +2,9 @@
 import { createRequire } from "module";
 import { db } from "../database/model";
 import { seed } from "../script/seed";
+import {addSignUp} from "./controller/authController"
+import session from "express-session";
+import { getProfileInfo } from "./controller/userController";
 const require = createRequire(import.meta.url);
 const express = require("express");
 const cors = require("cors");
@@ -9,8 +12,20 @@ const http = require("http");
 const app = express();
 const server = http.createServer(app);
 
+require('dotenv').config();
+console.log(process.env)
+
+
+
 app.use(express.json());
 app.use(cors());
+
+app.use(session({
+  secret: process.env.SESSION_SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 interface SongInfo {
   id: number;
@@ -397,15 +412,17 @@ let arrayOfSongs: SongInfo[] = [
 
 // });
 
-app.post("/createSong",(req,res) =>{
+app.post("/signUp", addSignUp)
 
-})
+app.post("/login", )
+
+app.get("/getProfileInfo/:userId", getProfileInfo)
 
 
 await db.sync(
-  { force: true }
+//   { force: true }
   )
 
-seed()
+// seed()
 
 server.listen(3000, console.log("listening on port 3000"));
