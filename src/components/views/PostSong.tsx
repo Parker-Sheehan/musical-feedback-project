@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useAppSelector } from "../../store/store";
 import "./PostSong.css";
 import axios from "axios";
 
@@ -13,6 +14,9 @@ const PostSong = () => {
   const titleRef = useRef<HTMLInputElement | null>(null);
   const linkRef = useRef<HTMLInputElement | null>(null);
   const genreRef = useRef<HTMLSelectElement | null>(null);
+  let loggedInUser = useAppSelector((state) => state.login)
+
+  let {userId} = loggedInUser
 
   const submitSongHandler = async () => {
     if (
@@ -61,7 +65,7 @@ const PostSong = () => {
         genre: genreRef.current?.value
       }
 
-      axios.post(`http://localhost:3000/createNewSong/4`, newSongInfoObj)
+      axios.post(`http://localhost:3000/createNewSong/${userId}`, newSongInfoObj)
       console.log(newSongInfoObj)
 
     } else {

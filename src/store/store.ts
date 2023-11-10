@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { ReviewSlice } from "./slices/reviewSlice";
+import { LoginSlice } from "./slices/loginSlice";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 
 export const store = configureStore({
   reducer: {
     review: ReviewSlice.reducer,
+    login: LoginSlice.reducer
   },
 });
 

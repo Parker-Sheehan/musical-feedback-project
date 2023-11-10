@@ -1,8 +1,42 @@
-import React from "react";
+import {useRef} from "react";
 import "./LogIn.css";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { signIn } from "../../store/slices/loginSlice";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+axios.defaults.withCredentials = true
 
 const LogIn = () => {
+
+  let navigate = useNavigate()
+
+  const dispatch = useAppDispatch()
+
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
+
+  const loginHandler = async() => {
+    console.log("login handler hit")
+    if(emailRef.current?.value && passwordRef.current?.value){
+
+      let bodyObj = {
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value
+      }
+      console.log(bodyObj)
+      
+      const account = await axios.post("http://localhost:3000/login", bodyObj)
+      console.log(account.data.userId)
+
+      dispatch(signIn(account.data.userId))
+
+      // return navigate("/Profile")
+
+    }
+  }
+
+
   return (
     <div id="login-container">
       <div id="greeting-container">
@@ -20,9 +54,9 @@ const LogIn = () => {
       </div>
       <div id="use-email-container">
         <label htmlFor="email-input">Email</label>
-        <input type="text" className="text-input" id="email-input" />
+        <input type="text" className="text-input" id="email-input" ref={emailRef}/>
         <label htmlFor="password-input">Password</label>
-        <input type="text" className="text-input" id="password-input" />
+        <input type="text" className="text-input" id="password-input" ref={passwordRef}/>
         <div id="extra-login-actions-container">
           <div id="remember-me-container">
             <input type="checkbox" id="remember-me" />
@@ -30,7 +64,7 @@ const LogIn = () => {
           </div>
           <a>Forgot Password?</a>
         </div>
-        <button id="login-button">Login</button>
+        <button onClick={loginHandler} id="login-button">Login</button>
       </div>
       <p>
         Not registered yet? <Link to="/SignUp">Create an account</Link>

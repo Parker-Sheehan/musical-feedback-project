@@ -1,90 +1,105 @@
 import { User } from "../../database/model.js";
-
 import session from "express-session";
+import bcrypt from "bcrypt";
+import { where } from "sequelize";
+// import dotenv from "dotenv"
+// import jwt from "jsonwebtoken"
 
-//Sign-up
-const addSignUp = async (req, res) => {
-  const { displayName, email, password } = req.body;
+// dotenv.config()
 
-  console.log(req.body)
-  console.log(req.session)
-
-  let user = await User.create({
-    displayName: displayName,
-    email: email,
-    password: password,
-  });
-
-  console.log(user);
+const saltRounds = 10;
 
 
-  if (user && email && password) {
-    req.session.userId = user.userId;
-    res.status(200).json({
-      userId: user.userId,
-      success: true,
-      message: "user created and logged in!",
-    });
+// let SECRET = process.env.SECRET
+
+
+// const createToken = (email, id) => {
+//   const payload = { email, id };
+//   return jwt.sign(payload, SECRET);
+// };
+
+let signUp = async (req, res) => {
+  console.log(req.body);
+  let { displayName, email, password } = req.body;
+
+  let foundUser = await User.findOne({ where: { email: email } });
+  if (foundUser) {
+    res.status(400).send("Account with email already exists");
   } else {
-    res.json({ success: false });
-  }
-};
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-//Login
-const authenticate = async (req, res) => {
-  const { email, password } = req.body;
-  console.log(req.body.email);
-  const user = await User.findOne({
-    where: {
+    let user = await User.create({
+      displayName: displayName,
       email: email,
-    },
-  });
-  console.log(user, password, email);
+      password: hashedPassword,
+    });
 
-  if (user && user.password === password && !req.session.userId) {
-    req.session.userId = user.userId;
-    res.json({
-      success: true,
+    // console.log(user.dataValues.email,"dv")
+    // console.log(user.email,"eer")
+
+    // const token = createToken(
+    //   user.dataValues.email,
+    //   user.dataValues.id
+    // );
+
+    // const exp = Date.now() + 1000 * 60 * 60 * 48;
+
+    // console.log(user,"this is user")
+
+    console.log(req.session)
+    req.session.user = 100
+
+    console.log(req.session.user,"session")
+
+    req.session.save((err) => {
+      if (err) {
+        console.error('Error saving session:', err);
+      }
     });
-  } else {
-    res.json({
-      success: false,
-    });
+    console.log(req.session, "after save")
+
+    let bodyObj = {
+      ...user.dataValues,
+      // token: token,
+      // exp: exp,
+    }
+
+    console.log(bodyObj, "yayyayyayyay")
   }
+
+  // res.send(user)
+
+  // console.log(user);
 };
 
-//Logout
-const destroySession = async (req, res) => {
-  req.session.destroy();
-  res.json({
-    success: true,
-  });
-};
-
-//middleware function
-const authRequired = async (req, res, next) => {
-  if (req.session.userId) {
-    next();
-  } else {
-    res.status(401).json({
-      error: "Unauthorized",
-    });
+let login = async (req, res) => {
+  console.log({...req.session})
+  console.log(req.session.user, "this is session login")
+  if(req.session.user){
+    console.log('we got req sess user')
+  }else{
+    console.log("no req seesion user")
   }
+  // console.log(req.body, "hit longin from the bacck");
+  // let { email, password } = req.body;
+
+  // let user = await User.findOne({
+  //   where: {
+  //     email: email,
+  //   },
+  // });
+
+  // console.log(user);
+
+  // if (user) {
+  //   bcrypt.compare(password, user.password, (err, result) => {
+  //     if (result) {
+  //       res.send(result);
+  //     } else {
+  //       res.send(err);
+  //     }
+  //   });
+  // }
 };
 
-//checks authentication
-const getAuthStatus = (req, res) => {
-  if (req.session.userId) {
-    res.json({
-      loggedIn: true,
-      userId: req.session.userId,
-    });
-  } else {
-    res.json({
-      loggedIn: false,
-      userId: null,
-    });
-  }
-};
-
-export { addSignUp, authenticate, destroySession, authRequired, getAuthStatus };
+export { signUp, login };

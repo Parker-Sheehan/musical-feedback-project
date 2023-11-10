@@ -45,7 +45,7 @@ User.init(
     },
     profilePicture: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     songInReview: {
       type: DataTypes.INTEGER,
@@ -53,7 +53,7 @@ User.init(
     },
     genres: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {

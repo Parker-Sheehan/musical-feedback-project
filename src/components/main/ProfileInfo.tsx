@@ -1,10 +1,27 @@
 import "./ProfileInfo.css";
+import { FC, useState } from "react";
 
-const ProfileInfo = () => {
+import { ProfileData } from "../views/ProfilePage";
+
+interface ProfileDataProp {
+  profileData: ProfileData;
+}
+const ProfileInfo: FC<ProfileDataProp> = ({ profileData }) => {
+  console.log(profileData.profilePicture);
+  
+
   return (
     <div id="profile-info-card">
       <div id="left-profile" className="inside-profile-card">
-        <div id="profile-picture"></div>
+        <div
+          id="profile-picture"
+          style={{
+            backgroundImage: "url(" + profileData.profilePicture + ")",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        ></div>
         <div id="stats-container">
           <div>
             <h3 className="top-text">Followers</h3>
@@ -21,10 +38,10 @@ const ProfileInfo = () => {
         </div>
       </div>
       <div id="right-profile" className="inside-profile-card">
-        <h1>SolRaKing</h1>
+        <h1>{profileData.displayName}</h1>
         <div id="genre-container">
           <h3>Genre</h3>
-          <h3>DnB - Trap - Dubstep</h3>
+          <h3>{profileData.genres}</h3>
         </div>
         <div id="ratings-container">
           <div id="total-stars-container">

@@ -14,14 +14,14 @@ const SongCard: FC<SongCardProps> = ({ song }) => {
       <div
         className="song-card"
         style={{
-          background: `url(${song.artLink})`,
+          background: `url(https://i1.sndcdn.com/artworks-000189983181-azrg5q-t500x500.jpg)`,
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
         }}
       >
         <h2>{song.title}</h2>
-        <Link to={"/SongProfilePage/" + song.id} state={{ songObj: song }}>
+        <Link to={"/SongProfilePage/" + song.songId} state={{ songObj: song }}>
           <button className="view-critique-button">View Song</button>
         </Link>
       </div>
