@@ -31,7 +31,7 @@ const LogIn = () => {
 
       dispatch(signIn(account.data.userId))
 
-      // return navigate("/Profile")
+      return navigate("/Profile")
 
     }
   }

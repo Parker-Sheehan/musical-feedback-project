@@ -28,18 +28,29 @@ const ProfilePage = () => {
 
   const getProfileInfo = async () => {
     let profileData = await axios.get(
-      `http://localhost:3000/getProfileInfo/1`
+      `http://localhost:3000/getProfileInfo/${loggedInUser.userId}`
     );
     let { songs, displayName, genres, profilePicture } = profileData.data;
-    console.log(profileData.data);
-    console.log(genres.split(","));
-    let data: ProfileData = {
-      displayName,
-      genres: genres.replaceAll(","," - "),
-      profilePicture,
-    };
+    // console.log(profileData)
+    console.log(profileData);
+    console.log(genres);
+    if(genres){
+      let data: ProfileData = {
+        displayName,
+        genres: genres.replaceAll(","," - "),
+        profilePicture,
+      };
+      setProfileData(data);
+
+    }else{
+      let data: ProfileData = {
+        displayName,
+        genres: ["Add Genre Prefrence"],
+        profilePicture
+      }
+      setProfileData(data);
+    }
     setSongsArray(songs);
-    setProfileData(data);
   };
 
   console.log(songsArray);

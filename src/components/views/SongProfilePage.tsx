@@ -45,6 +45,7 @@ const SongProfilePage = () => {
   }
 
   useEffect(()=>{
+    console.log(location)
     if(location.state){
       setSongInfo(location.state.songObj)
     } else {

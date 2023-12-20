@@ -11,7 +11,7 @@ const SongCard: FC<SongCardProps> = ({ song }) => {
   console.log(song);
   return (
     <div className="song-card-block">
-      <div
+      {/* <div
         className="song-card"
         style={{
           background: `url(https://i1.sndcdn.com/artworks-000189983181-azrg5q-t500x500.jpg)`,
@@ -24,6 +24,20 @@ const SongCard: FC<SongCardProps> = ({ song }) => {
         <Link to={"/SongProfilePage/" + song.songId} state={{ songObj: song }}>
           <button className="view-critique-button">View Song</button>
         </Link>
+      </div> */}
+      <div className="song-card">
+        <div className="song-card-header">
+        <h2>{song.title}</h2>
+        <Link to={"/SongProfilePage/" + song.songId} state={{ songObj: song }}>
+          <button className="view-critique-button">View Song</button>
+        </Link>
+        </div>
+        <iframe
+          width="100%"
+          height="100%"
+          allow="autoplay"
+          src={song.embeddedLink}
+        ></iframe>
       </div>
     </div>
   );
