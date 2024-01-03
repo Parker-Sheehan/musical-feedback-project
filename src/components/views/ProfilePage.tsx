@@ -56,9 +56,16 @@ const ProfilePage = () => {
   console.log(songsArray);
   console.log(profileData);
 
-  useEffect(() => {
-    getProfileInfo();
-  }, []);
+  
+    useEffect(() => {
+      getProfileInfo();
+    }, []);
+
+  const onEditPfp = (profilePictureUrl: string) => {
+    let currentProfileData:ProfileData = {...profileData!, profilePicture: profilePictureUrl}
+    console.log(currentProfileData)
+    setProfileData(currentProfileData)
+  }
 
   let displayTracks = songsArray.map((song) => {
     console.log(song)
@@ -69,7 +76,7 @@ const ProfilePage = () => {
     <>
       {profileData ? (
         <main id="profile-page-main">
-          <ProfileInfo profileData={profileData} />
+          <ProfileInfo profileData={profileData} onEditPfp={onEditPfp} />
           <div id="song-card-container">{displayTracks}</div>
         </main>
       ) : (

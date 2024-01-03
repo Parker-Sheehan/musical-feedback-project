@@ -22,3 +22,11 @@ nav {
   align-items: center;
   justify-content: space-between;
 }
+
+.nav-center-no-click{
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}

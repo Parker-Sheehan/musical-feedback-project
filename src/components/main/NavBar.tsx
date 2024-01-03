@@ -40,9 +40,9 @@ const NavBar = () => {
         <TbMusicHeart size="25px" />
       </Link>
     <div className="nav-center">
-      <Link to="/PostSong">Post Song</Link>
-      <Link to="/ReviewSong">Review Song</Link>
-      <Link to="/Profile">View Profile</Link>
+      <Link to="/LogIn">Post Song</Link>
+      <Link to="/LogIn">Review Song</Link>
+      <Link to="/LogIn">View Profile</Link>
     </div>
     <Link className="nav-right" to="/LogIn">
       <BsFillPersonFill size="25px" />

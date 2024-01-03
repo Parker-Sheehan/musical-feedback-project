@@ -1,16 +1,32 @@
 import "./ProfileInfo.css";
 import { FC, useState } from "react";
+import MyVerticallyCenteredModal from '../ui/MyVerticallyCenteredModal'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 import { ProfileData } from "../views/ProfilePage";
 
 interface ProfileDataProp {
   profileData: ProfileData;
+  onEditPfp: (profilePictureUrl: string) => void;
 }
-const ProfileInfo: FC<ProfileDataProp> = ({ profileData }) => {
-  console.log(profileData.profilePicture);
+
+const ProfileInfo: FC<ProfileDataProp> = ({ profileData, onEditPfp }) => {
+  console.log(profileData);
+
+  const [togglePfpModal,setTogglePfpModal] = useState<boolean>(false)
   
+  const handleProfilePictureClick = () => {
+    setTogglePfpModal(true);
+  };
 
   return (
+    <>
+        <MyVerticallyCenteredModal
+        show={togglePfpModal}
+        onHide={() => setTogglePfpModal(false)}
+        onEditPfp={onEditPfp}
+      />
     <div id="profile-info-card">
       <div id="left-profile" className="inside-profile-card">
         <div
@@ -21,6 +37,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({ profileData }) => {
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
           }}
+          onClick={handleProfilePictureClick}
         ></div>
         <div id="stats-container">
           <div>
@@ -74,6 +91,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({ profileData }) => {
         <button>Edit info</button>
       </div>
     </div>
+    </>
   );
 };
 
