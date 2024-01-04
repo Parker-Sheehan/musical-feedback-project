@@ -44,7 +44,7 @@ User.init(
       allowNull: false,
     },
     profilePicture: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     songInReview: {

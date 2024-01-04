@@ -61,10 +61,12 @@ const ProfilePage = () => {
       getProfileInfo();
     }, []);
 
-  const onEditPfp = (profilePictureUrl: string) => {
-    let currentProfileData:ProfileData = {...profileData!, profilePicture: profilePictureUrl}
-    console.log(currentProfileData)
-    setProfileData(currentProfileData)
+  const onEditPfp = async (profilePictureUrl: string) => {
+    let newProfileData:ProfileData = {...profileData!, profilePicture: profilePictureUrl}
+    console.log(newProfileData)
+    let updatedProfileData = await axios.post(`http://localhost:3000/updateProfileInfo/${loggedInUser.userId}`, newProfileData)
+    console.log(updatedProfileData)
+    setProfileData(newProfileData)
   }
 
   let displayTracks = songsArray.map((song) => {

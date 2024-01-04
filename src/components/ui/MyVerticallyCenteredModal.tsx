@@ -15,7 +15,6 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
 
     const editPfp = () => {
         props.onEditPfp(pfpUrl)
-        
         props.onHide()
     }
 

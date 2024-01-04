@@ -28,4 +28,31 @@ const getProfileInfo = async (req,res) => {
     }
   }
 
-  export {getProfileInfo}
+  const updateProfile = async (req,res) => {
+    console.log('updateProfileHit')
+    console.log(req.params.userId)
+    console.log(req.body)
+    console.log(req.session.email)
+    let {displayName, profilePicture} = req.body
+//     displayName: 'me',
+//   genres: [ 'Add Genre Prefrence' ],
+//   profilePicture: 'updateProfileInfo\\'
+    try{
+        if(req.session.email){
+            const updatedProfileInfo = await User.update({
+                displayName: displayName,
+                profilePicture: profilePicture
+            },{
+                where: {
+                    userId: req.params.userId
+                }
+            })
+            console.log(updatedProfileInfo)
+            res.send(updatedProfileInfo)
+        }
+    }catch(err){
+        res.error(err, "user id not found")
+    }
+  }
+
+  export {getProfileInfo, updateProfile}
