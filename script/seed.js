@@ -1,9 +1,22 @@
 import axios from "axios";
-import { User, Song, Review } from "../database/model.js";
+import { User, Song, Review, Genre, UserGenre, SongGenre} from "../database/model.js";
 
 console.log("Syncing Database...");
 
 console.log("Seeding database...");
+
+let genreArray = [
+  "Drum and Bass",
+  "Trap",
+  "House",
+  "Dubstep",
+  "Techno",
+  "Bass",
+  "Experimental",
+  "Trance",
+  "Hard Dance",
+  "Breakbeat"
+]
 
 let arrayOfSongs = [
   {
@@ -13,7 +26,6 @@ let arrayOfSongs = [
     artLink: "https://i1.sndcdn.com/artworks-000377038188-z3jm7h-t500x500.jpg",
     embeddedLink:
       "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F474445329",
-    genre: "edm",
   },
   {
     id: 2,
@@ -23,7 +35,6 @@ let arrayOfSongs = [
       "https://i1.sndcdn.com/artworks-ylbfQTWEvsleLDep-6oWVdA-t500x500.jpg",
     embeddedLink:
       "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1448872240",
-    genre: "trap",
   },
   {
     id: 3,
@@ -32,7 +43,6 @@ let arrayOfSongs = [
     artLink: "https://i1.sndcdn.com/artworks-000572434217-zrbos8-t500x500.jpg",
     embeddedLink:
       "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F656099120",
-    genre: "drum and bass",
   },
 ];
 
@@ -192,6 +202,12 @@ let arrayOfReviews = [
 ];
 
 export const seed = async () => {
+  genreArray.forEach(async (genre) => {
+    await Genre.create({
+      genreName: genre
+    })
+  })
+
   for (let i = 0; i < 5; i++) {
     await User.create({
       displayName: `dude${i}`,
@@ -200,8 +216,17 @@ export const seed = async () => {
       profilePicture:
         "https://i.pinimg.com/originals/50/f0/c3/50f0c3351809f62d2d8d3fe255a72fa5.jpg",
       songInReview: 0,
-      genres: "trap,drum and bass,edm",
     });
+  }
+
+  for(let i = 0; i< 5; i++){
+    let randomGenres = [i+1,i+2,i+3]
+    for(let j = 0; j< 3; j++){
+      await UserGenre.create({
+        userId: i+1,
+        genreId: randomGenres[j]
+      })
+    }
   }
 
   for (let i = 0; i < 3; i++) {
@@ -209,10 +234,19 @@ export const seed = async () => {
        await Song.create({
         title: song.title + " " + i,
         embeddedLink: song.embeddedLink,
-        genre: song.genre,
         userId: i + 1,
       });
     });
+  }
+
+  for (let i = 0; i < 9; i++){
+    let randomGenres = [i+1,i+2]
+    for(let j = 0; j< 2; j++){
+      await SongGenre.create({
+        songId: i+1,
+        genreId: randomGenres[j]
+      })
+    }
   }
 
   let total;

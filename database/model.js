@@ -28,6 +28,18 @@ export class Genre extends Model {
   }
 }
 
+export class UserGenre extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
+export class SongGenre extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
 User.init(
   {
     userId: {
@@ -80,10 +92,6 @@ Song.init(
       type: DataTypes.STRING,
       allowNull: false,
       // unique: true,
-    },
-    genre: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
   },
   {
@@ -162,7 +170,7 @@ Review.init(
 
 Genre.init(
   {
-    songId: {
+    genreId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -175,6 +183,36 @@ Genre.init(
   },
   {
     modelName: "genre",
+    sequelize: db,
+  }
+);
+
+UserGenre.init(
+  {
+    UserGenreId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+  },
+  {
+    modelName: "usergenre",
+    sequelize: db,
+  }
+);
+
+SongGenre.init(
+  {
+    SongGenreId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+  },
+  {
+    modelName: "songgenre",
     sequelize: db,
   }
 );
@@ -196,21 +234,21 @@ Genre.init(
 // );
 
 // Song Table
-User.hasMany(Song, {foreignKey:'userId'})
-Song.hasOne(User, {foreignKey: 'userId'})
+User.hasMany(Song, { foreignKey: "userId" });
+Song.hasOne(User, { foreignKey: "userId" });
 
 //Review Table
-User.hasMany(Review, {foreignKey:'userId'})
-Review.belongsTo(User, {foreignKey:'userId'})
+User.hasMany(Review, { foreignKey: "userId" });
+Review.belongsTo(User, { foreignKey: "userId" });
 
-Song.hasMany(Review, {foreignKey:'reviewId'})
-Review.belongsTo(Song, {foreignKey: 'songId'})
+Song.hasMany(Review, { foreignKey: "reviewId" });
+Review.belongsTo(Song, { foreignKey: "songId" });
 
-User.belongsToMany(Genre, { foreignKey: 'userId' , through: 'usergenres' });
-Genre.belongsToMany(User, { foreignKey: 'genreId' , through: 'usergenres' });
+User.belongsToMany(Genre, { foreignKey: "userId", through: "usergenre" });
+Genre.belongsToMany(User, { foreignKey: "genreId", through: "usergenre" });
 
-Song.belongsToMany(Genre, { foreignKey: 'songId' , through: 'songgenres' });
-Genre.belongsToMany(Song, { foreignKey: 'genreId' , through: 'songgenres' });
+Song.belongsToMany(Genre, { foreignKey: "songId", through: "songgenre" });
+Genre.belongsToMany(Song, { foreignKey: "genreId", through: "songgenre" });
 
 // await db.sync({ force: true })
 
