@@ -1,4 +1,4 @@
-import { User } from "../../database/model.js";
+import { Genre, User, UserGenre } from "../../database/model.js";
 import session from "express-session";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv"
@@ -73,11 +73,17 @@ let login = async (req, res) => {
       where: {
         email: email,
       },
+      include: [{
+        model: Genre,
+        through: UserGenre,
+      }],
     });
-    
+    console.log(user,"user")
+
     if (user) {
       bcrypt.compare(password, user.password, (err, result) => {
-        if (result) {
+        if (!result) {
+          console.log('logging in')
           const sess = req.session;
           sess.email = email;
           res.send(user);

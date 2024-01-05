@@ -30,9 +30,10 @@ const ProfilePage = () => {
     let profileData = await axios.get(
       `http://localhost:3000/getProfileInfo/${loggedInUser.userId}`
     );
+    console.log(profileData, "profile data")
     let { songs, displayName, genres, profilePicture } = profileData.data;
     // console.log(profileData)
-    console.log(profileData);
+    // console.log(profileData);
     console.log(genres);
     if(genres){
       let data: ProfileData = {

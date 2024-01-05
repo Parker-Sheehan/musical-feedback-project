@@ -247,8 +247,21 @@ Review.belongsTo(Song, { foreignKey: "songId" });
 User.belongsToMany(Genre, { foreignKey: "userId", through: "usergenre" });
 Genre.belongsToMany(User, { foreignKey: "genreId", through: "usergenre" });
 
+// User.hasMany(UserGenre, { foreignKey: "userId"});
+// UserGenre.belongsTo(User, { foreignKey: "userId"});
+
+// Genre.hasMany(UserGenre, { foreignKey: "genreId"});
+// UserGenre.belongsTo(Genre, { foreignKey: "genreId"});
+
 Song.belongsToMany(Genre, { foreignKey: "songId", through: "songgenre" });
 Genre.belongsToMany(Song, { foreignKey: "genreId", through: "songgenre" });
+
+// Song.hasMany(SongGenre, { foreignKey: "songId"});
+// SongGenre.belongsTo(Song, { foreignKey: "songId"});
+
+// Genre.hasMany(SongGenre, { foreignKey: "genreId"});
+// SongGenre.belongsTo(Genre, { foreignKey: "genreId"});
+
 
 // await db.sync({ force: true })
 
