@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useAppSelector } from "../../store/store";
 import "./PostSong.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface NewSongObj {
   title: string;
@@ -11,12 +12,14 @@ interface NewSongObj {
 }
 
 const PostSong = () => {
+  const navigate = useNavigate();
+
   const titleRef = useRef<HTMLInputElement | null>(null);
   const linkRef = useRef<HTMLInputElement | null>(null);
   const genreRef = useRef<HTMLSelectElement | null>(null);
-  let loggedInUser = useAppSelector((state) => state.login)
+  let loggedInUser = useAppSelector((state) => state.login);
 
-  let {userId} = loggedInUser
+  let { userId } = loggedInUser;
 
   const submitSongHandler = async () => {
     if (
@@ -24,50 +27,53 @@ const PostSong = () => {
       linkRef.current?.value &&
       genreRef.current?.value
     ) {
+      let embeddedLink: string = "";
+      let artLink: string = "";
 
-      let embeddedLink: string = ""
-      let artLink: string = ""
-
-      try{
+      try {
         const url = "https://soundcloud.com/oembed";
-      
-      const data = "format=json&url="+linkRef.current?.value;
-      
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: data,
-      });
-      
-      const text: string = await response.text();
 
-      console.log(text)
-      
-      let splitText: string[] = text.split(`src`)
-      // console.log(splitText[0])
-      let albumArtLinkSplit: string[] = splitText[0].split('"thumbnail_url":"')
-      let albumArtLinkSplitTwo: string[] = albumArtLinkSplit[1].split('"')
-      let embeddedLinkSplit: string[] = splitText[1].split(`&show_artwork`)
-      
-      embeddedLink = embeddedLinkSplit[0].slice(3)
-      artLink = albumArtLinkSplitTwo[0]
-      
-      }catch{
-        return alert("use valid url")
+        const data = "format=json&url=" + linkRef.current?.value;
+
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: data,
+        });
+
+        const text: string = await response.text();
+
+        console.log(text);
+
+        let splitText: string[] = text.split(`src`);
+        // console.log(splitText[0])
+        let albumArtLinkSplit: string[] =
+          splitText[0].split('"thumbnail_url":"');
+        let albumArtLinkSplitTwo: string[] = albumArtLinkSplit[1].split('"');
+        let embeddedLinkSplit: string[] = splitText[1].split(`&show_artwork`);
+
+        embeddedLink = embeddedLinkSplit[0].slice(3);
+        artLink = albumArtLinkSplitTwo[0];
+      } catch {
+        return alert("use valid url");
       }
 
       const newSongInfoObj: NewSongObj = {
         title: titleRef.current?.value,
         embeddedLink,
         artLink,
-        genre: genreRef.current?.value
-      }
+        genre: genreRef.current?.value,
+      };
 
-      axios.post(`http://localhost:3000/createNewSong/${userId}`, newSongInfoObj)
-      console.log(newSongInfoObj)
+      await axios.post(
+        `http://localhost:3000/createNewSong/${userId}`,
+        newSongInfoObj
+      );
+      console.log(newSongInfoObj);
 
+      return navigate("/Profile");
     } else {
       return alert("please enter all feilds");
     }

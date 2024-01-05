@@ -22,6 +22,12 @@ export class Review extends Model {
   }
 }
 
+export class Genre extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
 User.init(
   {
     userId: {
@@ -50,10 +56,6 @@ User.init(
     songInReview: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
-    },
-    genres: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
   },
   {
@@ -158,6 +160,25 @@ Review.init(
   }
 );
 
+Genre.init(
+  {
+    songId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    genreName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    modelName: "genre",
+    sequelize: db,
+  }
+);
+
 // UserReviewed.init(
 //   {
 //     reviewId: {
@@ -185,8 +206,11 @@ Review.belongsTo(User, {foreignKey:'userId'})
 Song.hasMany(Review, {foreignKey:'reviewId'})
 Review.belongsTo(Song, {foreignKey: 'songId'})
 
+User.belongsToMany(Genre, { foreignKey: 'userId' , through: 'usergenres' });
+Genre.belongsToMany(User, { foreignKey: 'genreId' , through: 'usergenres' });
 
-
+Song.belongsToMany(Genre, { foreignKey: 'songId' , through: 'songgenres' });
+Genre.belongsToMany(Song, { foreignKey: 'genreId' , through: 'songgenres' });
 
 // await db.sync({ force: true })
 

@@ -86,8 +86,8 @@ app.post("/updateProfileInfo/:userId", verifyToken, updateProfile)
 
 await db
   .sync
-  ()
-    // ({ force: true });
+  // ()
+    ({ force: true });
     // seed()
 
 server.listen(3000, console.log("listening on port 3000"));
