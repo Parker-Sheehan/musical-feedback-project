@@ -8,7 +8,7 @@ interface SongCardProps {
 }
 
 const SongCard: FC<SongCardProps> = ({ song }) => {
-  console.log(song);
+  // console.log(song);
   return (
     <div className="song-card-block">
       {/* <div
