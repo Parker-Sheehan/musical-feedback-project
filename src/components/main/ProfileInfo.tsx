@@ -1,8 +1,6 @@
 import "./ProfileInfo.css";
 import { FC, useState } from "react";
 import MyVerticallyCenteredModal from '../ui/MyVerticallyCenteredModal'
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 
 import { ProfileData } from "../views/ProfilePage";
 
@@ -20,12 +18,17 @@ const ProfileInfo: FC<ProfileDataProp> = ({ profileData, onEditPfp }) => {
     setTogglePfpModal(true);
   };
 
+  let genreArray: string[] = (profileData.genres.map((genre: any) => {
+    return (genre.genreName)
+  }));
+
   return (
     <>
         <MyVerticallyCenteredModal
         show={togglePfpModal}
         onHide={() => setTogglePfpModal(false)}
         onEditPfp={onEditPfp}
+        profileData={profileData}
       />
     <div id="profile-info-card">
       <div id="left-profile" className="inside-profile-card">
@@ -58,7 +61,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({ profileData, onEditPfp }) => {
         <h1>{profileData.displayName}</h1>
         <div id="genre-container">
           <h3>Genre</h3>
-          <h3>{profileData.genres}</h3>
+          <h3>{genreArray}</h3>
         </div>
         <div id="ratings-container">
           <div id="total-stars-container">

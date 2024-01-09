@@ -13,9 +13,14 @@ export interface SongInfo {
   userId: number;
 }
 
+export interface Genre {
+    genreId : number;
+    genreName : string;
+}
+
 export interface ProfileData {
   displayName: string;
-  genres: string[];
+  genres: Genre[]
   profilePicture: string;
 }
 
@@ -31,9 +36,12 @@ const ProfilePage = () => {
     );
 
     let { songs, displayName, genres, profilePicture } = newProfileData.data;
-
-    let genreArray:string[] = (genres.map((genre: any) => {
-      return (genre.genreName)
+    console.log(genres)
+    let genreArray: Genre[] = (genres.map((genre: any) => {
+      return ({
+        genreId : genre.genreId,
+        genreName: genre.genreName
+      })
     }));
 
     let data: ProfileData = {
