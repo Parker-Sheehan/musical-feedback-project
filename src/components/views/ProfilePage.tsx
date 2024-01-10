@@ -58,28 +58,25 @@ const ProfilePage = () => {
     console.log("in useeffect");
   }, []);
 
-  const onEditPfp = async (profilePictureUrl: string) => {
-    let newProfileData: ProfileData = {
-      ...profileData!,
-      profilePicture: profilePictureUrl,
-    };
-    console.log(newProfileData);
-    let updatedProfileData = await axios.post(
-      `http://localhost:3000/updateProfileInfo/${loggedInUser.userId}`,
-      newProfileData
-    );
-    setProfileData(newProfileData);
-  };
-
   let displayTracks = songsArray.map((song) => {
     return <SongCard key={song.songId} song={song} />;
   });
+
+  let setProfileDataHandler: (profileDataObj: ProfileData) => void = async (profileDataObj: ProfileData) => {
+    console.log(profileDataObj)
+    console.log("hit setProfileDataHandler")
+    let updatedProfileData = await axios.post(
+      `http://localhost:3000/updateProfileInfo/${loggedInUser.userId}`,
+      profileDataObj
+    );
+    setProfileData(profileDataObj);
+  }
 
   return (
     <>
       {profileData ? (
         <main id="profile-page-main">
-          <ProfileInfo profileData={profileData} onEditPfp={onEditPfp} />
+          <ProfileInfo profileData={profileData} setProfileDataHandler={setProfileDataHandler}/>
           <div id="song-card-container">{displayTracks}</div>
         </main>
       ) : (

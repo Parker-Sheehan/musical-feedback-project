@@ -6,10 +6,10 @@ import { ProfileData } from "../views/ProfilePage";
 
 interface ProfileDataProp {
   profileData: ProfileData;
-  onEditPfp: (profilePictureUrl: string) => void;
+  setProfileDataHandler : (profileDataObj: ProfileData) => void
 }
 
-const ProfileInfo: FC<ProfileDataProp> = ({ profileData, onEditPfp }) => {
+const ProfileInfo: FC<ProfileDataProp> = ({ profileData, setProfileDataHandler}) => {
   console.log(profileData);
 
   const [togglePfpModal,setTogglePfpModal] = useState<boolean>(false)
@@ -27,7 +27,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({ profileData, onEditPfp }) => {
         <MyVerticallyCenteredModal
         show={togglePfpModal}
         onHide={() => setTogglePfpModal(false)}
-        onEditPfp={onEditPfp}
+        setProfileDataHandler={setProfileDataHandler}
         profileData={profileData}
       />
     <div id="profile-info-card">

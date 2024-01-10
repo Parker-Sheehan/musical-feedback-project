@@ -8,7 +8,7 @@ import { useEffect } from "react";
 interface ModalProps {
   show: boolean;
   onHide: () => void;
-  onEditPfp: (profilePictureUrl: string) => void;
+  setProfileDataHandler : (profileDataObj: ProfileData) => void
   profileData: ProfileData;
 }
 
@@ -25,7 +25,7 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
     {genreName: "Experimental", genreId: 7},
     {genreName: "Trance", genreId: 8},
     {genreName: "Hard Dance", genreId: 9},
-    {genreName: "Breakbeat", genreId: 0}
+    {genreName: "Breakbeat", genreId: 10}
   ]
 
   console.log(genres)
@@ -33,6 +33,12 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
   let [newPfpUrl, setNewPfpUrl] = useState<string>(profilePicture);
   let [newDisplayName, setNewDisplayName] = useState<string>(displayName)
   const [selectedGenresState, setSelectedGenresState] = useState<Genre[]>(genres);
+
+  useEffect(()=>{
+    setNewDisplayName(displayName)
+    setNewPfpUrl(profilePicture)
+    setSelectedGenresState(genres)
+  },[props.show])
 
   const handleCheckboxChange = (genre: Genre) => {
     // Toggle the state of the selected genre
@@ -45,11 +51,16 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
     });
   };
 
-
-
   const editProfileInfo = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
     console.log(evt.target)
+    let newProfileDataObj = {
+      displayName: newDisplayName,
+      genres: selectedGenresState,
+      profilePicture: newPfpUrl
+    }
+    props.setProfileDataHandler(newProfileDataObj)
+
     // props.onEditPfp(newPfpUrl);
     // props.onHide();
   };
