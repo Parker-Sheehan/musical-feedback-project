@@ -60,9 +60,7 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
       profilePicture: newPfpUrl
     }
     props.setProfileDataHandler(newProfileDataObj)
-
-    // props.onEditPfp(newPfpUrl);
-    // props.onHide();
+    props.onHide();
   };
 
 

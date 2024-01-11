@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
+import Genre from "../../components/views/ProfilePage"
 
 interface LoginState {
     userId: number | null
+    genreArray : number[] | null
 }
 
 const initialState : LoginState = {
-    userId: null
+    userId: null,
+    genreArray: null
 }
 
 
@@ -14,14 +17,16 @@ export const LoginSlice=createSlice({
     initialState,
     reducers:{
          signIn: (state, action)=>{
-              let userId = action.payload
+              let {userId, genreArray} = action.payload
               console.log(action.payload, "in sign in")
               return state =  {
-                userId : userId
+                userId : userId,
+                genreArray : genreArray
               }
         }, signOut: (state) => {
             return state = {
-                userId: null
+                userId: null,
+                genreArray: null
             }
         }
     }

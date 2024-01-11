@@ -91,7 +91,6 @@ const ProfileInfo: FC<ProfileDataProp> = ({ profileData, setProfileDataHandler})
             </div>
           </div>
         </div>
-        <button>Edit info</button>
       </div>
     </div>
     </>

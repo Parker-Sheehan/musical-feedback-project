@@ -5,7 +5,10 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { signIn } from "../../store/slices/loginSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Genre } from "./ProfilePage";
 axios.defaults.withCredentials = true
+
+export interface LoginDispatchBody { userId: number; genreArray: number[] }
 
 const LogIn = () => {
 
@@ -27,9 +30,18 @@ const LogIn = () => {
       console.log(bodyObj)
       
       const account = await axios.post("http://localhost:3000/login", bodyObj)
-      console.log(account.data.userId)
+      let genreArray: number[] = account.data.genres.map((genre:Genre) => {
+       return genre.genreId
+      })
 
-      dispatch(signIn(account.data.userId))
+      let loginDispatchBody: LoginDispatchBody = {
+        userId: account.data.userId,
+        genreArray: genreArray
+      }
+
+      console.log(account)
+
+      dispatch(signIn(loginDispatchBody))
 
       return navigate("/Profile")
 

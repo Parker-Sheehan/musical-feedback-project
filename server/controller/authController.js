@@ -3,6 +3,7 @@ import session from "express-session";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
+import { Sequelize } from "sequelize";
 
 dotenv.config()
 
@@ -76,7 +77,13 @@ let login = async (req, res) => {
       include: [{
         model: Genre,
         through: UserGenre,
-      }],
+      },{
+        model: Song,
+        where: {
+          songId: 'User.songInReview <> 0'
+        }
+      }
+    ],
     });
     console.log(user,"user")
 
