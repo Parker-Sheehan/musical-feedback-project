@@ -235,7 +235,7 @@ SongGenre.init(
 
 // Song Table
 User.hasMany(Song, { foreignKey: "userId" });
-Song.hasOne(User, { foreignKey: "userId" });
+Song.belongsTo(User, { foreignKey: "userId" });
 
 //Review Table
 User.hasMany(Review, { foreignKey: "userId" });

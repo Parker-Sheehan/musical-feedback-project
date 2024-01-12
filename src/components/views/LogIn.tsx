@@ -8,7 +8,7 @@ import axios from "axios";
 import { Genre } from "./ProfilePage";
 axios.defaults.withCredentials = true
 
-export interface LoginDispatchBody { userId: number; genreArray: number[] }
+export interface LoginDispatchBody { userId: number; genreArray: number[]; songInReview: number}
 
 const LogIn = () => {
 
@@ -36,7 +36,8 @@ const LogIn = () => {
 
       let loginDispatchBody: LoginDispatchBody = {
         userId: account.data.userId,
-        genreArray: genreArray
+        genreArray: genreArray,
+        songInReview: account.data.songInReview
       }
 
       console.log(account)

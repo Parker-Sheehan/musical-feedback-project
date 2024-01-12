@@ -1,4 +1,4 @@
-import { Genre, User, UserGenre } from "../../database/model.js";
+import { Genre, User, UserGenre, Song } from "../../database/model.js";
 import session from "express-session";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv"
@@ -77,11 +77,6 @@ let login = async (req, res) => {
       include: [{
         model: Genre,
         through: UserGenre,
-      },{
-        model: Song,
-        where: {
-          songId: 'User.songInReview <> 0'
-        }
       }
     ],
     });

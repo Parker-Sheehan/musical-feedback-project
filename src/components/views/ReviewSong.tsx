@@ -1,34 +1,68 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import SongInfoCard from "../main/SongInfoCard";
 import { useAppSelector, useAppDispatch } from "../../store/store";
-import { queueNewReview } from "../../store/slices/reviewSlice";
 import axios from "axios";
+import { SongInfo } from "./ProfilePage";
+
+export interface SongAndUser {
+  songInfo: SongInfo
+  userInfo: {displayName: string; userId: number; profilePicture: string}
+}
 
 
 const ReviewSong = () => {
 
   // on review submit set song in review to 0 to reset
+  let [song, setSong] = useState<SongAndUser | null>(null)
 
-  const dispatch = useAppDispatch()
+  let loginState = useAppSelector((state) => state.login)
+  console.log(loginState)
 
   const getRandomSong = async() => {
-    let randomSong = await axios.post('http://localhost:3000/getRandomSong/1')
-    dispatch(queueNewReview(randomSong.data))
+    let randomSong = await axios.post(`http://localhost:3000/getRandomSong/${loginState.userId}`)
+    console.log(randomSong)
+    // setSong(randomSong.data)
   }
 
+  const getSongInReview = async() => {
+  let songToReview = await axios.get(`http://localhost:3000/getSong/${loginState.songInReview}`)
+    console.log(songToReview.data)
+    let {songId, title, embeddedLink} = songToReview.data
+    let {displayName, userId, profilePicture} = songToReview.data.user
+    let songAndUser = {
+      songInfo: {
+        songId: songId,
+        title,
+        embeddedLink,
+        artLink: '',
+        userId
+      },
+      userInfo: {
+        displayName,
+        userId,
+        profilePicture
+      }
+    }
+    setSong(songAndUser)
+  }
   useEffect(() => {
-    getRandomSong()
+    if(loginState.songInReview === 0){
+      getRandomSong()
+      console.log("random")
+    }else{
+      getSongInReview()
+      console.log("current")
+    }
 
   },[])
 
 
 
-  let song = useAppSelector((state) => state.review)
   console.log(song)
 
   return (
     <main id="song-profile-main">
-      <SongInfoCard song={song}/>
+      <SongInfoCard SongAndUser={song}/>
       <div id="critique-box-container">
         <div className="critique-box">
           <p>promt musicality?</p>

@@ -1,4 +1,4 @@
-import { Song } from "../../database/model";
+import { Song, User } from "../../database/model";
 
 const createNewSong = async (req, res) => {
   console.log(req.params.userId);
@@ -27,9 +27,23 @@ const createNewSong = async (req, res) => {
 
 };
 
+const getSong = async (req, res) => {
+  console.log("hit getSong")
+  console.log(req.params)
+  let {songId} = req.params
+  let song = await Song.findByPk(songId, {
+    include: [
+      {
+        model: User
+      }
+    ]
+  })
+  res.send(song)
+}
+
 const viewSong = async (req, res) => {
   console.log(req.params.userId);
   console.log(req.body);
 };
 
-export { createNewSong };
+export { createNewSong, getSong };

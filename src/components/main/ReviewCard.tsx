@@ -9,6 +9,7 @@ export interface ReviewCardProps{
 
 const ReviewCard: FC<ReviewCardProps> = ({review}) => {
   console.log(review)
+  
   return (
     <div className='review-card'>
         <h1>{review.author}'s Review</h1>
