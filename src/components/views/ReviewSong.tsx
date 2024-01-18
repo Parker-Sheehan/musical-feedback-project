@@ -19,7 +19,8 @@ const ReviewSong = () => {
   console.log(loginState)
 
   const getRandomSong = async() => {
-    let randomSong = await axios.post(`http://localhost:3000/getRandomSong/${loginState.userId}`)
+    console.log(loginState.userId)
+    let randomSong = await axios.get(`http://localhost:3000/getRandomSong/${loginState.userId}`)
     console.log(randomSong)
     // setSong(randomSong.data)
   }

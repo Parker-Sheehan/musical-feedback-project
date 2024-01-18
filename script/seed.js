@@ -215,7 +215,7 @@ export const seed = async () => {
       password: `test${i}`,
       profilePicture:
         "https://i.pinimg.com/originals/50/f0/c3/50f0c3351809f62d2d8d3fe255a72fa5.jpg",
-      songInReview: 1,
+      songInReview: 0,
     });
   }
 
