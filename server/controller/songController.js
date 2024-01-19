@@ -1,4 +1,5 @@
-import { Review, Song, User, UserGenre } from "../../database/model";
+import { Op } from "sequelize";
+import { Genre, Review, Song, SongGenre, User, UserGenre } from "../../database/model";
 
 const createNewSong = async (req, res) => {
   console.log(req.params.userId);
@@ -81,7 +82,26 @@ const getRandomSong = async (req,res) => {
 
   console.log(songNotToPick, destructuredGenresArray)
 
+  let newSong = await Song.findAll({
+    where: {
+      songId : { [Op.notIn] : songNotToPick},
+      reviewToken: { [Op.ne] : 0}
+    },
+    include: [
+      {
+        model: Genre,
+        through: SongGenre,
+        where: {
+          genreId : destructuredGenresArray
+        }
+      }
+    ]
+  })
+
   
+
+  console.log(newSong)
+
 
   res.send("yay")
 }

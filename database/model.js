@@ -93,6 +93,11 @@ Song.init(
       allowNull: false,
       // unique: true,
     },
+    reviewToken: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    }
   },
   {
     modelName: "song",
