@@ -235,6 +235,7 @@ export const seed = async () => {
         title: song.title + " " + i,
         embeddedLink: song.embeddedLink,
         userId: i + 1,
+        reviewToken: 1
       });
     });
   }

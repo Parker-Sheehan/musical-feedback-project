@@ -64,7 +64,7 @@ const SongProfilePage = () => {
 
   return (
     <main id="song-profile-main">
-      {songInfo && <SongInfoCard song={songInfo}/>}
+      {/* {songInfo && <SongInfoCard song={songInfo}/>} */}
       <div id="song-review-container">
         {mappedReviews}
       </div>
