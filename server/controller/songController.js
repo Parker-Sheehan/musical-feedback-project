@@ -144,9 +144,30 @@ const getRandomSong = async (req, res) => {
 
 };
 
+const getSongProfileInfo = async (req, res) => {
+  console.log("hit getSongProfileInfo");
+  console.log(req.params);
+  let { songId } = req.params;
+  let song = await Song.findByPk(songId, {
+    include: [
+      {
+        model: User,
+      },
+      {
+        model: Review,
+        where: {
+          songId : songId
+        }
+      }
+    ],
+  });
+  console.log(song)
+  res.send(song);
+}
+
 const viewSong = async (req, res) => {
   console.log(req.params.userId);
   console.log(req.body);
 };
 
-export { createNewSong, getSong, getRandomSong };
+export { createNewSong, getSong, getRandomSong, getSongProfileInfo };

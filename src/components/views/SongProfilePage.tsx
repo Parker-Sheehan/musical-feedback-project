@@ -5,6 +5,7 @@ import ReviewCard from '../main/ReviewCard'
 import SongInfoCard from "../main/SongInfoCard";
 import axios from "axios";
 import { SongInfo } from "./ProfilePage";
+import { SongAndUser } from "./ReviewSong";
 
 export interface ReviewInfo {
   id: number;
@@ -26,47 +27,58 @@ export interface ReviewInfo {
 
 const SongProfilePage = () => {
   const [reviewsArray, setReviewsArray] = useState<ReviewInfo[]>([])
-  const [songInfo, setSongInfo] = useState<SongInfo>()
+  const [songInfo, setSongInfo] = useState<SongAndUser | null>(null)
 
   const location = useLocation()
 
   let {id} = useParams()
 
-  const retrieveCtitiqueData = async() => {
-    const res = await axios.put(`http://localhost:3000/getCritique/${id}`);
-    setReviewsArray(res.data)
+  // const retrieveCtitiqueData = async() => {
+  //   const res = await axios.put(`http://localhost:3000/getCritique/${id}`);
+  //   setReviewsArray(res.data)
 
-  }
+  // }
 
   const getSongInfo = async() => {
-    let songData = await axios.put(`http://localhost:3000/getSong/${id}`)
-    console.log(songData)
-    setSongInfo(songData.data)
+    let songData = await axios.get(`http://localhost:3000/getSongProfileInfo/${id}`)
+    console.log(songData.data)
+    let {songId, title, embeddedLink} = songData.data
+    let {displayName, userId, profilePicture} = songData.data.user
+    let {reviews} = songData.data
+    let songAndUser = {
+      songInfo: {
+        songId: songId,
+        title,
+        embeddedLink,
+        artLink: '',
+        userId
+      },
+      userInfo: {
+        displayName,
+        userId,
+        profilePicture
+      }
+    }
+    setSongInfo(songAndUser)
   }
 
   useEffect(()=>{
-    console.log(location)
-    if(location.state){
-      setSongInfo(location.state.songObj)
-    } else {
-      console.log('yayyy in else')
-      getSongInfo()
-    }
-    retrieveCtitiqueData()
+    console.log('useEffect hit')
+    getSongInfo()
   },[])
 
   console.log(songInfo)
 
   // console.log(location.state.songObj)
-  let mappedReviews = reviewsArray.map((review) => {
-    return <ReviewCard key={review.id} review={review}/>
-  })
+  // let mappedReviews = reviewsArray.map((review) => {
+  //   return <ReviewCard key={review.id} review={review}/>
+  // })
 
   return (
     <main id="song-profile-main">
-      {/* {songInfo && <SongInfoCard song={songInfo}/>} */}
+      {songInfo && <SongInfoCard SongAndUser={songInfo}/>}
       <div id="song-review-container">
-        {mappedReviews}
+        {/* {mappedReviews} */}
       </div>
     </main>
   );

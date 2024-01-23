@@ -5,7 +5,7 @@ import { seed } from "../script/seed";
 import { signUp, login, verifyToken } from "./controller/authController";
 import session from "express-session";
 import { getProfileInfo, updateProfile } from "./controller/userController";
-import {createNewSong, getSong, getRandomSong} from './controller/songController'
+import {createNewSong, getSong, getRandomSong, getSongProfileInfo} from './controller/songController'
 const require = createRequire(import.meta.url);
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -88,6 +88,8 @@ app.post("/updateProfileInfo/:userId", verifyToken, updateProfile)
 app.get("/getSong/:songId", verifyToken, getSong)
 
 app.get("/getRandomSong/:userId", verifyToken, getRandomSong)
+
+app.get("/getSongProfileInfo/:songId", verifyToken, getSongProfileInfo)
 
 await db
   .sync
