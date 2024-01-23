@@ -29,7 +29,6 @@ const SongProfilePage = () => {
   const [reviewsArray, setReviewsArray] = useState<ReviewInfo[]>([])
   const [songInfo, setSongInfo] = useState<SongAndUser | null>(null)
 
-  const location = useLocation()
 
   let {id} = useParams()
 
@@ -45,6 +44,8 @@ const SongProfilePage = () => {
     let {songId, title, embeddedLink} = songData.data
     let {displayName, userId, profilePicture} = songData.data.user
     let {reviews} = songData.data
+    console.log(reviews)
+    setReviewsArray(reviews)
     let songAndUser = {
       songInfo: {
         songId: songId,
@@ -69,16 +70,15 @@ const SongProfilePage = () => {
 
   console.log(songInfo)
 
-  // console.log(location.state.songObj)
-  // let mappedReviews = reviewsArray.map((review) => {
-  //   return <ReviewCard key={review.id} review={review}/>
-  // })
+  let mappedReviews = reviewsArray.map((review) => {
+    return <ReviewCard key={review.id} review={review}/>
+  })
 
   return (
     <main id="song-profile-main">
       {songInfo && <SongInfoCard SongAndUser={songInfo}/>}
       <div id="song-review-container">
-        {/* {mappedReviews} */}
+        {mappedReviews}
       </div>
     </main>
   );
