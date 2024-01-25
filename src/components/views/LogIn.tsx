@@ -34,8 +34,11 @@ const LogIn = () => {
        return genre.genreId
       })
 
+      console.log(account.data)
+
       let loginDispatchBody: LoginDispatchBody = {
         userId: account.data.userId,
+        displayName: account.data.displayName,
         genreArray: genreArray,
         songInReview: account.data.songInReview
       }

@@ -113,16 +113,11 @@ Review.init(
       primaryKey: true,
       unique: true,
     },
-    // foreign keys of review by and review for
-    author: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    totalScore: {
+    overallScore: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    overallThoughts: {
+    overallText: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -130,15 +125,15 @@ Review.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    musicalityThoughts: {
+    musicalityText: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    grooveScore: {
+    rhythmScore: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    grooveThoughts: {
+    rhythmText: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -146,7 +141,7 @@ Review.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    soundDesignThoughts: {
+    soundDesignText: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -154,15 +149,15 @@ Review.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    arrangmentThoughts: {
+    arrangmentText: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    mixMasterScore: {
+    mixScore: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    mixMasterThoughts: {
+    mixText: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -243,8 +238,11 @@ User.hasMany(Song, { foreignKey: "userId" });
 Song.belongsTo(User, { foreignKey: "userId" });
 
 //Review Table
-User.hasMany(Review, {  foreignKey: "userId"});
-Review.belongsTo(User, { as: "reviewBy" , foreignKey: "userId" });
+User.hasMany(Review, { foreignKey: "reviewByUserId", as: "reviewsBy" });
+Review.belongsTo(User, { foreignKey: "reviewByUserId", as: "reviewBy" });
+
+User.hasMany(Review, { foreignKey: "reviewForUserId", as: "reviewsFor" });
+Review.belongsTo(User, { foreignKey: "reviewForUserId", as: "reviewFor" });
 
 Song.hasMany(Review, { foreignKey: "songId" });
 Review.belongsTo(Song, { foreignKey: "songId" });

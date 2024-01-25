@@ -107,7 +107,7 @@ const getRandomSong = async (req, res) => {
     ],
   });
 
-  console.log(newSongArray, "potential songs")
+  console.log(newSongArray, "potential songs");
 
   let randomNumMultiplyer = newSongArray.reduce(
     (accumulator, song) => song.reviewToken + accumulator,
@@ -131,9 +131,9 @@ const getRandomSong = async (req, res) => {
       );
       await Song.update(
         { reviewToken: newSongArray[i].reviewToken - 1 },
-        { where: { songId: newSongArray[i].songId }},
+        { where: { songId: newSongArray[i].songId } }
       );
-      console.log(newSongArray[i], "updatedSong")
+      console.log(newSongArray[i], "updatedSong");
       res.send(newSongArray[i]);
 
       return newSongArray[i];
@@ -141,7 +141,6 @@ const getRandomSong = async (req, res) => {
   }
 
   // console.log(newSongArray, "new song")
-
 };
 
 const getSongProfileInfo = async (req, res) => {
@@ -156,18 +155,56 @@ const getSongProfileInfo = async (req, res) => {
       {
         model: Review,
         where: {
-          songId : songId
-        }
-      }
+          songId: songId,
+        },
+      },
     ],
   });
-  console.log(song)
+  console.log(song);
   res.send(song);
-}
-
-const viewSong = async (req, res) => {
-  console.log(req.params.userId);
-  console.log(req.body);
 };
 
-export { createNewSong, getSong, getRandomSong, getSongProfileInfo };
+const postCritique = async (req, res) => {
+  console.log(req.params.userId);
+  let userId = req.params
+  console.log(userId)
+  console.log(req.body);
+  let {
+    arrangmentScore,
+    arrangmentText,
+    mixScore,
+    mixText,
+    musicalityScore,
+    musicalityText,
+    overallScore,
+    overallText,
+    rhythmScore,
+    rhythmText,
+    soundDesignScore,
+    soundDesignText,
+  } = req.body;
+
+  let newReview = await Review.create({
+    author: +userId,
+    arrangmentScore,
+    arrangmentText,
+    mixScore,
+    mixText,
+    musicalityScore,
+    musicalityText,
+    overallScore,
+    overallText,
+    rhythmScore,
+    rhythmText,
+    soundDesignScore,
+    soundDesignText,
+  });
+};
+
+export {
+  createNewSong,
+  getSong,
+  getRandomSong,
+  getSongProfileInfo,
+  postCritique,
+};

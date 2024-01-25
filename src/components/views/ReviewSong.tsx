@@ -71,6 +71,8 @@ const ReviewSong = () => {
     setSong(songAndUser)
   }
 
+  console.log(song?.userInfo.userId)
+
   useEffect(() => {
     if(loginState.songInReview === 0){
       getRandomSong()
@@ -89,7 +91,7 @@ const ReviewSong = () => {
   return (
     <main id="song-profile-main">
       <SongInfoCard SongAndUser={song}/>
-      <ReviewSection/>
+      <ReviewSection reviewForId={song?.userInfo.userId}/>
     </main>
   );
 };
