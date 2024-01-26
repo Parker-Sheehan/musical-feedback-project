@@ -57,7 +57,7 @@ const getRandomSong = async (req, res) => {
   // also also need to make sure it priotitizes lowest review count
   let alreadyReviewed = await Review.findAll({
     where: {
-      userId: userId,
+      reviewByUserId: userId,
     },
     attributes: ["songId"],
   });

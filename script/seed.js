@@ -271,24 +271,26 @@ export const seed = async () => {
 
     createRandomScores()
 
-    // await Review.create({
-    //   // foreign keys of reviewer reviewee and song_id not included yet
-    //   author: arrayOfReviews[i].author,
-    //   overallScore: total / 5,
-    //   overallText: arrayOfReviews[i].overallText,
-    //   musicalityScore: arrOfScores[0],
-    //   musicalityText: arrayOfReviews[i].musicalityText,
-    //   rhythmScore: arrOfScores[1],
-    //   rhythmText: arrayOfReviews[i].rhythmText,
-    //   soundDesignScore: arrOfScores[2],
-    //   soundDesignText: arrayOfReviews[i].soundDesignText,
-    //   arrangmentScore: arrOfScores[3],
-    //   arrangmentText: arrayOfReviews[i].arrangmentText,
-    //   mixScore: arrOfScores[4],
-    //   mixText: arrayOfReviews[i].mixText,
-    //   userId: +arrayOfReviews[i].reviewer,
-    //   songId: arrayOfReviews[i].song_id,
-    // });
+    await Review.create({
+      // foreign keys of reviewer reviewee and song_id not included yet
+      author: arrayOfReviews[i].author,
+      overallScore: total / 5,
+      overallText: arrayOfReviews[i].overallText,
+      musicalityScore: arrOfScores[0],
+      musicalityText: arrayOfReviews[i].musicalityText,
+      rhythmScore: arrOfScores[1],
+      rhythmText: arrayOfReviews[i].rhythmText,
+      soundDesignScore: arrOfScores[2],
+      soundDesignText: arrayOfReviews[i].soundDesignText,
+      arrangmentScore: arrOfScores[3],
+      arrangmentText: arrayOfReviews[i].arrangmentText,
+      mixScore: arrOfScores[4],
+      mixText: arrayOfReviews[i].mixText,
+      userId: +arrayOfReviews[i].reviewer,
+      songId: arrayOfReviews[i].song_id,
+      review_by_user_id: arrayOfReviews[i].reviewee,
+      review_for_user_id: arrayOfReviews[i].reviewer
+    });
 
     // console.log(arrayOfReviews[i].reviewee, arrayOfReviews[i].rhythmText, arrOfScores[1])
 

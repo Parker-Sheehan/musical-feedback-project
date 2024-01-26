@@ -95,8 +95,8 @@ app.post("/postCritique/:userId", verifyToken, postCritique)
 
 await db
   .sync
-  // () 
-    ({ force: true });
-    seed()
+  () 
+    // ({ force: true });
+    // seed()
 
 server.listen(3000, console.log("listening on port 3000"));
