@@ -35,6 +35,14 @@ export const LoginSlice = createSlice({
         songInReview: action.payload,
       });
     },
+    clearSongInReview: (state) => {
+      let {userId, genreArray} = state
+      return (state = {
+        userId,
+        genreArray,
+        songInReview: 0
+      })
+    },
     signOut: (state) => {
       return (state = {
         userId: null,
@@ -46,4 +54,4 @@ export const LoginSlice = createSlice({
 });
 
 export default LoginSlice.reducer;
-export const { signIn, signOut, updateSongInReview } = LoginSlice.actions;
+export const { signIn, signOut, updateSongInReview, clearSongInReview } = LoginSlice.actions;

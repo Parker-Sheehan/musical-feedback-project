@@ -1,14 +1,19 @@
 import { useRef, FC } from "react";
-import ReviewSectionCard from "./ReviewSectionCard";
-import React from "react";
-import { useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import {clearSongInReview} from "../../store/slices/loginSlice"
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
 interface ReviewSectionProps {
     reviewForId?: number; // Make sure userId is optional if it can be undefined
+    songId?: number
   }
 
-const ReviewSection: FC<ReviewSectionProps> = ({reviewForId}) => {
+const ReviewSection: FC<ReviewSectionProps> = ({reviewForId, songId}) => {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
   const musicalityScoreRef = useRef<HTMLInputElement>(null);
   const musicalityTextRef = useRef<HTMLTextAreaElement>(null);
   const rhythmScoreRef = useRef<HTMLInputElement>(null);
@@ -57,7 +62,8 @@ const ReviewSection: FC<ReviewSectionProps> = ({reviewForId}) => {
         mixText: mixTextRef.current?.value,
         overallScore: +overallScoreRef.current?.value,
         overallText: overallTextRef.current?.value,
-        reviewForId: reviewForId
+        reviewForId: reviewForId,
+        songId: songId
       };
       console.log(bodyObj);
 
@@ -65,11 +71,13 @@ const ReviewSection: FC<ReviewSectionProps> = ({reviewForId}) => {
       await axios.post(`http://localhost:3000/postCritique/${loginState.userId}`, bodyObj);
       console.log("the axios cal +++++++++++++++++++++++++++++++++++++++++++++++")
 
+     dispatch(clearSongInReview())
+
       //   console.log(newAccount.data.userId);
 
       //   dispatch(signIn(newAccount.data.userId));
 
-      //   return navigate("/Profile");
+        return navigate("/Profile");
     }
   };
 

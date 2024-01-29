@@ -235,7 +235,7 @@ export const seed = async () => {
         title: song.title + " " + i,
         embeddedLink: song.embeddedLink,
         userId: i + 1,
-        reviewToken: 1
+        songReviewToken: 1
       });
     });
   }
@@ -291,9 +291,6 @@ export const seed = async () => {
       review_by_user_id: arrayOfReviews[i].reviewee,
       review_for_user_id: arrayOfReviews[i].reviewer
     });
-
-    // console.log(arrayOfReviews[i].reviewee, arrayOfReviews[i].rhythmText, arrOfScores[1])
-
 
     console.log("end of for each ================================")
  }

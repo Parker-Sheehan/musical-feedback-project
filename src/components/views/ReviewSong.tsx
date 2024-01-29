@@ -44,6 +44,7 @@ const ReviewSong = () => {
     setSong(songAndUser)
     console.log(songId)
     dispatch(updateSongInReview(songId))
+    
 
     console.log(randomSong)
     // setSong(randomSong.data)
@@ -91,7 +92,7 @@ const ReviewSong = () => {
   return (
     <main id="song-profile-main">
       <SongInfoCard SongAndUser={song}/>
-      <ReviewSection reviewForId={song?.userInfo.userId}/>
+      <ReviewSection reviewForId={song?.userInfo.userId} songId={song?.songInfo.songId}/>
     </main>
   );
 };

@@ -69,6 +69,10 @@ User.init(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    userReviewToken: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     modelName: "user",
@@ -93,7 +97,7 @@ Song.init(
       allowNull: false,
       // unique: true,
     },
-    reviewToken: {
+    songReviewToken: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0

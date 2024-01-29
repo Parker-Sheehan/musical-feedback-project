@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import {
   Genre,
   Review,
@@ -91,7 +91,7 @@ const getRandomSong = async (req, res) => {
   let newSongArray = await Song.findAll({
     where: {
       songId: { [Op.notIn]: songNotToPick },
-      reviewToken: { [Op.ne]: 0 },
+      songReviewToken: { [Op.ne]: 0 },
     },
     include: [
       {
@@ -110,7 +110,7 @@ const getRandomSong = async (req, res) => {
   console.log(newSongArray, "potential songs");
 
   let randomNumMultiplyer = newSongArray.reduce(
-    (accumulator, song) => song.reviewToken + accumulator,
+    (accumulator, song) => song.songReviewToken + accumulator,
     0
   );
 
@@ -122,7 +122,7 @@ const getRandomSong = async (req, res) => {
   let currentTokenCount = 0;
   for (let i = 0; i < newSongArray.length; i++) {
     console.log(newSongArray[i], i);
-    currentTokenCount += newSongArray[i].reviewToken;
+    currentTokenCount += newSongArray[i].songReviewToken;
     console.log(currentTokenCount);
     if (currentTokenCount >= randomNum) {
       await User.update(
@@ -130,7 +130,7 @@ const getRandomSong = async (req, res) => {
         { where: { userId: userId } }
       );
       await Song.update(
-        { reviewToken: newSongArray[i].reviewToken - 1 },
+        { songReviewToken: newSongArray[i].songReviewToken - 1 },
         { where: { songId: newSongArray[i].songId } }
       );
       console.log(newSongArray[i], "updatedSong");
@@ -165,40 +165,63 @@ const getSongProfileInfo = async (req, res) => {
 };
 
 const postCritique = async (req, res) => {
-  console.log(req.params.userId);
-  let userId = req.params
-  console.log(userId)
-  console.log(req.body);
-  let {
-    arrangmentScore,
-    arrangmentText,
-    mixScore,
-    mixText,
-    musicalityScore,
-    musicalityText,
-    overallScore,
-    overallText,
-    rhythmScore,
-    rhythmText,
-    soundDesignScore,
-    soundDesignText,
-  } = req.body;
-
-  let newReview = await Review.create({
-    author: +userId,
-    arrangmentScore,
-    arrangmentText,
-    mixScore,
-    mixText,
-    musicalityScore,
-    musicalityText,
-    overallScore,
-    overallText,
-    rhythmScore,
-    rhythmText,
-    soundDesignScore,
-    soundDesignText,
-  });
+  try{
+    console.log(req.params.userId);
+    let { userId } = req.params;
+    console.log(userId);
+    console.log(req.body);
+    let {
+      arrangmentScore,
+      arrangmentText,
+      mixScore,
+      mixText,
+      musicalityScore,
+      musicalityText,
+      overallScore,
+      overallText,
+      rhythmScore,
+      rhythmText,
+      soundDesignScore,
+      soundDesignText,
+      reviewForId,
+      songId,
+    } = req.body;
+  
+    console.log(userId);
+  
+    let newReview = await Review.create({
+      reviewByUserId: +userId,
+      reviewForUserId: +reviewForId,
+      songId: +songId,
+      arrangmentScore,
+      arrangmentText,
+      mixScore,
+      mixText,
+      musicalityScore,
+      musicalityText,
+      overallScore,
+      overallText,
+      rhythmScore,
+      rhythmText,
+      soundDesignScore,
+      soundDesignText,
+    });
+  
+    // await User.increment("userReviewToken", { where: { userId: +userId } });
+    let user = await User.update(
+      {
+        userReviewToken: Sequelize.literal('user_review_token + 1'),
+        songInReview: 0,
+      },
+      { where: { userId: +userId } }
+    );
+    console.log(user)
+  
+    // console.log(newReview);
+    res.send('success')
+  }catch(err){
+    res.send(err,'error')
+  }
 };
 
 export {

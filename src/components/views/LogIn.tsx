@@ -38,7 +38,6 @@ const LogIn = () => {
 
       let loginDispatchBody: LoginDispatchBody = {
         userId: account.data.userId,
-        displayName: account.data.displayName,
         genreArray: genreArray,
         songInReview: account.data.songInReview
       }
