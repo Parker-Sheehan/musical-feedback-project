@@ -288,8 +288,8 @@ export const seed = async () => {
       mixText: arrayOfReviews[i].mixText,
       userId: +arrayOfReviews[i].reviewer,
       songId: arrayOfReviews[i].song_id,
-      review_by_user_id: arrayOfReviews[i].reviewee,
-      review_for_user_id: arrayOfReviews[i].reviewer
+      reviewByUserId: arrayOfReviews[i].reviewee,
+      reviewForUserId: arrayOfReviews[i].reviewer
     });
 
     console.log("end of for each ================================")

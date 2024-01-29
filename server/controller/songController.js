@@ -157,15 +157,21 @@ const getSongProfileInfo = async (req, res) => {
         where: {
           songId: songId,
         },
+        include: [
+          {
+            as: "reviewBy",
+            model: User,
+          },
+        ],
       },
     ],
   });
-  console.log(song);
+  console.log(song.reviews, "song");
   res.send(song);
 };
 
 const postCritique = async (req, res) => {
-  try{
+  try {
     console.log(req.params.userId);
     let { userId } = req.params;
     console.log(userId);
@@ -186,9 +192,9 @@ const postCritique = async (req, res) => {
       reviewForId,
       songId,
     } = req.body;
-  
+
     console.log(userId);
-  
+
     let newReview = await Review.create({
       reviewByUserId: +userId,
       reviewForUserId: +reviewForId,
@@ -206,21 +212,21 @@ const postCritique = async (req, res) => {
       soundDesignScore,
       soundDesignText,
     });
-  
+
     // await User.increment("userReviewToken", { where: { userId: +userId } });
     let user = await User.update(
       {
-        userReviewToken: Sequelize.literal('user_review_token + 1'),
+        userReviewToken: Sequelize.literal("user_review_token + 1"),
         songInReview: 0,
       },
       { where: { userId: +userId } }
     );
-    console.log(user)
-  
+    console.log(user);
+
     // console.log(newReview);
-    res.send('success')
-  }catch(err){
-    res.send(err,'error')
+    res.send("success");
+  } catch (err) {
+    res.send(err, "error");
   }
 };
 

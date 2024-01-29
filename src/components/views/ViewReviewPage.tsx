@@ -42,37 +42,37 @@ const ViewReviewPage = () => {
           <div className="critique-box">
             <h2>Musicality {reviewInfo.musicalityScore}/5</h2>
             <div className="inside-critique-box">
-              <p>{reviewInfo.musicalityScore}</p>
+              <p>{reviewInfo.musicalityText}</p>
             </div>
           </div>
           <div className="critique-box">
             <h2>Sound Design {reviewInfo.soundDesignScore}/5</h2>
             <div className="inside-critique-box">
-              <p>{reviewInfo.soundDesignThoughts}</p>
+              <p>{reviewInfo.soundDesignText}</p>
             </div>
           </div>
           <div className="critique-box">
             <h2>Arrangment {reviewInfo.arrangmentScore}/5</h2>
             <div className="inside-critique-box">
-              <p>{reviewInfo.arrangmentThoughts}</p>
+              <p>{reviewInfo.arrangmentText}</p>
             </div>
           </div>
           <div className="critique-box">
-            <h2>Groove {reviewInfo.grooveScore}/5</h2>
+            <h2>rhythm {reviewInfo.rhythmScore}/5</h2>
             <div className="inside-critique-box">
-              <p>{reviewInfo.grooveThoughts}</p>
+              <p>{reviewInfo.rhythmText}</p>
             </div>
           </div>
           <div className="critique-box">
-            <h2>Mix/Master {reviewInfo.mixMasterScore}/5</h2>
+            <h2>Mix/Master {reviewInfo.mixScore}/5</h2>
             <div className="inside-critique-box">
-              <p>{reviewInfo.mixMasterThoughts}</p>
+              <p>{reviewInfo.mixText}</p>
             </div>
           </div>
           <div className="critique-box">
             <h2>Overall Thoughts {reviewInfo.totalScore}/5</h2>
             <div className="inside-critique-box">
-              <p>{reviewInfo.overallThoughts}</p>
+              <p>{reviewInfo.overallText}</p>
             </div>
           </div>
         </div>
