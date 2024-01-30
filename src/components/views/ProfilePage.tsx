@@ -4,6 +4,7 @@ import "./ProfilePage.css";
 import axios from "axios";
 import { useAppSelector } from "../../store/store.ts";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export interface SongInfo {
   songId: number;
@@ -27,10 +28,39 @@ export interface ProfileData {
 const ProfilePage = () => {
   let loggedInUser = useAppSelector((state) => state.login);
 
+  let id = useParams()
+
+  console.log(id, "useParamas")
+
+
   let [songsArray, setSongsArray] = useState<SongInfo[]>([]);
   let [profileData, setProfileData] = useState<ProfileData>();
 
   const getProfileInfo = async () => {
+    if(id.id){
+      console.log(id.id, "id is here")
+      let newProfileData = await axios.get(
+        `http://localhost:3000/getProfileInfo/${id.id}`
+      );
+  
+      let { songs, displayName, genres, profilePicture } = newProfileData.data;
+      console.log(genres)
+      let genreArray: Genre[] = (genres.map((genre: any) => {
+        return ({
+          genreId : genre.genreId,
+          genreName: genre.genreName
+        })
+      }));
+  
+      let data: ProfileData = {
+        displayName,
+        genres: genreArray,
+        profilePicture,
+      };
+      setProfileData(data);
+      setSongsArray(songs);
+      return
+    }
     let newProfileData = await axios.get(
       `http://localhost:3000/getProfileInfo/${loggedInUser.userId}`
     );
@@ -56,7 +86,7 @@ const ProfilePage = () => {
   useEffect(() => {
     getProfileInfo();
     console.log("in useeffect");
-  }, []);
+  }, [id]);
 
   let displayTracks = songsArray.map((song) => {
     return <SongCard key={song.songId} song={song} />;

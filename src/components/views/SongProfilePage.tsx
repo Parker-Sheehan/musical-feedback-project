@@ -55,6 +55,7 @@ const SongProfilePage = () => {
     );
     console.log(songData.data);
     let { songId, title, embeddedLink } = songData.data;
+    console.log(songData)
     let { displayName, userId, profilePicture } = songData.data.user;
     let { reviews } = songData.data;
     console.log(reviews);
@@ -83,15 +84,15 @@ const SongProfilePage = () => {
 
   console.log(songInfo);
 
-  let mappedReviews = reviewsArray.map((review) => {
-    console.log(review.reviewBy.displayName);
-    return <ReviewCard key={review.reviewId} review={review} author={review.reviewBy.displayName} />;
-  });
+  // let mappedReviews = ;
 
   return (
     <main id="song-profile-main">
       {songInfo && <SongInfoCard SongAndUser={songInfo} />}
-      <div id="song-review-container">{mappedReviews}</div>
+      {reviewsArray && <div id="song-review-container">{reviewsArray.map((review) => {
+    console.log(review.reviewBy.displayName);
+    return <ReviewCard key={review.reviewId} review={review} author={review.reviewBy.displayName} />;
+  })}</div>}
     </main>
   );
 };

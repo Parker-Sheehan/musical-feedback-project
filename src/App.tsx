@@ -8,6 +8,7 @@ import ReviewSong from "./components/views/ReviewSong";
 import PostSong from "./components/views/PostSong";
 import SongProfilePage from "./components/views/SongProfilePage";
 import ViewReviewPage from "./components/views/ViewReviewPage";
+import axios from "axios";
 
 function App() {  
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/LogIn" element={<LogIn/>}/>
           <Route path="/SignUp" element={<SignUp/>}/>
           <Route path="/Profile" element={<ProfilePage/>}/>
+          <Route path="/Profile/:id" element={<ProfilePage/>} />
           <Route path="/ReviewSong" element={<ReviewSong/>} />
           <Route path="/PostSong" element={<PostSong/>}/>
           <Route path="/SongProfilePage/:id" element={<SongProfilePage/>}/>

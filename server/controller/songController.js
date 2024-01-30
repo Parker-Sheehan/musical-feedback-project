@@ -21,10 +21,14 @@ const createNewSong = async (req, res) => {
         userId: req.params.userId,
         title: title,
         embeddedLink: embeddedLink,
-        genre: genre,
+        genre: genre
       });
 
-      console.log(newSong);
+      console.log(genre)
+      console.log("making song 1")
+
+      newSong.addGenre(genre)
+
       res.send("yay");
     } catch (err) {
       res.send(err, "error");
@@ -147,27 +151,45 @@ const getSongProfileInfo = async (req, res) => {
   console.log("hit getSongProfileInfo");
   console.log(req.params);
   let { songId } = req.params;
-  let song = await Song.findByPk(songId, {
-    include: [
-      {
-        model: User,
-      },
-      {
-        model: Review,
-        where: {
-          songId: songId,
+  try{
+    let song = await Song.findByPk(songId, {
+      include: [
+        {
+          model: User,
         },
+        {
+          model: Review,
+          where: {
+            songId: songId,
+          },
+          include: [
+            {
+              as: "reviewBy",
+              model: User,
+            },
+          ],
+        },
+      ],
+    });
+    console.log(song, "first")
+    if(song === null){
+      song = await Song.findByPk(songId, {
         include: [
           {
-            as: "reviewBy",
-            model: User,
-          },
-        ],
-      },
-    ],
-  });
-  console.log(song.reviews, "song");
-  res.send(song);
+            model: User
+          }
+        ]
+      })
+      
+    }
+    console.log(song, "second")
+    res.send(song)
+
+  }catch(err){
+    res.send(err, "something broke in songControler 188")
+  }
+  // console.log(song.reviews, "song");
+  // res.send(song);
 };
 
 const postCritique = async (req, res) => {

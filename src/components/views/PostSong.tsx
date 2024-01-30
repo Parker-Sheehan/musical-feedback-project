@@ -12,6 +12,7 @@ interface NewSongObj {
 }
 
 const PostSong = () => {
+
   const navigate = useNavigate();
 
   const titleRef = useRef<HTMLInputElement | null>(null);
@@ -79,6 +80,23 @@ const PostSong = () => {
     }
   };
 
+  let genreArray = [
+    "Drum and Bass",
+    "Trap",
+    "House",
+    "Dubstep",
+    "Techno",
+    "Bass",
+    "Experimental",
+    "Trance",
+    "Hard Dance",
+    "Breakbeat"
+  ]
+
+  let genreOptions = genreArray.map((genre, key) => {
+    return <option value={key+1}>{genre}</option>
+  })
+
   return (
     <main id="">
       <h1>Upload New Song</h1>
@@ -91,9 +109,7 @@ const PostSong = () => {
             <input ref={linkRef} type="text" />
             <h1>Genre</h1>
             <select ref={genreRef} name="genre" id="genre">
-              <option value="dnb">Drum and Bass</option>
-              <option value="trap">Trap</option>
-              <option value="edm">EDM</option>
+              {genreOptions}
             </select>
           </div>
           <button
