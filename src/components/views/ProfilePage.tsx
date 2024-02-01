@@ -1,6 +1,5 @@
 import ProfileInfo from "../main/ProfileInfo.tsx";
 import SongCard from "../main/SongCard.tsx";
-import "./ProfilePage.css";
 import axios from "axios";
 import { useAppSelector } from "../../store/store.ts";
 import { useEffect, useState } from "react";
@@ -105,9 +104,9 @@ const ProfilePage = () => {
   return (
     <>
       {profileData ? (
-        <main id="profile-page-main">
+        <main className="flex flex-col items-center">
           <ProfileInfo profileData={profileData} setProfileDataHandler={setProfileDataHandler}/>
-          <div id="song-card-container">{displayTracks}</div>
+          <div className="flex flex-wrap w-10/12 bg-sec justify-between">{displayTracks}</div>
         </main>
       ) : (
         <main>
