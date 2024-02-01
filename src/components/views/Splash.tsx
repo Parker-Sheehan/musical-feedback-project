@@ -1,15 +1,18 @@
 import React from 'react'
-import './Splash.css'
+// import './Splash.css'
 
 export const Splash = () => {
   return (
-    <main id='splash-main'>
+    <main>
         <div id='hero-section'>
-            <div className='hero-inside'></div>
+            <div className='text-text size-xl'></div>
             <div className='hero-inside'></div>
         </div>
+        <h1 className="text-3xl text-text font-bold underline">
+      Hello world!
+    </h1>
         <div id='pretty-banner'>
-          <h3>yay</h3>
+          <h3 className="">yay</h3>
         </div>
         <div id='boring-info-part'>
           <h3>faq stuff i guess</h3>
