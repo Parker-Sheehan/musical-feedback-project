@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from "../../store/store";
 import { signIn, signOut } from "../../store/slices/loginSlice";
 import { useEffect } from "react";
 import axios from "axios";
+import { Alert } from "react-bootstrap";
 
 
 const NavBar = () => {
@@ -32,6 +33,19 @@ const NavBar = () => {
   console.log(loggedInUser.userId);
   return (
     <>
+    <Alert variant="success">
+      <Alert.Heading>Hey, nice to see you</Alert.Heading>
+      <p>
+        Aww yeah, you successfully read this important alert message. This
+        example text is going to run a bit longer so that you can see how
+        spacing within an alert works with this kind of content.
+      </p>
+      <hr />
+      <p className="mb-0">
+        Whenever you need to, be sure to use margin utilities to keep things
+        nice and tidy.
+      </p>
+    </Alert>
       {
         !loggedInUser.userId &&
         <nav className="flex items-center justify-around h-12 w-full bg-background-100 border-y-2 border-background2">

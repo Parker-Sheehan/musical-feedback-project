@@ -2,3 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* For WebKit browsers (Chrome, Safari) */
+/* For WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 12px;
+    margin-right: 3px;
+
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    margin-right: 3px;
+    width: 6px;
+    border-radius: 12px;
+    background: lightgreen;/* Gradient from 'prim' to 'accent' */
+}
+
+::-webkit-scrollbar-track {
+    margin-right: 3px;
+
+    background: transparent; /* Gradient from 'prim' to 'accent' */
+    margin-right: 3px;
+  }
+  
+  /* For Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #9be198 #2d3748;
+  }
+  
