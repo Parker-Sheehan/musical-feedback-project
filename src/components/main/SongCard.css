@@ -1,27 +1,3 @@
-/* .song-card-block{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
-
-.song-card{
-    width: 30vw;
-    height: 30vw;
-    margin: 2.5vw;
-    background-color: lightskyblue;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 10px 30px;
-    border-radius: 10px;
-}
-
-.song-card-header{
-    display: flex;
-    justify-content: space-around;
-    /* height: 10px; */
-}
 
 .view-critique-button{
     margin-left: 10px;
