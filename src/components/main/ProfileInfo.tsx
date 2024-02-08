@@ -130,13 +130,13 @@ const ProfileInfo: FC<ProfileDataProp> = ({
             <h2 className="text-1xl">180</h2>
           </div>
         </div>
-        <div className="bg-background2 grid-cols-2 col-span-3 grid-row-subgrid row-span-2 rounded-lg grid">
+        <div className="bg-background2 grid-cols-2 col-span-3 row-span-2 rounded-lg flex flex-wrap">
           {genreArray[0]}
           {genreArray[1]}
           {genreArray[2]}
-          <div className="size-full p-2">
+          <div className="size-1/2 max-size-1/2 p-2">
             <button
-              className="size-full rounded-md flex flex-col justify-center items-center bg-sec2"
+              className="rounded-md size-full max-size-full flex flex-col justify-center items-center bg-sec2"
               onClick={handleProfilePictureClick}
             >
               <h3 className="flex-shrink-0 text-text text-center text-4xl">
@@ -146,12 +146,12 @@ const ProfileInfo: FC<ProfileDataProp> = ({
           </div>
         </div>
         <Messages />
-        <div className="bg-sec2 grid-cols-subgrid col-span-3 grid-row-subgrid row-span-2 rounded-lg text-text flex flex-col justify-center items-center">
-          <h1 className="text-2xl ">Critiques Completed</h1>
+        <div className="bg-sec2 grid-cols-subgrid col-span-3 row-span-2 rounded-lg text-text flex flex-col justify-center items-center">
+          <h1 className="text-2xl text-break text-center">Critiques Completed</h1>
           <h2 className="text-3xl">180</h2>
         </div>
         <div className="bg-sec2 grid-cols-subgrid col-span-3 grid-row-subgrid row-span-2 rounded-lg  text-text flex flex-col justify-center items-center">
-          <h1 className="text-2xl">Critique Score</h1>
+          <h1 className="text-2xl text-break  text-center">Critique Score</h1>
           <h2 className="text-3xl">180</h2>
         </div>
         <div className="bg-sec2 grid-cols-subgrid col-span-2 rounded-lg  text-text flex flex-col justify-center items-center">

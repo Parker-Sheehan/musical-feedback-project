@@ -8,7 +8,7 @@ interface SongCardProps {
 }
 
 const SongCard: FC<SongCardProps> = ({ song }) => {
-  // console.log(song);
+
   return (
     <div className="w-1/2 h-full flex justify-center items-center p-4">
       <div className="w-4/5 h-4/5 bg-sec flex flex-col justify-between p-4 rounded-lg">
