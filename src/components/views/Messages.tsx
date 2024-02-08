@@ -71,7 +71,7 @@ const Messages = () => {
   });
 
   return (
-    <div className="bg-gradient-to-br from-prim to-accent grid-cols-subgrid col-span-2 grid-row-subgrid row-span-4 rounded-lg">
+    <div className="bg-gradient-to-br from-prim to-accent grid-cols-subgrid col-span-2 grid-row-subgrid row-span-4 rounded-lg hidden lg:flex">
       <div className="h-full w-full p-1">
         <div className="h-full overflow-scroll overflow-x-hidden scroll rounded ">
           <h3 className="text-black text-m font-heading text-center">

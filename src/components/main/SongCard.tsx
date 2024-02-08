@@ -13,13 +13,13 @@ const SongCard: FC<SongCardProps> = ({ song }) => {
     <div className="w-1/2 h-full flex justify-center items-center p-4">
       <div className="w-4/5 h-4/5 bg-sec flex flex-col justify-between p-4 rounded-lg">
         <div className=" flex justify-around">
-          <h2 className="text-text font-heading">{song.title}</h2>
+          <h2 className="text-text font-heading text-wrap break-words">{song.title}</h2>
           <Link
             to={"/SongProfilePage/" + song.songId}
             state={{ songObj: song }}
             className="w-1/4"
           >
-            <button className="bg-accent h-3/4 w-full rounded text-black ">
+            <button className="bg-accent min-h-fit h-3/4 w-full rounded text-black ">
               View Song
             </button>
           </Link>
