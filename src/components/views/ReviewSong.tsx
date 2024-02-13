@@ -90,7 +90,8 @@ const ReviewSong = () => {
   console.log(song)
 
   return (
-    <main>
+    <main className="flex flex-col items-center">
+      <h1 className="text-heading text-text">Review {song?.songInfo.title}</h1>
       <SongInfoCard SongAndUser={song}/>
       <ReviewSection reviewForId={song?.userInfo.userId} songId={song?.songInfo.songId}/>
     </main>

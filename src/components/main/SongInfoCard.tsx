@@ -11,11 +11,11 @@ const SongInfoCard: FC<SongInfoProp> = ({ SongAndUser }) => {
     let { songInfo, userInfo } = SongAndUser;
     console.log(userInfo.profilePicture);
     return (
-      <div className="m-12 h-fit rounded-lg flex bg-background2">
-        <div className="m-10 size-1/2 flex flex-col justify-center items-center">
+      <div className="md:m-12 m-2 h-fit w-11/12 rounded-lg flex bg-background2">
+        <div className="m-10 w-1/2 flex flex-col justify-center items-center">
           <div
             id="album-cover-card"
-            className="size-full rounded-lg aspect-square"
+            className="w-full rounded-lg aspect-square"
             style={{
               backgroundImage: `url(${userInfo.profilePicture})`,
               backgroundPosition: "center",
@@ -26,8 +26,8 @@ const SongInfoCard: FC<SongInfoProp> = ({ SongAndUser }) => {
             <h1 className="text-center text-xl font-semibold">{userInfo.displayName}</h1>
           </div>
         </div>
-        <div className="m-10 size-1/2 max-w-1/2 flex flex-col justify-center items-center">
-          <div id="embedded-song-link" className="size-full rounded-lg aspect-square">
+        <div className="m-10 w-1/2 flex flex-col justify-center items-center">
+          <div className="w-full rounded-lg aspect-square">
             <iframe
               width="100%"
               height="100%"

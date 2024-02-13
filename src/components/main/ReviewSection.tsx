@@ -82,44 +82,23 @@ const ReviewSection: FC<ReviewSectionProps> = ({reviewForId, songId}) => {
   };
 
   return (
-    <div id="critique-box-container">
-      <div className="critique-box">
-        <p>promt musicality?</p>
-        <label>rating</label>
-        <input ref={musicalityScoreRef} type="number" max={5} min={0} />
-        <textarea ref={musicalityTextRef} name="" id=""></textarea>
+    <div className="flex flex-col w-11/12 bg-background2 items-center rounded-lg`">
+      <div className="bg-red-500 size-4/5 flex flex-col items-center m-6 rounded-md h-72 justify-evenly">
+      <p className="text-background font-body">Aesthetic question</p>
+        <p className="text-background font-body w-11/12">Describe the aesthetic of this song, what sort of imagery or feelings does it invoke?</p>
+        <textarea ref={musicalityTextRef} className="w-11/12 h-50"></textarea>
       </div>
-      <div className="critique-box">
-        <p>promt rhythm?</p>
-        <label>rating</label>
-        <input ref={rhythmScoreRef} type="number" max={5} min={0} />
-        <textarea ref={rhythmTextRef} name="" id=""></textarea>
+      <div className="bg-red-500 size-4/5 flex flex-col items-center m-6 rounded-md h-72 justify-evenly">
+      <p className="text-background font-body">Technical question</p>
+        <p className="text-background font-body w-11/12">What technical aspects of the production that you think could be improved{"(EQ, ryhthm, mix, sound design, musicality, etc...)"}? which ones shined through?</p>
+        <textarea ref={rhythmTextRef} className="w-11/12 h-50"></textarea>
       </div>
-      <div className="critique-box">
-        <p>promt sound design?</p>
-        <label>rating</label>
-        <input ref={soundDesignScoreRef} type="number" max={5} min={0} />
-        <textarea ref={soundDesignTextRef} name="" id=""></textarea>
+      <div className="bg-red-500 size-4/5 flex flex-col items-center m-6 rounded-md h-72 justify-evenly pb-2">
+        <p className="text-background font-body">Artist's question</p>
+        <p className="text-background font-body w-11/12">What technical aspects of the production that you think could be improved{"(EQ, ryhthm, mix, sound design, musicality, etc...)"}? which ones shined through?</p>
+        <textarea ref={soundDesignTextRef} className="w-11/12 h-50"></textarea>
       </div>
-      <div className="critique-box">
-        <p>promt arrangment?</p>
-        <label>rating</label>
-        <input ref={arrangmentScoreRef} type="number" max={5} min={0} />
-        <textarea ref={arrangmentTextRef} name="" id=""></textarea>
-      </div>
-      <div className="critique-box">
-        <p>promt mix/master?</p>
-        <label>rating</label>
-        <input ref={mixScoreRef} type="number" max={5} min={0} />
-        <textarea ref={mixTextRef} name="" id=""></textarea>
-      </div>
-      <div className="critique-box">
-        <p>promt overall personal take?</p>
-        <label>rating</label>
-        <input ref={overallScoreRef} type="number" max={5} min={0} />
-        <textarea ref={overallTextRef} name="" id=""></textarea>
-      </div>
-      <button onClick={submitReviewHandler}>Submit</button>
+      <button className="bg-prim " onClick={submitReviewHandler}>Submit</button>
     </div>
   );
 };

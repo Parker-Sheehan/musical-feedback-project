@@ -86,11 +86,11 @@ const SongProfilePage = () => {
   // let mappedReviews = ;
 
   return (
-    <main >
+    <main className="flex flex-col items-center w-11/12">
       {songInfo && <SongInfoCard SongAndUser={songInfo} />}
-      {reviewsArray && <div className="w-[90vw]">{reviewsArray.map((review) => {
+      {reviewsArray && reviewsArray.map((review) => {
     return <ReviewCard key={review.reviewId} review={review} author={review.reviewBy.displayName} />;
-  })}</div>}
+  })}
     </main>
   );
 };
