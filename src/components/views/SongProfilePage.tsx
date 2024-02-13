@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import "./SongProfilePage.css";
 import ReviewCard from "../main/ReviewCard";
 import SongInfoCard from "../main/SongInfoCard";
 import axios from "axios";
 import { SongInfo } from "./ProfilePage";
 import { SongAndUser } from "./ReviewSong";
-// import {}
+
 
 export interface ReviewInfo {
   reviewId: number;
@@ -22,7 +21,7 @@ export interface ReviewInfo {
   rhythmText: string;
   soundDesignScore: number;
   soundDesignText: string;
-  arrangmentScore: number;
+  arrangmentScore: number;  
   arrangmentText: string;
   mixScore: number;
   mixText: string;
@@ -87,10 +86,9 @@ const SongProfilePage = () => {
   // let mappedReviews = ;
 
   return (
-    <main id="song-profile-main">
+    <main >
       {songInfo && <SongInfoCard SongAndUser={songInfo} />}
-      {reviewsArray && <div id="song-review-container">{reviewsArray.map((review) => {
-    console.log(review.reviewBy.displayName);
+      {reviewsArray && <div className="w-[90vw]">{reviewsArray.map((review) => {
     return <ReviewCard key={review.reviewId} review={review} author={review.reviewBy.displayName} />;
   })}</div>}
     </main>

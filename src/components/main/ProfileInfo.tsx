@@ -42,7 +42,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
         profileData={profileData}
       />
       <div className="m-10 w-8/12 h-3/4 rounded-lg lg:grid lg:grid-rows-2 lg:grid-cols-10 gap-3">
-        <div className="lg:w-2/5 w-full mb-3 lg:mb-0 bg-background2 lg:grid-cols-subgrid lg:col-span-5 lg:grid-row-subgrid lg:row-span-2 rounded-lg grid grid-col-2 grid-row-6 lg:gap-1">
+        <div className="lg:w-2/5 w-full mb-3 lg:mb-0 bg-background2 lg:grid-cols-subgrid lg:col-span-5 lg:grid-row-subgrid lg:row-span-2 rounded-lg grid grid-col-2 grid-row-6 lg:gap-1 ">
           <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
             <div
               className="bg-cover bg-center bg-no-repeat size-36 rounded-full"

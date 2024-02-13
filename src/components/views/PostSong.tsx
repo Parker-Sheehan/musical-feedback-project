@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { useAppSelector } from "../../store/store";
-import "./PostSong.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -26,10 +25,13 @@ const PostSong = () => {
     if (
       titleRef.current?.value &&
       linkRef.current?.value &&
-      genreRef.current?.value
+      genreRef.current?.value &&
+      +genreRef.current?.value !== 0
     ) {
       let embeddedLink: string = "";
       let artLink: string = "";
+
+      console.log(genreRef.current.value)
 
       try {
         const url = "https://soundcloud.com/oembed";
@@ -68,19 +70,20 @@ const PostSong = () => {
         genre: genreRef.current?.value,
       };
 
-      await axios.post(
-        `http://localhost:3000/createNewSong/${userId}`,
-        newSongInfoObj
-      );
+      // await axios.post(
+      //   `http://localhost:3000/createNewSong/${userId}`,
+      //   newSongInfoObj
+      // );
       console.log(newSongInfoObj);
 
-      return navigate("/Profile");
+      // return navigate("/Profile");
     } else {
       return alert("please enter all feilds");
     }
   };
 
   let genreArray = [
+    "Select Genre",
     "Drum and Bass",
     "Trap",
     "House",
@@ -94,33 +97,35 @@ const PostSong = () => {
   ]
 
   let genreOptions = genreArray.map((genre, key) => {
-    return <option value={key+1}>{genre}</option>
+    console.log(key,"this is key")
+    return <option value={key}>{genre}</option>
   })
 
   return (
-    <main id="">
-      <h1>Upload New Song</h1>
-      <div id="song-info-card">
-        <div className="inside-song-info-card" id="song-info-card-right">
-          <div id="embedded-song-link">
-            <h1>Title</h1>
-            <input ref={titleRef} type="text" />
-            <h1>Link</h1>
-            <input ref={linkRef} type="text" />
-            <h1>Genre</h1>
-            <select ref={genreRef} name="genre" id="genre">
+    <main className="size-full flex flex-column items-center">
+      <h1 className="text-heading text-text">Upload New Song</h1>
+        <div className="flex flex-col items-center justify-evenly bg-background2 w-3/4 h-fit lg:w-1/2 rounded-lg" >
+          <div className="m-4">
+            <h1 className="text-heading text-text">Title</h1>
+            <input ref={titleRef} placeholder="Title of song" type="text" />
+            <h1 className="text-heading text-text mt-3">Link</h1>
+            <input ref={linkRef} placeholder="url from sound cloud" type="text" />
+            <h1 className="text-heading text-text mt-3">Genre</h1>
+            <select ref={genreRef} placeholder="Genre" name="genre" id="genre">
               {genreOptions}
             </select>
+            <h1 className="text-heading text-text mt-3">User's question</h1>
+            <textarea className="block p-1" cols={28} rows={10} placeholder="Ask a question about a specific aspect that you would like feadback on."></textarea>
           </div>
           <button
             onClick={() => {
               submitSongHandler();
             }}
+            className="text-heading text-text bg-prim p-2 rounded-md mb-4"
           >
             submit song
           </button>
         </div>
-      </div>
     </main>
   );
 };

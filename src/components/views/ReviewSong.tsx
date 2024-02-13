@@ -90,7 +90,7 @@ const ReviewSong = () => {
   console.log(song)
 
   return (
-    <main id="song-profile-main">
+    <main>
       <SongInfoCard SongAndUser={song}/>
       <ReviewSection reviewForId={song?.userInfo.userId} songId={song?.songInfo.songId}/>
     </main>

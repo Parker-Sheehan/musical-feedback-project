@@ -1,4 +1,3 @@
-import "./SongCard.css";
 import { Link } from "react-router-dom";
 import { SongInfo } from "../views/ProfilePage";
 import { FC } from "react";
@@ -23,7 +22,7 @@ const SongCard: FC<SongCardProps> = ({ song }) => {
               View Song
             </button>
           </Link>
-          <button className="bg-accent h-3/4 w-1/4 rounded">View Song</button>
+          <button className="bg-prim h-3/4 w-1/4 rounded">Add Token</button>
         </div>
         <iframe
           width="100%"

@@ -2,26 +2,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: hotpink;
 }
 
 #song-info-card{
     margin: 50px;
     width: 90vw;
     height: 75vh;
-    background-color: pink;
     border-radius: 10px;
     display: flex;
-}
-
-.inside-song-info-card{
-    width: 50%;
-    height: 100%;
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 #album-cover-card{
@@ -29,7 +17,6 @@
     height: 80%;
     max-width: 80%;
     border-radius: 10px;
-    background-color: lightgoldenrodyellow;
 }
 
 #embedded-song-link{
@@ -37,14 +24,12 @@
     height: 80%;
     max-width: 80%;
     border-radius: 10px;
-    background-color: lightgoldenrodyellow;
 }
 
 #song-review-container{
     width: 90vw;
     margin-bottom: 50px;
     border-radius: 10px;
-    background-color: pink;
     display: flex;
     flex-direction: column;
     justify-content: center;

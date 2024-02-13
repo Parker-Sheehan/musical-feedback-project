@@ -50,7 +50,7 @@ const ProfilePage = () => {
           genreName: genre.genreName
         })
       }));
-  
+        
       let data: ProfileData = {
         displayName,
         genres: genreArray,

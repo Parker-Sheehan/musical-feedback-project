@@ -35,7 +35,7 @@ const ViewReviewPage = () => {
   console.log(reviewInfo);
 
   return (
-    <main id="song-profile-main">
+    <main className="flex flex-column items-center size-full bg-slate-500">
       <h1>SolRaKing's critique of Spacetime</h1>
       {reviewInfo && (
         <div id="critique-box-container">

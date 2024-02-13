@@ -79,7 +79,6 @@ const Messages = () => {
           </h3>
           <div className="">
           {mappedMessages}
-
           </div>
         </div>
       </div>
