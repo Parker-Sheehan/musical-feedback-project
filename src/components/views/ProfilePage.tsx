@@ -106,7 +106,7 @@ const ProfilePage = () => {
       {profileData ? (
         <main className="flex flex-col items-center">
           <ProfileInfo profileData={profileData} numOfSongs={songsArray.length} setProfileDataHandler={setProfileDataHandler}/>
-          <div className="flex flex-wrap w-10/12 justify-between">{displayTracks}</div>
+          <div className="flex flex-col lg:flex-row lg:flex-wrap lg:w-3/4 lg:h-fit lg:justify-between">{displayTracks}</div>
         </main>
       ) : (
         <main>
@@ -116,5 +116,7 @@ const ProfilePage = () => {
     </>
   );
 };
+
+
 
 export default ProfilePage;

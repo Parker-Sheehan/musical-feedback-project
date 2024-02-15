@@ -11,7 +11,7 @@ const ReviewCard: FC<ReviewCardProps> = ({ review, author }) => {
   console.log(review);
 
   return (
-    <div className="flex justify-between items-center p-5 mt-5 h-8 sm:h-16 md:h-32 w-full bg-sec rounded-lg">
+    <div className="flex justify-between items-center p-5 mt-5 h-8 sm:h-16 md:h-32 w-full bg-sec rounded-lg mb-2">
       <Link className="text-body decoration-transparent" to={"/Profile/" + review.reviewBy.userId}>
         <h1>{author}'s Review</h1>
       </Link>

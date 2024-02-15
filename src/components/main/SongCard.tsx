@@ -9,8 +9,8 @@ interface SongCardProps {
 const SongCard: FC<SongCardProps> = ({ song }) => {
 
   return (
-    <div className="w-1/2 h-full flex justify-center items-center p-4">
-      <div className="w-4/5 h-4/5 bg-sec flex flex-col justify-between p-4 rounded-lg">
+    <div className="lg:w-1/2 lg:h-1/2 w-full h-full flex justify-center items-center p-3">
+      <div className="size-full bg-sec flex flex-col justify-between rounded-lg p-3">
         <div className=" flex justify-around">
           <h2 className="text-text font-heading text-wrap break-words">{song.title}</h2>
           <Link

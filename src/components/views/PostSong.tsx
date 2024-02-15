@@ -70,13 +70,13 @@ const PostSong = () => {
         genre: genreRef.current?.value,
       };
 
-      // await axios.post(
-      //   `http://localhost:3000/createNewSong/${userId}`,
-      //   newSongInfoObj
-      // );
+      await axios.post(
+        `http://localhost:3000/createNewSong/${userId}`,
+        newSongInfoObj
+      );
       console.log(newSongInfoObj);
 
-      // return navigate("/Profile");
+      return navigate("/Profile");
     } else {
       return alert("please enter all feilds");
     }

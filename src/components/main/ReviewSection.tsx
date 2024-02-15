@@ -98,7 +98,7 @@ const ReviewSection: FC<ReviewSectionProps> = ({reviewForId, songId}) => {
         <p className="text-background font-body w-11/12">What technical aspects of the production that you think could be improved{"(EQ, ryhthm, mix, sound design, musicality, etc...)"}? which ones shined through?</p>
         <textarea ref={soundDesignTextRef} className="w-11/12 h-50"></textarea>
       </div>
-      <button className="bg-prim " onClick={submitReviewHandler}>Submit</button>
+      <button className="bg-prim mb-2 rounded-sm p-1" onClick={submitReviewHandler}>Submit</button>
     </div>
   );
 };
