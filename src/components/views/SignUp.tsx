@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import "./SignUp.css"
+// import "./SignUp.css"
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../store/store"; 
 import { signIn } from "../../store/slices/loginSlice";
@@ -49,35 +49,45 @@ const SignUp = () => {
 
 
   return (
-    <div id="sign-up-container">
-      <div id="greeting-container">
+    <main className="size-full flex justify-center items-center">
+    <div className="h-3/4 w-full xl:w-1/2 m-8 flex flex-col justify-between items-center bg-background2 rounded-lg py-20">
+      <div className="text-prim flex justify-center items-center w-full flex-col" >
         <h1>Sign Up</h1>
         <h4>Hi, Welcome</h4>
       </div>
 
-      <div className="sign-up-with" id="with-google">
+      {/* <div className="sign-up-with" id="with-google">
         <p>Login with Google</p>
       </div>
       <div id="break">
         <div className="line"></div>
         <p>or Register with Email</p>
         <div className="line"></div>
-      </div>
-      <div id="use-email-container">
+      </div> */}
+      <div className="flex flex-col justify-around size-10/12 sm:w-1/2 lg:w-1/3 text-text">
+        <div className="text-text">
         <label htmlFor="display-name-input">Display Name</label>
-        <input ref={displayNameRef} type="text" className="text-input" id="display-name-input" />
+        <input ref={displayNameRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded" id="display-name-input" />
+        </div>
+        <div className="text-text">
         <label htmlFor="email-input">Email</label>
-        <input ref={emailRef} type="text" className="text-input" id="email-input" />
+        <input ref={emailRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded" id="email-input" />
+        </div>
+        <div className="text-text">
         <label htmlFor="password-input">Password</label>
-        <input ref={passwordRef}type="text" className="text-input" id="password-input" />
+        <input ref={passwordRef}type="text" className="text-input h-35 w-full border border-gray-300 rounded" id="password-input" />
+        </div>
+        <div className="text-text">
         <label htmlFor="password-input">Confirm Password</label>
-        <input ref={confirmPasswordRef} type="text" className="text-input"  id="confirm-password-input" />
-        <button onClick={signUpHandler} id="sign-up-button">Sign Up</button>
+        <input ref={confirmPasswordRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded"  id="confirm-password-input" />
+        </div>
+        <button onClick={signUpHandler} className="flex justify-center items-center h-10 w-full bg-accent rounded">Sign Up</button>
       </div>
-      <p>
-        Already have an account? <Link to="/LogIn">Login</Link>
+      <p className="text-text">
+        Already have an account? <Link to="/LogIn" className="text-sec">Login</Link>
       </p>
     </div>
+    </main>
   );
 };
 
