@@ -1,4 +1,4 @@
-import React,{FC} from 'react'
+import {FC} from 'react'
 import { MessageInterface } from './Messages'
 
 const Message: FC<MessageInterface> = ({pfp, message, displayName}) => {
