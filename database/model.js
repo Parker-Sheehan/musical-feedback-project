@@ -118,55 +118,7 @@ Review.init(
       autoIncrement: true,
       primaryKey: true,
       unique: true,
-    },
-    overallScore: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
-    overallText: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    musicalityScore: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    musicalityText: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    rhythmScore: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    rhythmText: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    soundDesignScore: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    soundDesignText: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    arrangmentScore: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    arrangmentText: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    mixScore: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    mixText: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    }
   },
   {
     modelName: "reviews",
