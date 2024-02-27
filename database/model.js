@@ -212,11 +212,12 @@ User.hasMany(Song, { foreignKey: "userId" });
 Song.belongsTo(User, { foreignKey: "userId" });
 
 //Review Table
+User.hasMany(Review, { foreignKey: "reviewForUserId", as: "reviewsFor" });
+Review.belongsTo(User, { foreignKey: "reviewForUserId", as: "reviewFor" });
+
 User.hasMany(Review, { foreignKey: "reviewByUserId", as: "reviewsBy" });
 Review.belongsTo(User, { foreignKey: "reviewByUserId", as: "reviewBy" });
 
-User.hasMany(Review, { foreignKey: "reviewForUserId", as: "reviewsFor" });
-Review.belongsTo(User, { foreignKey: "reviewForUserId", as: "reviewFor" });
 
 Song.hasMany(Review, { foreignKey: "songId" });
 Review.belongsTo(Song, { foreignKey: "songId" });

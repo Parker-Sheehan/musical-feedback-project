@@ -98,7 +98,7 @@ app.get("/getReview/:reviewId", verifyToken, getReviewInfo)
 await db
   .sync
   () 
-  //   ({ force: true });
+    // ({ force: true });
   // seed()
 
 server.listen(3000, console.log("listening on port 3000"));

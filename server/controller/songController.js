@@ -197,18 +197,9 @@ const postCritique = async (req, res) => {
     console.log(userId);
     console.log(req.body);
     let {
-      arrangmentScore,
-      arrangmentText,
-      mixScore,
-      mixText,
-      musicalityScore,
-      musicalityText,
-      overallScore,
-      overallText,
-      rhythmScore,
-      rhythmText,
-      soundDesignScore,
-      soundDesignText,
+      aestheticCritique,
+      technicalCritique,
+      artistCritique,
       reviewForId,
       songId,
     } = req.body;
@@ -219,18 +210,9 @@ const postCritique = async (req, res) => {
       reviewByUserId: +userId,
       reviewForUserId: +reviewForId,
       songId: +songId,
-      arrangmentScore,
-      arrangmentText,
-      mixScore,
-      mixText,
-      musicalityScore,
-      musicalityText,
-      overallScore,
-      overallText,
-      rhythmScore,
-      rhythmText,
-      soundDesignScore,
-      soundDesignText,
+      aestheticCritique,
+      technicalCritique,
+      artistCritique,
     });
 
     // await User.increment("userReviewToken", { where: { userId: +userId } });
@@ -261,18 +243,18 @@ const getReviewInfo = async (req, res) => {
         },
         {
           model: User,
-          as: "reviewBy",
+          as: "reviewFor",
         },
         {
           model: User,
-          as: "reviewFor",
+          as: "reviewBy",
         },
       ],
     });
 
     console.log(reviewInfo);
 
-    res.send();
+    res.send(reviewInfo);
   } catch(err) {
     res.send(err, "invalid reviewId")
   }
