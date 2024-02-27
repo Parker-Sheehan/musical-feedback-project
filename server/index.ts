@@ -5,7 +5,7 @@ import { seed } from "../script/seed";
 import { signUp, login, verifyToken } from "./controller/authController";
 import session from "express-session";
 import { getProfileInfo, updateProfile } from "./controller/userController";
-import {createNewSong, getSong, getRandomSong, getSongProfileInfo, postCritique} from './controller/songController'
+import {createNewSong, getSong, getRandomSong, getSongProfileInfo, postCritique, getReviewInfo} from './controller/songController'
 const require = createRequire(import.meta.url);
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -93,10 +93,12 @@ app.get("/getSongProfileInfo/:songId", verifyToken, getSongProfileInfo)
 
 app.post("/postCritique/:userId", verifyToken, postCritique)
 
+app.get("/getReview/:reviewId", verifyToken, getReviewInfo)
+
 await db
   .sync
-  // () 
-    ({ force: true });
-  seed()
+  () 
+  //   ({ force: true });
+  // seed()
 
 server.listen(3000, console.log("listening on port 3000"));

@@ -12,19 +12,9 @@ export interface ReviewInfo {
   songId: number;
   reviewByUserId: number;
   reviewForUserId: number;
-  author: string;
-  totalScore: number;
-  overallText: string;
-  musicalityScore: number;
-  musicalityText: string;
-  rhythmScore: number;
-  rhythmText: string;
-  soundDesignScore: number;
-  soundDesignText: string;
-  arrangmentScore: number;  
-  arrangmentText: string;
-  mixScore: number;
-  mixText: string;
+  aestheticCritique: string;
+  technicalCritique: string;
+  artistCritique: string;
   reviewBy: {
     displayName: string;
     email: string;
@@ -39,6 +29,8 @@ export interface ReviewInfo {
 const SongProfilePage = () => {
   const [reviewsArray, setReviewsArray] = useState<ReviewInfo[]>([]);
   const [songInfo, setSongInfo] = useState<SongAndUser | null>(null);
+
+  console.log(reviewsArray)
 
   let { id } = useParams();
 

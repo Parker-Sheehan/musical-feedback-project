@@ -10,13 +10,13 @@ const ViewReviewPage = () => {
 
   const location = useLocation();
 
-  console.log(location);
+  console.log(reviewInfo);
 
   const { id } = useParams();
 
   const getReviewInfo = async () => {
     console.log("yay");
-    let reviewData = await axios.put(`http://localhost:3000/getReview/${id}`);
+    let reviewData = await axios.get(`http://localhost:3000/getReview/${id}`);
     console.log(reviewData, "review data");
     setReviewInfo(reviewData.data);
   };
@@ -24,11 +24,11 @@ const ViewReviewPage = () => {
   console.log(location.state);
 
   useEffect(() => {
-    if (location.state) {
-      setReviewInfo(location.state.reviewObj);
-    } else {
+    // if (location.state) {
+    //   setReviewInfo(location.state.reviewObj);
+    // } else {
       getReviewInfo();
-    }
+    // }
   }, []);
 
   console.log(location.state.reviewObj.reviewBy.displayName);

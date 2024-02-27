@@ -21,13 +21,13 @@ const createNewSong = async (req, res) => {
         userId: req.params.userId,
         title: title,
         embeddedLink: embeddedLink,
-        genre: genre
+        genre: genre,
       });
 
-      console.log(genre)
-      console.log("making song 1")
+      console.log(genre);
+      console.log("making song 1");
 
-      newSong.addGenre(genre)
+      newSong.addGenre(genre);
 
       res.send("yay");
     } catch (err) {
@@ -151,7 +151,7 @@ const getSongProfileInfo = async (req, res) => {
   console.log("hit getSongProfileInfo");
   console.log(req.params);
   let { songId } = req.params;
-  try{
+  try {
     let song = await Song.findByPk(songId, {
       include: [
         {
@@ -171,22 +171,20 @@ const getSongProfileInfo = async (req, res) => {
         },
       ],
     });
-    console.log(song, "first")
-    if(song === null){
+    console.log(song, "first");
+    if (song === null) {
       song = await Song.findByPk(songId, {
         include: [
           {
-            model: User
-          }
-        ]
-      })
-      
+            model: User,
+          },
+        ],
+      });
     }
-    console.log(song, "second")
-    res.send(song)
-
-  }catch(err){
-    res.send(err, "something broke in songControler 188")
+    console.log(song, "second");
+    res.send(song);
+  } catch (err) {
+    res.send(err, "something broke in songControler 188");
   }
   // console.log(song.reviews, "song");
   // res.send(song);
@@ -252,10 +250,39 @@ const postCritique = async (req, res) => {
   }
 };
 
+const getReviewInfo = async (req, res) => {
+  console.log(req.params.reviewId);
+  let { reviewId } = req.params;
+  try {
+    let reviewInfo = await Review.findByPk(reviewId, {
+      include: [
+        {
+          model: Song,
+        },
+        {
+          model: User,
+          as: "reviewBy",
+        },
+        {
+          model: User,
+          as: "reviewFor",
+        },
+      ],
+    });
+
+    console.log(reviewInfo);
+
+    res.send();
+  } catch(err) {
+    res.send(err, "invalid reviewId")
+  }
+};
+
 export {
   createNewSong,
   getSong,
   getRandomSong,
   getSongProfileInfo,
   postCritique,
+  getReviewInfo,
 };
