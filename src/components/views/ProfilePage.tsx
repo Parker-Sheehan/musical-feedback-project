@@ -11,6 +11,7 @@ export interface SongInfo {
   embeddedLink: string;
   artLink: string;
   userId: number;
+  // aristQuestion: string;
 }
 
 export interface Genre {
@@ -30,6 +31,8 @@ const ProfilePage = () => {
   let id = useParams()
 
   console.log(id, "useParamas")
+
+  console.log(loggedInUser)
 
 
   let [songsArray, setSongsArray] = useState<SongInfo[]>([]);
@@ -60,6 +63,7 @@ const ProfilePage = () => {
       setSongsArray(songs);
       return
     }
+
     let newProfileData = await axios.get(
       `http://localhost:3000/getProfileInfo/${loggedInUser.userId}`
     );

@@ -93,9 +93,13 @@ Song.init(
       allowNull: false,
     },
     embeddedLink: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       // unique: true,
+    },
+    aristQuestion: {
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     songReviewToken: {
       type: DataTypes.INTEGER,
@@ -118,6 +122,18 @@ Review.init(
       autoIncrement: true,
       primaryKey: true,
       unique: true,
+    },
+    aestheticCritique: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    technicalCritique: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    artistCritique: {
+      type: DataTypes.TEXT,
+      allowNull: false
     }
   },
   {

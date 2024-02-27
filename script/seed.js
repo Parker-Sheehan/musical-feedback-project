@@ -235,7 +235,8 @@ export const seed = async () => {
         title: song.title + " " + i,
         embeddedLink: song.embeddedLink,
         userId: i + 1,
-        songReviewToken: 1
+        songReviewToken: 1,
+        aristQuestion: "It good?"
       });
     });
   }
@@ -273,20 +274,9 @@ export const seed = async () => {
 
     await Review.create({
       // foreign keys of reviewer reviewee and song_id not included yet
-      author: arrayOfReviews[i].author,
-      overallScore: total / 5,
-      overallText: arrayOfReviews[i].overallText,
-      musicalityScore: arrOfScores[0],
-      musicalityText: arrayOfReviews[i].musicalityText,
-      rhythmScore: arrOfScores[1],
-      rhythmText: arrayOfReviews[i].rhythmText,
-      soundDesignScore: arrOfScores[2],
-      soundDesignText: arrayOfReviews[i].soundDesignText,
-      arrangmentScore: arrOfScores[3],
-      arrangmentText: arrayOfReviews[i].arrangmentText,
-      mixScore: arrOfScores[4],
-      mixText: arrayOfReviews[i].mixText,
-      userId: +arrayOfReviews[i].reviewer,
+      aestheticCritique: arrayOfReviews[i].overallText,
+      technicalCritique: arrayOfReviews[i].musicalityText,
+      artistCritique: arrayOfReviews[i].rhythmText,
       songId: arrayOfReviews[i].song_id,
       reviewByUserId: arrayOfReviews[i].reviewee,
       reviewForUserId: arrayOfReviews[i].reviewer

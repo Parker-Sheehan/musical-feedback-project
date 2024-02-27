@@ -85,10 +85,8 @@ const ReviewSong = () => {
 
   },[])
 
-
-
   console.log(song)
-
+  
   return (
     <main className="flex flex-col items-center">
       <h1 className="text-heading text-text">Review {song?.songInfo.title}</h1>
