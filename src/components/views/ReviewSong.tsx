@@ -17,6 +17,7 @@ const ReviewSong = () => {
   let dispatch = useAppDispatch()
   // on review submit set song in review to 0 to reset
   let [song, setSong] = useState<SongAndUser | null>(null)
+  let [artistQuestion, setArtistQuestion] = useState<string>('')
 
   let loginState = useAppSelector((state) => state.login)
   console.log(loginState, "login state redux" )
@@ -55,6 +56,10 @@ const ReviewSong = () => {
     console.log(songToReview.data)
     let {songId, title, embeddedLink} = songToReview.data
     let {displayName, userId, profilePicture} = songToReview.data.user
+    console.log(songToReview.data)
+
+    setArtistQuestion(songToReview.data.artistQuestion)
+
     let songAndUser = {
       songInfo: {
         songId: songId,
@@ -85,13 +90,13 @@ const ReviewSong = () => {
 
   },[])
 
-  console.log(song)
+  console.log(artistQuestion)
   
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex flex-col items-center h-fit">
       <h1 className="text-heading text-text">Review {song?.songInfo.title}</h1>
       <SongInfoCard SongAndUser={song}/>
-      <ReviewSection reviewForId={song?.userInfo.userId} songId={song?.songInfo.songId}/>
+      <ReviewSection reviewForId={song?.userInfo.userId} songId={song?.songInfo.songId} artistQuestion={artistQuestion}/>
     </main>
   );
 };

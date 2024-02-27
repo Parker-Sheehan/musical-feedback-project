@@ -236,7 +236,7 @@ export const seed = async () => {
         embeddedLink: song.embeddedLink,
         userId: i + 1,
         songReviewToken: 1,
-        aristQuestion: "It good?"
+        artistQuestion: "It good?"
       });
     });
   }

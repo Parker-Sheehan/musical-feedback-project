@@ -97,7 +97,7 @@ Song.init(
       allowNull: false,
       // unique: true,
     },
-    aristQuestion: {
+    artistQuestion: {
       type: DataTypes.TEXT,
       allowNull: false
     },
