@@ -13,7 +13,9 @@ const createNewSong = async (req, res) => {
   console.log(req.body);
   console.log("hit create new song");
 
-  let { title, embeddedLink, genre } = req.body;
+  let { title, embeddedLink, genre, artistQuestion } = req.body;
+
+  console.log(artistQuestion)
 
   if (req.session.email) {
     try {
@@ -22,7 +24,19 @@ const createNewSong = async (req, res) => {
         title: title,
         embeddedLink: embeddedLink,
         genre: genre,
+        artistQuestion: artistQuestion
       });
+
+      let user = await User.update(
+        {
+          userReviewToken: Sequelize.literal("user_review_token - 1"),
+          songInReview: 0,
+        },
+        { where: { userId: req.params.userId } }
+      );
+
+
+      console.log(user)
 
       console.log(genre);
       console.log("making song 1");
@@ -206,6 +220,7 @@ const postCritique = async (req, res) => {
 
     console.log(userId);
 
+
     let newReview = await Review.create({
       reviewByUserId: +userId,
       reviewForUserId: +reviewForId,
@@ -260,6 +275,39 @@ const getReviewInfo = async (req, res) => {
   }
 };
 
+const addTokenToSong = async(req, res) => {
+  let {songId} = req.params
+  let {userId} = req.body
+  console.log(songId)
+  console.log("add token hit")
+
+  try{
+    let song = await Song.update(
+      {
+        userReviewToken: Sequelize.literal("song_review_token + 1"),
+      },
+      { where: { songId:  req.params.songId} }
+    )
+  
+    let user = await User.update(
+      {
+        userReviewToken: Sequelize.literal("user_review_token - 1"),
+      },
+      { where: { userId: userId} }
+    );
+  
+    console.log(song)
+    console.log(user)
+  
+    res.send("success")
+
+  }catch{
+    console.log('failed')
+    res.send("failure")
+  }
+
+}
+
 export {
   createNewSong,
   getSong,
@@ -267,4 +315,5 @@ export {
   getSongProfileInfo,
   postCritique,
   getReviewInfo,
+  addTokenToSong
 };

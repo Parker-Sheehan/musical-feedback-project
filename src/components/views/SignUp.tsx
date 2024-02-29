@@ -67,19 +67,19 @@ const SignUp = () => {
       <div className="flex flex-col justify-around size-10/12 sm:w-1/2 lg:w-1/3 text-text">
         <div className="text-text">
         <label htmlFor="display-name-input">Display Name</label>
-        <input ref={displayNameRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded" id="display-name-input" />
+        <input ref={displayNameRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded text-black" id="display-name-input" />
         </div>
         <div className="text-text">
         <label htmlFor="email-input">Email</label>
-        <input ref={emailRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded" id="email-input" />
+        <input ref={emailRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded text-black" id="email-input" />
         </div>
         <div className="text-text">
         <label htmlFor="password-input">Password</label>
-        <input ref={passwordRef}type="text" className="text-input h-35 w-full border border-gray-300 rounded" id="password-input" />
+        <input ref={passwordRef}type="text" className="text-input h-35 w-full border border-gray-300 rounded text-black" id="password-input" />
         </div>
         <div className="text-text">
         <label htmlFor="password-input">Confirm Password</label>
-        <input ref={confirmPasswordRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded"  id="confirm-password-input" />
+        <input ref={confirmPasswordRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded text-black"  id="confirm-password-input" />
         </div>
         <button onClick={signUpHandler} className="flex justify-center items-center h-10 w-full bg-accent rounded">Sign Up</button>
       </div>

@@ -1,6 +1,6 @@
 import { useRef, FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import {clearSongInReview} from "../../store/slices/loginSlice"
+import {clearSongInReview, updateReviewTokens} from "../../store/slices/loginSlice"
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -46,6 +46,8 @@ const ReviewSection: FC<ReviewSectionProps> = ({reviewForId, songId, artistQuest
       console.log(response)
 
      dispatch(clearSongInReview())
+     dispatch(updateReviewTokens("increase"))
+
 
       //   console.log(newAccount.data.userId);
 

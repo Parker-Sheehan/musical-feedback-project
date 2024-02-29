@@ -4,6 +4,7 @@ import Messages from "../views/Messages";
 
 import { ProfileData } from "../views/ProfilePage";
 import GenreCard from "../views/GenreCard";
+import { useAppSelector } from "../../store/store";
 
 interface ProfileDataProp {
   profileData: ProfileData;
@@ -17,6 +18,9 @@ const ProfileInfo: FC<ProfileDataProp> = ({
   numOfSongs,
 }) => {
   console.log(profileData);
+
+  let tokenState = useAppSelector((state) => state.login.userReviewToken)
+
 
   const [togglePfpModal, setTogglePfpModal] = useState<boolean>(false);
 
@@ -87,7 +91,9 @@ const ProfileInfo: FC<ProfileDataProp> = ({
         </div>
         <Messages />
         <div className="bg-sec2 grid-cols-subgrid col-span-3 row-span-2 rounded-lg text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
-          <h1 className="text-2xl text-break text-center">Critiques Completed</h1>
+          <h1 className="text-2xl text-break text-center">
+            Critiques Completed
+          </h1>
           <h2 className="text-3xl">180</h2>
         </div>
         <div className="bg-sec2 grid-cols-subgrid col-span-3 grid-row-subgrid row-span-2 rounded-lg  text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
@@ -96,7 +102,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
         </div>
         <div className="bg-sec2 grid-cols-subgrid col-span-2 rounded-lg  text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
           <h1 className="text-2xl">Tokens</h1>
-          <h2 className="text-3xl">3</h2>
+          <h2 className="text-3xl">{tokenState}</h2>
         </div>
         <div className="bg-sec2 grid-cols-subgrid col-span-2 rounded-lg  text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
           <h1 className="text-2xl">Songs</h1>

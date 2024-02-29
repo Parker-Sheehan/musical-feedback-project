@@ -12,6 +12,7 @@ export interface LoginDispatchBody {
   userId: number;
   genreArray: number[];
   songInReview: number;
+  userReviewToken: number;
 }
 
 const LogIn = () => {
@@ -42,6 +43,7 @@ const LogIn = () => {
         userId: account.data.userId,
         genreArray: genreArray,
         songInReview: account.data.songInReview,
+        userReviewToken: account.data.userReviewToken
       };
 
       console.log(account);
@@ -86,7 +88,7 @@ const LogIn = () => {
           <label htmlFor="email-input">Email</label>
           <input
             type="text"
-            className="text-input h-35 w-full border border-gray-300 rounded"
+            className="text-input h-35 w-full border border-gray-300 rounded text-black"
             id="email-input"
             ref={emailRef}
           />
@@ -95,7 +97,7 @@ const LogIn = () => {
           <label htmlFor="password-input">Password</label>
           <input
             type="text"
-            className="text-input h-35 w-full border border-gray-300 rounded"
+            className="text-input h-35 w-full border border-gray-300 rounded text-black"
             id="password-input"
             ref={passwordRef}
           />

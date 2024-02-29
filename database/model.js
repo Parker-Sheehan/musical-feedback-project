@@ -71,7 +71,7 @@ User.init(
     },
     userReviewToken: {
       type: DataTypes.INTEGER,
-      defaultValue: 0,
+      defaultValue: 1,
     },
   },
   {
@@ -104,7 +104,7 @@ Song.init(
     songReviewToken: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0
+      defaultValue: 1
     }
   },
   {
