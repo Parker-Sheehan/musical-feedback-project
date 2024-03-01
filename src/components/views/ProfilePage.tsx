@@ -47,8 +47,7 @@ const ProfilePage = () => {
 
       console.log(newProfileData);
 
-      let { songs, displayName, genres, profilePicture, following } =
-        newProfileData.data;
+      let { songs, displayName, genres, profilePicture, following, userId } = newProfileData.data;
 
       let genreArray: Genre[] = genres.map((genre: any) => {
         return {
@@ -57,11 +56,13 @@ const ProfilePage = () => {
         };
       });
 
+      console.log(userId)
+
       let data: ProfileData = {
         displayName,
         genres: genreArray,
         profilePicture,
-        userId: +id,
+        userId,
         following
       };
       setProfileData(data);
@@ -76,7 +77,7 @@ const ProfilePage = () => {
 
       let { songs, displayName, genres, profilePicture, userId, following } = newProfileData.data;
 
-      console.log(newProfileData.data.following)
+      console.log(newProfileData.data)
 
     //  setFollowingStatus(newProfileData.data.following)
 
@@ -119,9 +120,26 @@ const ProfilePage = () => {
   };
 
   const followUserHandler = async() =>{
-    let followUserResult = await axios.post(`http://localhost:3000/followUser/${loggedInUserId.userId}`, {followingUserId: profileData?.userId})
-    console.log(followUserResult)
+    console.log(profileData)
+    if(profileData?.following){
+      // Unfollow
+      console.log("unfolow++++++++++++")
+      let unfollowUserResult = await axios.post(`http://localhost:3000/unfollowUser/${loggedInUser.userId}`, {followingUserId: profileData!.userId})
+      let newProfileData = {...profileData, following: unfollowUserResult.data}
+      console.log(newProfileData)
+      setProfileData(newProfileData)
+
+    }else if(profileData?.following === false){
+      // Follow
+      console.log("FolLow++++++++++++")
+      let followUserResult = await axios.post(`http://localhost:3000/followUser/${loggedInUser.userId}`, {followingUserId: profileData!.userId})
+      let newProfileData = {...profileData, following: followUserResult.data}
+      console.log(newProfileData)
+      setProfileData(newProfileData)
+    }
   }
+
+  console.log(profileData)
 
   return (
     <>

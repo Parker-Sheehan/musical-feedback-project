@@ -34,7 +34,6 @@ const getProfileInfo = async (req, res) => {
       console.log("true hit");
       let newProfileInfo = {
         userId: profileInfo.userId,
-        userId: 1,
         displayName: profileInfo.displayName,
         email: profileInfo.email,
         profilePicture:profileInfo.profilePicture,
@@ -51,7 +50,6 @@ const getProfileInfo = async (req, res) => {
       console.log("false hit");
       let newProfileInfo = {
         userId: profileInfo.userId,
-        userId: 1,
         displayName: profileInfo.displayName,
         email: profileInfo.email,
         profilePicture:profileInfo.profilePicture,
@@ -74,7 +72,6 @@ const getProfileInfo = async (req, res) => {
     console.log(profileInfo)
     let newProfileInfo = {
       userId: profileInfo.userId,
-      userId: 1,
       displayName: profileInfo.displayName,
       email: profileInfo.email,
       profilePicture:profileInfo.profilePicture,
@@ -136,16 +133,38 @@ const followUser = async (req, res) => {
   console.log(loggedInUserId);
 
   try {
-    const followResults = Follow.create({
+    if (req.session.email) {
+    const followResults = await Follow.create({
       followerId: loggedInUserId,
       followingId: followingUserId,
     });
-    if (req.session.email) {
-      res.send(followResults);
+      res.status(200).send(true);
     }
   } catch (err) {
     res.send(err, "error");
   }
 };
 
-export { getProfileInfo, updateProfile, followUser };
+const unfollowUser = async (req, res) => {
+  console.log("unfollow user hit");
+
+  let { followingUserId } = req.body;
+  let loggedInUserId = +req.params.loggedInUserId;
+
+  try {
+    if (req.session.email) {
+        const followResults = await Follow.destroy({
+          where: {
+            followerId: loggedInUserId,
+            followingId: followingUserId,
+          }
+        });
+        console.log(followResults)
+          res.status(200).send(false);
+    }
+  } catch (err) {
+    res.status(400).send(err, "error");
+  }
+};
+
+export { getProfileInfo, updateProfile, followUser, unfollowUser };
