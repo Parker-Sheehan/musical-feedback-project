@@ -40,6 +40,12 @@ export class SongGenre extends Model {
   }
 }
 
+export class Follow extends Model{
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
 User.init(
   {
     userId: {
@@ -191,6 +197,30 @@ SongGenre.init(
   }
 );
 
+Follow.init(
+  {
+    followId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    followerId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    followingId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    modelName: "follow",
+    sequelize: db,
+  }
+);
+
+
 // UserReviewed.init(
 //   {
 //     reviewId: {
@@ -225,22 +255,11 @@ Review.belongsTo(Song, { foreignKey: "songId" });
 User.belongsToMany(Genre, { foreignKey: "userId", through: "usergenre" });
 Genre.belongsToMany(User, { foreignKey: "genreId", through: "usergenre" });
 
-// User.hasMany(UserGenre, { foreignKey: "userId"});
-// UserGenre.belongsTo(User, { foreignKey: "userId"});
-
-// Genre.hasMany(UserGenre, { foreignKey: "genreId"});
-// UserGenre.belongsTo(Genre, { foreignKey: "genreId"});
-
 Song.belongsToMany(Genre, { foreignKey: "songId", through: "songgenre" });
 Genre.belongsToMany(Song, { foreignKey: "genreId", through: "songgenre" });
 
-// Song.hasMany(SongGenre, { foreignKey: "songId"});
-// SongGenre.belongsTo(Song, { foreignKey: "songId"});
+User.hasMany(Follow, { foreignKey: "followerId", as: "followers" });
+User.hasMany(Follow, { foreignKey: "followingId", as: "followings" });
 
-// Genre.hasMany(SongGenre, { foreignKey: "genreId"});
-// SongGenre.belongsTo(Genre, { foreignKey: "genreId"});
-
-
-// await db.sync({ force: true })
-
-// await db.close()
+Follow.belongsTo(User, { foreignKey: "followerId", as: "follower" });
+Follow.belongsTo(User, { foreignKey: "followingId", as: "following" });

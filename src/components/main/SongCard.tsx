@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
 import { SongInfo } from "../views/ProfilePage";
-import { FC } from "react";
+import { FC, useState } from "react";
 import axios from "axios";
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import { updateReviewTokens } from "../../store/slices/loginSlice";
 
 interface SongCardProps {
   song: SongInfo;
+  profileUserId: number
 }
 
-const SongCard: FC<SongCardProps> = ({ song }) => {
+const SongCard: FC<SongCardProps> = ({ song, profileUserId }) => {
+
+  let loggedInUserId = useAppSelector((state) => state.login.userId)
+
+
+  const [songToken, setSongToken] = useState(song.songReviewToken)
 
   let tokenState = useAppSelector((state) => state.login.userReviewToken)
   let userId = useAppSelector((state) => state.login.userId)
@@ -17,12 +23,15 @@ const SongCard: FC<SongCardProps> = ({ song }) => {
   let dispatch = useAppDispatch()
 
 
+
   const addTokenHandler = async () => {
-    console.log("attadlsfj")
     if(tokenState! > 0 ){
       try{
         await axios.post(`http://localhost:3000/addTokenToSong/${song.songId}`, {userId: userId});
         dispatch(updateReviewTokens("decrese"));
+        setSongToken(()=> {
+          return songToken + 1
+        })
 
   
       }catch(err){
@@ -48,7 +57,7 @@ const SongCard: FC<SongCardProps> = ({ song }) => {
               View Song
             </button>
           </Link>
-          <button className="bg-prim h-3/4 w-1/4 rounded" onClick={addTokenHandler}>Add Token</button>
+          {profileUserId === loggedInUserId && <button className="bg-prim h-3/4 w-1/4 rounded" onClick={addTokenHandler}>Add Token {songToken}</button>}
         </div>
         <iframe
           width="100%"

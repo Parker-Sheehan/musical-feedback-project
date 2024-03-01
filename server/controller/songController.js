@@ -299,7 +299,7 @@ const addTokenToSong = async(req, res) => {
     console.log(song)
     console.log(user)
   
-    res.send("success")
+    res.send(song)
 
   }catch{
     console.log('failed')

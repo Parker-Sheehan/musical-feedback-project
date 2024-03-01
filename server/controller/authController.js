@@ -55,6 +55,7 @@ let signUp = async (req, res) => {
       });
       const sess = req.session;
       sess.email = email;
+      sess.userId = user.userId
       console.log('signed up')
       res.send(user)
     }
@@ -88,6 +89,7 @@ let login = async (req, res) => {
           console.log('logging in')
           const sess = req.session;
           sess.email = email;
+          sess.userId = user.userId
           res.send(user);
         } else {
           res.send("incorrect user and password combination",err);

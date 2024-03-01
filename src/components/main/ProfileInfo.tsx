@@ -1,3 +1,4 @@
+import axios from "axios";
 import { FC, useState } from "react";
 import MyVerticallyCenteredModal from "../ui/MyVerticallyCenteredModal";
 import Messages from "../views/Messages";
@@ -10,17 +11,18 @@ interface ProfileDataProp {
   profileData: ProfileData;
   setProfileDataHandler: (profileDataObj: ProfileData) => void;
   numOfSongs: number;
+  followUserHandler: () => void;
 }
 
 const ProfileInfo: FC<ProfileDataProp> = ({
   profileData,
   setProfileDataHandler,
   numOfSongs,
+  followUserHandler,
 }) => {
-  console.log(profileData);
+  let tokenState = useAppSelector((state) => state.login.userReviewToken);
 
-  let tokenState = useAppSelector((state) => state.login.userReviewToken)
-
+  let loggedInUserId = useAppSelector((state) => state.login.userId);
 
   const [togglePfpModal, setTogglePfpModal] = useState<boolean>(false);
 
@@ -30,12 +32,12 @@ const ProfileInfo: FC<ProfileDataProp> = ({
 
   let genreArray = profileData.genres.map(
     ({ genreName }: { genreName: string }) => {
-      console.log(genreName);
       return <GenreCard genreName={genreName} />;
     }
   );
 
-  console.log(genreArray);
+  console.log(profileData)
+  console.log(loggedInUserId, profileData.userId)
 
   return (
     <>
@@ -47,24 +49,60 @@ const ProfileInfo: FC<ProfileDataProp> = ({
       />
       <div className="m-10 w-8/12 h-3/4 rounded-lg lg:grid lg:grid-rows-2 lg:grid-cols-10 gap-3">
         <div className="lg:w-2/5 w-full mb-3 lg:mb-0 bg-background2 lg:grid-cols-subgrid lg:col-span-5 lg:grid-row-subgrid lg:row-span-2 rounded-lg grid grid-col-2 grid-row-6 lg:gap-1 ">
-          <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
-            <div
-              className="bg-cover bg-center bg-no-repeat size-36 rounded-full"
-              style={{
-                backgroundImage: `url(${profileData.profilePicture})`,
-              }}
-              onClick={handleProfilePictureClick}
-            ></div>
-            <div className="text-text font-heading text-xl">
-              {profileData.displayName}
+          {loggedInUserId === profileData.userId && (
+            <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
+              <div
+                className="bg-cover bg-center bg-no-repeat size-36 rounded-full"
+                style={{
+                  backgroundImage: `url(${profileData.profilePicture})`,
+                }}
+                onClick={handleProfilePictureClick}
+              ></div>
+              <div className="text-text font-heading text-xl">
+                {profileData.displayName}
+              </div>
             </div>
-            <button className="h-8 w-48 bg-accent rounded-full  text-text ">
-              Follow
-            </button>
-            <button className="h-8 w-48 bg-accent rounded-full text-text">
-              Message
-            </button>
-          </div>
+          )}
+          {loggedInUserId !== profileData.userId && (
+            <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
+              <div
+                className="bg-cover bg-center bg-no-repeat size-36 rounded-full"
+                style={{
+                  backgroundImage: `url(${profileData.profilePicture})`,
+                }}
+                onClick={handleProfilePictureClick}
+              ></div>
+              <div className="text-text font-heading text-xl">
+                {profileData.displayName}
+              </div>
+              {profileData.following && (
+                <>
+                  <button
+                    className="h-8 w-48 bg-accent rounded-full  text-text "
+                    onClick={followUserHandler}
+                  >
+                    Unfollow
+                  </button>
+                  <button className="h-8 w-48 bg-accent rounded-full text-text">
+                    Message
+                  </button>
+                </>
+              )}
+              {!profileData.following && (
+                <>
+                  <button
+                    className="h-8 w-48 bg-accent rounded-full  text-text "
+                    onClick={followUserHandler}
+                  >
+                    Unfollow
+                  </button>
+                  <button className="h-8 w-48 bg-accent rounded-full text-text">
+                    Message
+                  </button>
+                </>
+              )}
+            </div>
+          )}
           <div className="bg-background3 lg:row-span-1 grid-cols-subgrid lg:col-span-2 col-span-2 w-full lg:rounded-tr-lg rounded-bl-lg text-text flex flex-col justify-center items-center">
             <h1 className="text-2xl">Followers</h1>
             <h2 className="text-1xl">180</h2>

@@ -28,7 +28,6 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
     {genreName: "Breakbeat", genreId: 10}
   ]
 
-  console.log(genres)
 
   let [newPfpUrl, setNewPfpUrl] = useState<string>(profilePicture);
   let [newDisplayName, setNewDisplayName] = useState<string>(displayName)
@@ -53,7 +52,6 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
 
   const editProfileInfo = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
-    console.log(evt.target)
     let newProfileDataObj = {
       displayName: newDisplayName,
       genres: selectedGenresState,
