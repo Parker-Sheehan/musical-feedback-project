@@ -13,7 +13,7 @@ interface ModalProps {
 }
 
 const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
-  let { profilePicture, displayName, genres } = props.profileData;
+  let { profilePicture, displayName, genres, userId, following } = props.profileData;
 
   let genreArray = [
     {genreName: "Drum and Bass", genreId:1 },
@@ -55,7 +55,9 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
     let newProfileDataObj = {
       displayName: newDisplayName,
       genres: selectedGenresState,
-      profilePicture: newPfpUrl
+      profilePicture: newPfpUrl,
+      userId,
+      following
     }
     props.setProfileDataHandler(newProfileDataObj)
     props.onHide();

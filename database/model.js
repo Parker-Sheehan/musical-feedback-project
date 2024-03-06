@@ -46,6 +46,18 @@ export class Follow extends Model{
   }
 }
 
+export class Message extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
+export class ChatRoom extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
 User.init(
   {
     userId: {
@@ -220,6 +232,68 @@ Follow.init(
   }
 );
 
+Message.init(
+  {
+    messageId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    senderId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    recipientId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    }
+  },
+  {
+    modelName: "message",
+    sequelize: db,
+  }
+);
+
+ChatRoom.init(
+  {
+    chatRoomId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    user1Id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    user2Id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    }
+  },
+  {
+    modelName: "chatroom",
+    sequelize: db,
+  }
+);
+
 
 // UserReviewed.init(
 //   {
@@ -263,3 +337,6 @@ User.hasMany(Follow, { foreignKey: "followingId", as: "followings" });
 
 Follow.belongsTo(User, { foreignKey: "followerId", as: "follower" });
 Follow.belongsTo(User, { foreignKey: "followingId", as: "following" });
+
+Message.belongsTo(ChatRoom, { foreignKey: 'chatRoomId' });
+ChatRoom.hasMany(Message, { foreignKey: 'chatRoomId' });

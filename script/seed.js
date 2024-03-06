@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User, Song, Review, Genre, UserGenre, SongGenre} from "../database/model.js";
+import { User, Song, Review, Genre, UserGenre, SongGenre, ChatRoom, Message} from "../database/model.js";
 
 console.log("Syncing Database...");
 
@@ -284,6 +284,61 @@ export const seed = async () => {
 
     console.log("end of for each ================================")
  }
+
+ async function createChatRoom(user1Id, user2Id) {
+  try {
+    const chatRoom = await ChatRoom.create({
+      user1Id: user1Id,
+      user2Id: user2Id,
+    });
+    console.log("Chat room created:", chatRoom);
+    return chatRoom;
+  } catch (error) {
+    console.error("Error creating chat room:", error);
+    throw error;
+  }
+}
+
+ for(let i = 2; i <= 4; i++){
+  await createChatRoom(1,i)
+ }
+
+ async function seedMessages() {
+  console.log("seeding messages")
+  try {
+    // Fetch all existing chat rooms
+    const chatRooms = await ChatRoom.findAll();
+
+    // Generate random messages for each chat room
+    for (const chatRoom of chatRooms) {
+      const numberOfMessages = Math.floor(Math.random() * 10) + 1; // Generate random number of messages (1-10)
+      for (let i = 0; i < numberOfMessages; i++) {
+        if(i %2 === 0){
+
+          const senderId = chatRoom.user1Id; // Assume user1 is the sender
+          const recipientId = chatRoom.user2Id; // Assume user2 is the recipient
+          const content = "yayyy"
+          let messages = await Message.create({ senderId, recipientId, content, chatRoomId: chatRoom.chatRoomId });
+          console.log(messages)
+        } else if(1%2 === 1){
+          const senderId = chatRoom.user2Id; // Assume user1 is the sender
+          const recipientId = chatRoom.user1Id; // Assume user2 is the recipient
+          const content = "yayyy"
+          let messages = await Message.create({ senderId, recipientId, content, chatRoomId: chatRoom.chatRoomId });
+          console.log(messages)
+        }
+      }
+    }
+
+    console.log("Messages seeded successfully");
+  } catch (error) {
+    console.error("Error seeding messages:", error);
+    throw error;
+  }
+}
+
+seedMessages()
+console.log('end')
 
 };
 
