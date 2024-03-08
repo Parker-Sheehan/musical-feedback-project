@@ -1,4 +1,5 @@
-import { User, Song, Genre, UserGenre, Follow } from "../../database/model";
+import { Op } from "sequelize";
+import { User, Song, Genre, UserGenre, Follow, ChatRoom, Message } from "../../database/model";
 
 const getProfileInfo = async (req, res) => {
   console.log("in getProfileInfo");
@@ -18,7 +19,7 @@ const getProfileInfo = async (req, res) => {
   });
   console.log(req.session.userId);
   let newProfileInfo = { ...profileInfo, following: true };
-  console.log(newProfileInfo);
+  // console.log(newProfileInfo);
   if (req.session.userId !== +req.params.userId) {
     // Checking if they are following user
     try{
@@ -69,7 +70,7 @@ const getProfileInfo = async (req, res) => {
   }
   if (req.session.email) {
     console.log("default");
-    console.log(profileInfo)
+    // console.log(profileInfo)
     let newProfileInfo = {
       userId: profileInfo.userId,
       displayName: profileInfo.displayName,
@@ -81,7 +82,7 @@ const getProfileInfo = async (req, res) => {
       songs: profileInfo.songs,
       following: false,
     };
-    console.log(newProfileInfo);
+    // console.log(newProfileInfo);
     res.send(newProfileInfo);
   }
   } catch (err) {
@@ -114,7 +115,7 @@ const updateProfile = async (req, res) => {
     });
 
     UserGenre.bulkCreate(genres.map(({ genreId }) => ({ userId, genreId })));
-    console.log(updatedProfileInfo, "updated prfoile info");
+    // console.log(updatedProfileInfo, "updated prfoile info");
     if (req.session.email) {
       res.send("yay");
     }
@@ -129,8 +130,8 @@ const followUser = async (req, res) => {
   let { followingUserId } = req.body;
   let loggedInUserId = +req.params.loggedInUserId;
 
-  console.log(followingUserId);
-  console.log(loggedInUserId);
+  // console.log(followingUserId);
+  // console.log(loggedInUserId);
 
   try {
     if (req.session.email) {
@@ -159,7 +160,7 @@ const unfollowUser = async (req, res) => {
             followingId: followingUserId,
           }
         });
-        console.log(followResults)
+        // console.log(followResults)
           res.status(200).send(false);
     }
   } catch (err) {
@@ -167,4 +168,41 @@ const unfollowUser = async (req, res) => {
   }
 };
 
-export { getProfileInfo, updateProfile, followUser, unfollowUser };
+
+const getChatRooms = async (req,res) => {
+  console.log("getChatRooms hit")
+  let {loggedInUserId} = req.params
+  console.log(loggedInUserId)
+
+
+
+  const chatRooms = await ChatRoom.findAll({
+    where: {
+      [Op.or]: [
+        {user1Id : loggedInUserId},
+        {user2Id: loggedInUserId}
+      ]
+    },
+    include: [{
+      model: Message,
+      order: [['createdAt', 'ASC']]
+    },
+    {
+      model: User,
+      as: 'user1', 
+      attributes: ['userId', 'displayName', 'profilePicture'] 
+    },
+    {
+      model: User,
+      as: 'user2',
+      attributes: ['userId', 'displayName', 'profilePicture'] 
+    }],
+    order: [['updatedAt', 'DESC']]
+  })
+
+  console.log(chatRooms)
+  res.status(200).send(chatRooms)
+}
+
+
+export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms };

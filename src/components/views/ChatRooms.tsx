@@ -1,9 +1,17 @@
-import {FC} from 'react'
-import { MessageInterface } from './Messages'
+import {FC, useState} from 'react'
 
-const Message: FC<MessageInterface> = ({pfp, message, displayName}) => {
+interface ChatRoomProps {
+  pfp: string;
+  message: string;
+  displayName: string;
+  chatRoomId: number
+  openChatRoomHandler: (chatRoomId: number) => void;
+}
+
+const Message: FC<ChatRoomProps> = ({pfp, message, displayName, openChatRoomHandler, chatRoomId}) => {
+
   return (
-    <div className="w-full h-16 flex items-center hover:opacity-100 opacity-70">
+    <div className="w-full h-16 flex items-center hover:opacity-100 opacity-70" onClick={()=>{openChatRoomHandler(chatRoomId)}} >
                 <div
                   className="bg-cover bg-center bg-no-repeat h-10 w-12 rounded-full ml-1 "
                   style={{

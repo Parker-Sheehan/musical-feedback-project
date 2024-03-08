@@ -340,3 +340,6 @@ Follow.belongsTo(User, { foreignKey: "followingId", as: "following" });
 
 Message.belongsTo(ChatRoom, { foreignKey: 'chatRoomId' });
 ChatRoom.hasMany(Message, { foreignKey: 'chatRoomId' });
+
+ChatRoom.belongsTo(User, { as: 'user1', foreignKey: 'user1Id' });
+ChatRoom.belongsTo(User, { as: 'user2', foreignKey: 'user2Id' });

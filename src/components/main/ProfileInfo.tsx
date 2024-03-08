@@ -1,7 +1,7 @@
 import axios from "axios";
 import { FC, useState } from "react";
 import MyVerticallyCenteredModal from "../ui/MyVerticallyCenteredModal";
-import Messages from "../views/Messages";
+import ChatBox from "../views/ChatBox";
 
 import { ProfileData } from "../views/ProfilePage";
 import GenreCard from "../views/GenreCard";
@@ -25,6 +25,16 @@ const ProfileInfo: FC<ProfileDataProp> = ({
   let loggedInUserId = useAppSelector((state) => state.login.userId);
 
   const [togglePfpModal, setTogglePfpModal] = useState<boolean>(false);
+
+  const [currentChatRoom, setCurrentChatRoom] = useState<number>(2)
+
+  const openChatRoomHandler = (chatRoomId: number) => {
+    setCurrentChatRoom(chatRoomId)
+  }
+
+  const createChatRoomHandler = () => {
+    setCurrentChatRoom
+  }
 
   const handleProfilePictureClick = () => {
     setTogglePfpModal(true);
@@ -127,7 +137,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
             </button>
           </div>
         </div>
-        <Messages />
+        <ChatBox openChatRoomHandler={openChatRoomHandler} currentChatRoom={currentChatRoom}/>
         <div className="bg-sec2 grid-cols-subgrid col-span-3 row-span-2 rounded-lg text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
           <h1 className="text-2xl text-break text-center">
             Critiques Completed

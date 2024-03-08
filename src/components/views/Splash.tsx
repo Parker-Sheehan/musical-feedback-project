@@ -1,6 +1,6 @@
 // import "./ProfileInfo.css";
 import { FC, useState } from "react";
-import Messages from "./Messages";
+import Messages from "./ChatBox";
 // import MyVerticallyCenteredModal from '../ui/MyVerticallyCenteredModal'
 
 // import { ProfileData } from "../views/ProfilePage";
