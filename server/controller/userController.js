@@ -176,7 +176,7 @@ const getChatRooms = async (req,res) => {
 
 
 
-  const chatRooms = await ChatRoom.findAll({
+  let chatRooms = await ChatRoom.findAll({
     where: {
       [Op.or]: [
         {user1Id : loggedInUserId},
@@ -185,7 +185,7 @@ const getChatRooms = async (req,res) => {
     },
     include: [{
       model: Message,
-      order: [['createdAt', 'ASC']]
+      // order: [["messageId", "ASC"]]
     },
     {
       model: User,
@@ -204,5 +204,55 @@ const getChatRooms = async (req,res) => {
   res.status(200).send(chatRooms)
 }
 
+const createNewMessage = async (req,res) => {
+  console.log(req.body)
+  console.log("createNewMessage hit")
 
-export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms };
+  
+  let {content, recipientId, senderId, chatRoomId}= req.body
+  try{
+    let newMessage = await Message.create({ senderId, recipientId, content, chatRoomId });
+
+    await ChatRoom.update({ updatedAt: new Date() }, {
+      where: { chatRoomId: chatRoomId }
+    });
+
+    let messageArray = await Message.findAll({
+      where: {
+        chatRoomId: chatRoomId
+      }
+    })
+
+    console.log(messageArray)
+
+    // console.log(newMessage)
+    res.status(200).send(messageArray)
+
+  }catch(err){
+    res.status(400).send(err, "error with message create")
+  }
+}
+
+const getMessages = async (req,res) =>{
+  console.log(req.params.chatRoomId)
+  let {chatRoomId} = req.params
+
+  console.log(chatRoomId)
+  
+      let messageArray = await Message.findAll({
+        where: {
+          chatRoomId: +chatRoomId
+        }
+      })
+      
+      // console.log(messageArray)
+      
+      res.status(200).send(messageArray)
+  try{
+  }catch(err){
+    res.status(400).send(err, "error with db query")
+  }
+}
+
+
+export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages };

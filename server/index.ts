@@ -4,7 +4,7 @@ import { db } from "../database/model";
 import { seed } from "../script/seed";
 import { signUp, login, verifyToken } from "./controller/authController";
 import session from "express-session";
-import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms } from "./controller/userController";
+import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages } from "./controller/userController";
 import {createNewSong, getSong, getRandomSong, getSongProfileInfo, postCritique, getReviewInfo, addTokenToSong} from './controller/songController'
 const require = createRequire(import.meta.url);
 const cookieParser = require("cookie-parser");
@@ -102,6 +102,10 @@ app.post("/followUser/:loggedInUserId", verifyToken, followUser)
 app.post("/unfollowUser/:loggedInUserId", verifyToken, unfollowUser)
 
 app.get("/getChatRooms/:loggedInUserId", verifyToken, getChatRooms)
+
+app.post("/createNewMessage", verifyToken, createNewMessage)
+
+app.get("/getMessages/:chatRoomId", verifyToken, getMessages)
 
 await db
   .sync
