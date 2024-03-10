@@ -4,7 +4,7 @@ import { db } from "../database/model";
 import { seed } from "../script/seed";
 import { signUp, login, verifyToken } from "./controller/authController";
 import session from "express-session";
-import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages } from "./controller/userController";
+import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom } from "./controller/userController";
 import {createNewSong, getSong, getRandomSong, getSongProfileInfo, postCritique, getReviewInfo, addTokenToSong} from './controller/songController'
 const require = createRequire(import.meta.url);
 const cookieParser = require("cookie-parser");
@@ -107,10 +107,13 @@ app.post("/createNewMessage", verifyToken, createNewMessage)
 
 app.get("/getMessages/:chatRoomId", verifyToken, getMessages)
 
+app.post("/createChatRoom", verifyToken, createChatRoom)
+
+
 await db
   .sync
-  ()  
-    // ({ force: true });
-  // seed()
+  // ()  
+    ({ force: true });
+  seed()
 
 server.listen(3000, console.log("listening on port 3000"));

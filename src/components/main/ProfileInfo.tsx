@@ -1,11 +1,13 @@
 import axios from "axios";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import MyVerticallyCenteredModal from "../ui/MyVerticallyCenteredModal";
 import ChatBox from "../views/ChatBox";
 
 import { ProfileData } from "../views/ProfilePage";
 import GenreCard from "../views/GenreCard";
 import { useAppSelector } from "../../store/store";
+
+import { ChatRoomInterface } from "../views/ChatBox";
 
 interface ProfileDataProp {
   profileData: ProfileData;
@@ -26,14 +28,53 @@ const ProfileInfo: FC<ProfileDataProp> = ({
 
   const [togglePfpModal, setTogglePfpModal] = useState<boolean>(false);
 
-  const [currentChatRoom, setCurrentChatRoom] = useState<number>(2)
+  const [currentChatRoom, setCurrentChatRoom] = useState<number>(0)
 
   const openChatRoomHandler = (chatRoomId: number) => {
     setCurrentChatRoom(chatRoomId)
   }
 
-  const createChatRoomHandler = () => {
-    setCurrentChatRoom
+  const [chatRooms, setChatRooms] = useState<ChatRoomInterface[]>();
+
+  const getChatRooms = async () => {
+    try {
+      const getChatRoomsRes = await axios.get(
+        `http://localhost:3000/getChatRooms/${loggedInUserId}`
+      );
+      console.log(getChatRoomsRes.data);
+
+      setChatRooms(getChatRoomsRes.data);
+    } catch (error) {
+      console.error("Error fetching chat rooms:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("inUseEffect getchatrooms");
+    getChatRooms();
+  }, []);
+
+  
+
+  const createChatRoomHandler = async () => {
+    console.log("hit createChatRoom")
+    console.log(chatRooms)
+    console.log(profileData.userId)
+    if(chatRooms){
+      chatRooms.forEach(chatRoom => {
+        console.log(chatRoom)
+        if(chatRoom.user1Id === profileData.userId || chatRoom.user2Id === profileData.userId){
+          setCurrentChatRoom(chatRoom.chatRoomId)
+          return
+        }
+      }
+      );
+    }
+    console.log(profileData)
+    console.log(loggedInUserId)
+    let createChatRoomResponse = await axios.post('http://localhost:3000/createChatRoom', {user1Id: loggedInUserId, user2Id: profileData.userId} )
+      console.log(createChatRoomResponse)
+    // setCurrentChatRoom
   }
 
   const handleProfilePictureClick = () => {
@@ -93,7 +134,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
                   >
                     Unfollow
                   </button>
-                  <button className="h-8 w-48 bg-accent rounded-full text-text">
+                  <button onClick={createChatRoomHandler}  className="h-8 w-48 bg-accent rounded-full text-text">
                     Message
                   </button>
                 </>
@@ -106,7 +147,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
                   >
                     Follow
                   </button>
-                  <button className="h-8 w-48 bg-accent rounded-full text-text">
+                  <button onClick={createChatRoomHandler}  className="h-8 w-48 bg-accent rounded-full text-text">
                     Message
                   </button>
                 </>
@@ -137,7 +178,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
             </button>
           </div>
         </div>
-        <ChatBox openChatRoomHandler={openChatRoomHandler} currentChatRoom={currentChatRoom}/>
+        <ChatBox openChatRoomHandler={openChatRoomHandler} currentChatRoom={currentChatRoom} chatRooms={chatRooms || []} />
         <div className="bg-sec2 grid-cols-subgrid col-span-3 row-span-2 rounded-lg text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
           <h1 className="text-2xl text-break text-center">
             Critiques Completed

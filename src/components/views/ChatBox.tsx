@@ -1,6 +1,5 @@
-import { useEffect, useState, FC } from "react";
+import { FC } from "react";
 import ChatRooms from "./ChatRooms";
-import axios from "axios";
 import { useAppSelector } from "../../store/store";
 import ChatRoom from "./ChatRoom";
 
@@ -33,34 +32,17 @@ export interface ChatRoomInterface {
 interface MessagesProps {
   openChatRoomHandler: (chatRoomId: number) => void;
   currentChatRoom: number;
+  chatRooms: ChatRoomInterface[]
 }
 
 const Messages: FC<MessagesProps> = ({
   openChatRoomHandler,
   currentChatRoom,
+  chatRooms
 }) => {
-  const [chatRooms, setChatRooms] = useState<ChatRoomInterface[]>();
-
-
+  
   let loggedInUser = useAppSelector((state) => state.login);
-
-  const getChatRooms = async () => {
-    try {
-      const getChatRoomsRes = await axios.get(
-        `http://localhost:3000/getChatRooms/${loggedInUser.userId}`
-      );
-      console.log(getChatRoomsRes.data);
-
-      setChatRooms(getChatRoomsRes.data);
-    } catch (error) {
-      console.error("Error fetching chat rooms:", error);
-    }
-  };
-
-  useEffect(() => {
-    console.log("inUseEffect getchatrooms");
-    getChatRooms();
-  }, []);
+  
 
   return (
     <>

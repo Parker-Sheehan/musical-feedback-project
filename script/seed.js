@@ -299,9 +299,9 @@ export const seed = async () => {
   }
 }
 
- for(let i = 2; i <= 4; i++){
-  await createChatRoom(1,i)
- }
+//  for(let i = 2; i <= 4; i++){
+//   await createChatRoom(1,i)
+//  }
 
  async function seedMessages() {
   console.log("seeding messages")
@@ -337,7 +337,7 @@ export const seed = async () => {
   }
 }
 
-seedMessages()
+// seedMessages()
 console.log('end')
 
 };

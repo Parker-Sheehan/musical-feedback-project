@@ -254,5 +254,20 @@ const getMessages = async (req,res) =>{
   }
 }
 
+const createChatRoom = async(req,res) => {
+  let {user1Id, user2Id} = req.body
+  console.log(user1Id, user2Id)
+  try{
+    const chatRoom = await ChatRoom.create({
+      user1Id: user1Id,
+      user2Id: user2Id,
+    });
 
-export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages };
+    res.status(200).send(chatRoom)
+  }catch(err){
+    res.status(400).send(err)
+  }
+
+}
+
+export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom };
