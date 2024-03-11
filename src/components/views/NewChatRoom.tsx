@@ -3,17 +3,18 @@ import { ChatRoomInterface } from "./ChatBox";
 import { useAppSelector } from "../../store/store";
 import { Message } from "./ChatBox";
 import axios from "axios";
+import { ProfileData } from "./ProfilePage";
 
-interface ChatRoomProps {
-  chatRooms: ChatRoomInterface[];
-  currentChatRoom: number;
+interface NewChatRoomProps {
+  profileData : ProfileData
   openChatRoomHandler: (chatRoomId: number) => void;
+  getChatRooms: () => void
 }
 
-const ChatRoom: FC<ChatRoomProps> = ({
-  chatRooms,
-  currentChatRoom,
+const NewChatRoom: FC<NewChatRoomProps> = ({
+  profileData,
   openChatRoomHandler,
+  getChatRooms
 }) => {
   const loggedInUser = useAppSelector((state) => state.login);
 
@@ -31,22 +32,18 @@ const ChatRoom: FC<ChatRoomProps> = ({
     
   };
 
-  const handleSendMessage = async () => {
-    let recipientId;
-    let senderId = loggedInUser.userId;
-
-
-    if(senderId === chatRoom.user1Id){
-        recipientId = chatRoom.user2Id
-    }else{
-        recipientId = chatRoom.user1Id
-    }
-
-    console.log(chatRoom)
-    let createNewMessageResponse = await axios.post(`http://localhost:3000/createNewMessage`, {content: message, chatRoomId: currentChatRoom, recipientId: recipientId, senderId: senderId})
-
-    console.log(createNewMessageResponse.data)
-    setMessagesArray(createNewMessageResponse.data)
+  const createChatRoomHandler = async () => {
+    console.log("hit createChatRoom");
+    console.log(profileData.userId);
+    
+    console.log(profileData);
+    let createChatRoomResponse = await axios.post(
+      "http://localhost:3000/createChatRoom",
+      { user1Id: loggedInUser.userId, user2Id: profileData.userId, content: message }
+    );
+    console.log(createChatRoomResponse);
+    getChatRooms()
+    openChatRoomHandler(createChatRoomResponse.data.chatRoomId)
   };
 
   return (
@@ -62,16 +59,9 @@ const ChatRoom: FC<ChatRoomProps> = ({
             {"<"}
           </h5>
           <h3 className="text-black text-m font-heading text-center">
-          {chatRoom && (chatRoom.user1Id === loggedInUser.userId ? chatRoom.user2.displayName : chatRoom.user1.displayName)}
+          {profileData && profileData.displayName}
           </h3>
-          <div className="  h-4/5 w-full flex flex-col overflow-scroll max-w-[240px]" ref={messagesRef}>
-            {messagesArray && messagesArray.map((mappingMessage) => {
-            if(mappingMessage.senderId === loggedInUser.userId){
-                return <div className=" bg-white size-fit self-end mb-1 rounded-md px-1">{mappingMessage.content}</div>
-            }else {
-                return <div className=" bg-blue-100 size-fit text-left mb-1 rounded-md px-1">{mappingMessage.content}</div>
-            }
-            })}
+          <div className="  h-4/5 w-full flex flex-col" ref={messagesRef}>
           </div>
           <div>
             <textarea
@@ -82,7 +72,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
             />
             <button
               className=" size-full bg-sec2 text-text rounded-md"
-              onClick={handleSendMessage}
+              onClick={createChatRoomHandler}
             >
               Send
             </button>
@@ -93,4 +83,4 @@ const ChatRoom: FC<ChatRoomProps> = ({
   );
 };
 
-export default ChatRoom;
+export default NewChatRoom;

@@ -112,8 +112,8 @@ app.post("/createChatRoom", verifyToken, createChatRoom)
 
 await db
   .sync
-  // ()  
-    ({ force: true });
-  seed()
+  ()  
+    // ({ force: true });
+  // seed()
 
 server.listen(3000, console.log("listening on port 3000"));

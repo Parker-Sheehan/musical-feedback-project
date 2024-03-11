@@ -28,13 +28,27 @@ const ProfileInfo: FC<ProfileDataProp> = ({
 
   const [togglePfpModal, setTogglePfpModal] = useState<boolean>(false);
 
-  const [currentChatRoom, setCurrentChatRoom] = useState<number>(0)
+  const [currentChatRoom, setCurrentChatRoom] = useState<number>(0);
 
-  const openChatRoomHandler = (chatRoomId: number) => {
-    setCurrentChatRoom(chatRoomId)
+  const [chatRooms, setChatRooms] = useState<ChatRoomInterface[]>([]);
+
+  useEffect(() => {
+    console.log("inUseEffect getchatrooms");
+    getChatRooms();
+  }, []);
+
+  if(profileData.userId === loggedInUserId && currentChatRoom !== 0){
+    setCurrentChatRoom(0)
   }
 
-  const [chatRooms, setChatRooms] = useState<ChatRoomInterface[]>();
+  const openChatRoomHandler = (chatRoomId: number) => {
+    chatRooms.map((chatRoom)=>{
+      if(chatRoom.chatRoomId === chatRoomId){
+        // let 
+      }
+    })
+    setCurrentChatRoom(chatRoomId);
+  };
 
   const getChatRooms = async () => {
     try {
@@ -49,32 +63,24 @@ const ProfileInfo: FC<ProfileDataProp> = ({
     }
   };
 
-  useEffect(() => {
-    console.log("inUseEffect getchatrooms");
-    getChatRooms();
-  }, []);
 
-  
-
-  const createChatRoomHandler = async () => {
-    console.log("hit createChatRoom")
-    console.log(chatRooms)
-    console.log(profileData.userId)
-    if(chatRooms){
-      chatRooms.forEach(chatRoom => {
-        console.log(chatRoom)
-        if(chatRoom.user1Id === profileData.userId || chatRoom.user2Id === profileData.userId){
-          setCurrentChatRoom(chatRoom.chatRoomId)
-          return
-        }
-      }
-      );
+  const messageButtonHandler = () => {
+    console.log(chatRooms);
+    if (chatRooms) {
+      console.log("in if of messageButton handler")
+      chatRooms.forEach((chatRoom) => {
+        console.log(chatRoom);
+        if (
+          chatRoom.user1Id === profileData.userId ||
+          chatRoom.user2Id === profileData.userId
+        ) {
+          setCurrentChatRoom(chatRoom.chatRoomId);
+          return;
+        } 
+      });
     }
-    console.log(profileData)
-    console.log(loggedInUserId)
-    let createChatRoomResponse = await axios.post('http://localhost:3000/createChatRoom', {user1Id: loggedInUserId, user2Id: profileData.userId} )
-      console.log(createChatRoomResponse)
-    // setCurrentChatRoom
+      setCurrentChatRoom(-1)
+      return
   }
 
   const handleProfilePictureClick = () => {
@@ -87,7 +93,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
     }
   );
 
-  console.log(profileData.following)
+  // console.log(profileData.following);
   // console.log(loggedInUserId, profileData.userId)
 
   return (
@@ -100,7 +106,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
       />
       <div className="m-10 w-8/12 h-3/4 rounded-lg lg:grid lg:grid-rows-2 lg:grid-cols-10 gap-3">
         <div className="lg:w-2/5 w-full mb-3 lg:mb-0 bg-background2 lg:grid-cols-subgrid lg:col-span-5 lg:grid-row-subgrid lg:row-span-2 rounded-lg grid grid-col-2 grid-row-6 lg:gap-1 ">
-          {(loggedInUserId === profileData.userId && profileData.userId) && (
+          {loggedInUserId === profileData.userId && profileData.userId && (
             <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
               <div
                 className="bg-cover bg-center bg-no-repeat size-36 rounded-full"
@@ -114,7 +120,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
               </div>
             </div>
           )}
-          {(loggedInUserId !== profileData.userId && profileData.userId)  && (
+          {loggedInUserId !== profileData.userId && profileData.userId && (
             <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
               <div
                 className="bg-cover bg-center bg-no-repeat size-36 rounded-full"
@@ -134,7 +140,10 @@ const ProfileInfo: FC<ProfileDataProp> = ({
                   >
                     Unfollow
                   </button>
-                  <button onClick={createChatRoomHandler}  className="h-8 w-48 bg-accent rounded-full text-text">
+                  <button
+                    onClick={messageButtonHandler}
+                    className="h-8 w-48 bg-accent rounded-full text-text"
+                  >
                     Message
                   </button>
                 </>
@@ -147,7 +156,10 @@ const ProfileInfo: FC<ProfileDataProp> = ({
                   >
                     Follow
                   </button>
-                  <button onClick={createChatRoomHandler}  className="h-8 w-48 bg-accent rounded-full text-text">
+                  <button
+                    onClick={messageButtonHandler}
+                    className="h-8 w-48 bg-accent rounded-full text-text"
+                  >
                     Message
                   </button>
                 </>
@@ -178,7 +190,13 @@ const ProfileInfo: FC<ProfileDataProp> = ({
             </button>
           </div>
         </div>
-        <ChatBox openChatRoomHandler={openChatRoomHandler} currentChatRoom={currentChatRoom} chatRooms={chatRooms || []} />
+        <ChatBox
+          openChatRoomHandler={openChatRoomHandler}
+          currentChatRoom={currentChatRoom}
+          chatRooms={chatRooms || []}
+          profileData={profileData}
+          getChatRooms={getChatRooms}
+        />
         <div className="bg-sec2 grid-cols-subgrid col-span-3 row-span-2 rounded-lg text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
           <h1 className="text-2xl text-break text-center">
             Critiques Completed

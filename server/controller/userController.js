@@ -204,6 +204,27 @@ const getChatRooms = async (req,res) => {
   res.status(200).send(chatRooms)
 }
 
+const getMessages = async (req,res) =>{
+  console.log(req.params.chatRoomId)
+  let {chatRoomId} = req.params
+
+  console.log(chatRoomId)
+  
+      let messageArray = await Message.findAll({
+        where: {
+          chatRoomId: +chatRoomId
+        }
+      })
+      
+      // console.log(messageArray)
+      
+      res.status(200).send(messageArray)
+  try{
+  }catch(err){
+    res.status(400).send(err, "error with db query")
+  }
+}
+
 const createNewMessage = async (req,res) => {
   console.log(req.body)
   console.log("createNewMessage hit")
@@ -233,35 +254,19 @@ const createNewMessage = async (req,res) => {
   }
 }
 
-const getMessages = async (req,res) =>{
-  console.log(req.params.chatRoomId)
-  let {chatRoomId} = req.params
-
-  console.log(chatRoomId)
-  
-      let messageArray = await Message.findAll({
-        where: {
-          chatRoomId: +chatRoomId
-        }
-      })
-      
-      // console.log(messageArray)
-      
-      res.status(200).send(messageArray)
-  try{
-  }catch(err){
-    res.status(400).send(err, "error with db query")
-  }
-}
-
 const createChatRoom = async(req,res) => {
-  let {user1Id, user2Id} = req.body
+  let {user1Id, user2Id, content} = req.body
   console.log(user1Id, user2Id)
   try{
     const chatRoom = await ChatRoom.create({
       user1Id: user1Id,
       user2Id: user2Id,
     });
+
+    console.log(chatRoom.id)
+
+    let newMessage = await Message.create({ senderId : user1Id, recipientId : user2Id, content : content, chatRoomId: chatRoom.chatRoomId });
+
 
     res.status(200).send(chatRoom)
   }catch(err){

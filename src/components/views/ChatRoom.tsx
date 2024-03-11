@@ -21,13 +21,21 @@ const ChatRoom: FC<ChatRoomProps> = ({
 
   const [messagesArray, setMessagesArray] = useState<Message[]>([]);
 
+  const messagesRef = useRef<HTMLDivElement>(null);
+
   const chatRoom = useMemo(() => {
     return chatRooms.filter((chatRoom) => chatRoom.chatRoomId === currentChatRoom)[0];
   }, [chatRooms, currentChatRoom])
-
-  console.log(chatRoom)
-
-  const messagesRef = useRef<HTMLDivElement>(null);
+  
+    useEffect(() => {
+      getMessageArray();
+    }, [currentChatRoom]);
+  
+    useEffect(() => {
+      if (messagesRef.current) {
+        messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+      }
+    }, [messagesArray]);
 
 
   const getMessageArray = async () => {
@@ -38,18 +46,6 @@ const ChatRoom: FC<ChatRoomProps> = ({
     setMessagesArray(getMessageArrayResponse.data);
   };
 
-  useEffect(() => {
-    getMessageArray();
-  }, [currentChatRoom]);
-
-  useEffect(() => {
-    if (messagesRef.current) {
-      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
-    }
-  }, [messagesArray]);
-
-  console.log(messagesArray);
-
   const handleMessageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -59,8 +55,6 @@ const ChatRoom: FC<ChatRoomProps> = ({
     event.target.style.height = event.target.scrollHeight + "px";
     
   };
-
-  console.log(messagesArray);
 
   const handleSendMessage = async () => {
     let recipientId;
@@ -78,6 +72,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
 
     console.log(createNewMessageResponse.data)
     setMessagesArray(createNewMessageResponse.data)
+    setMessage("")
   };
 
   return (

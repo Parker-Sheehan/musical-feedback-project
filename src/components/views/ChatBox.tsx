@@ -2,6 +2,8 @@ import { FC } from "react";
 import ChatRooms from "./ChatRooms";
 import { useAppSelector } from "../../store/store";
 import ChatRoom from "./ChatRoom";
+import { ProfileData } from "./ProfilePage";
+import NewChatRoom from "./NewChatRoom"
 
 export interface MessageUser {
   profilePicture: string;
@@ -33,12 +35,16 @@ interface MessagesProps {
   openChatRoomHandler: (chatRoomId: number) => void;
   currentChatRoom: number;
   chatRooms: ChatRoomInterface[]
+  profileData: ProfileData;
+  getChatRooms: () => void
 }
 
 const Messages: FC<MessagesProps> = ({
   openChatRoomHandler,
   currentChatRoom,
-  chatRooms
+  chatRooms,
+  profileData,
+  getChatRooms
 }) => {
   
   let loggedInUser = useAppSelector((state) => state.login);
@@ -49,7 +55,7 @@ const Messages: FC<MessagesProps> = ({
       {currentChatRoom === 0 && (
         <div className="bg-gradient-to-br from-prim to-accent grid-cols-subgrid col-span-2 grid-row-subgrid row-span-4 rounded-lg hidden lg:flex min-w-[240px] h-[720px]">
           <div className="h-full w-full p-1">
-            <div className="h-full overflow-scroll overflow-x-hidden scroll rounded ">
+            <div className="h-full overflow-y-scroll overflow-x-hidden scroll rounded ">
               <h3 className="text-black text-m font-heading text-center">
                 Messages
               </h3>
@@ -92,8 +98,11 @@ const Messages: FC<MessagesProps> = ({
           </div>
         </div>
       )}
-      {currentChatRoom !== 0 && chatRooms && 
+      {currentChatRoom > 0 && chatRooms && 
       <ChatRoom openChatRoomHandler={openChatRoomHandler} chatRooms={chatRooms} currentChatRoom={currentChatRoom}/>}
+      {currentChatRoom === -1 && profileData && 
+      <NewChatRoom profileData={profileData} openChatRoomHandler={openChatRoomHandler} getChatRooms={getChatRooms}/>
+      }
     </>
   );
 };
