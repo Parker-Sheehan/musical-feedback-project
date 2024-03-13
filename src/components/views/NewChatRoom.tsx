@@ -4,6 +4,10 @@ import { useAppSelector } from "../../store/store";
 import { Message } from "./ChatBox";
 import axios from "axios";
 import { ProfileData } from "./ProfilePage";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3000");
+
 
 interface NewChatRoomProps {
   profileData : ProfileData
@@ -42,7 +46,13 @@ const NewChatRoom: FC<NewChatRoomProps> = ({
       { user1Id: loggedInUser.userId, user2Id: profileData.userId, content: message }
     );
     console.log(createChatRoomResponse);
-    getChatRooms()
+    socket.emit('joinRoom', `userRoom${profileData.userId}`)
+    socket.emit("newChatRoom", {
+      roomId: `userRoom${profileData.userId}`,
+      newChatRoom: createChatRoomResponse.data
+    });
+    socket.emit("leaveRoom", `userRoom${profileData.userId}`)
+    await getChatRooms()
     openChatRoomHandler(createChatRoomResponse.data.chatRoomId)
   };
 

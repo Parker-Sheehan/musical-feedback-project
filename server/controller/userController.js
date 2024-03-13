@@ -257,21 +257,47 @@ const createNewMessage = async (req,res) => {
 const createChatRoom = async(req,res) => {
   let {user1Id, user2Id, content} = req.body
   console.log(user1Id, user2Id)
-  try{
-    const chatRoom = await ChatRoom.create({
+  // try{
+    let newChatRoom = await ChatRoom.create({
       user1Id: user1Id,
       user2Id: user2Id,
     });
 
-    console.log(chatRoom.id)
+    console.log(newChatRoom)
 
-    let newMessage = await Message.create({ senderId : user1Id, recipientId : user2Id, content : content, chatRoomId: chatRoom.chatRoomId });
+    let newMessage = await Message.create({ senderId : user1Id, recipientId : user2Id, content : content, chatRoomId: newChatRoom.chatRoomId });
 
+    console.log(newMessage)
+
+    let chatRoom = await ChatRoom.findOne({
+      where: {
+        [Op.and]: [
+          {user1Id : user1Id},
+          {user2Id: user2Id}
+        ]
+      },
+      include: [{
+        model: Message,
+        // order: [["messageId", "ASC"]]
+      },
+      {
+        model: User,
+        as: 'user1', 
+        attributes: ['userId', 'displayName', 'profilePicture'] 
+      },
+      {
+        model: User,
+        as: 'user2',
+        attributes: ['userId', 'displayName', 'profilePicture'] 
+      }],
+    })
+
+    console.log(chatRoom, "controller")
 
     res.status(200).send(chatRoom)
-  }catch(err){
-    res.status(400).send(err)
-  }
+  // }catch(err){
+  //   res.status(400).send(err)
+  // }
 
 }
 

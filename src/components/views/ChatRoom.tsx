@@ -3,6 +3,9 @@ import { ChatRoomInterface } from "./ChatBox";
 import { useAppSelector } from "../../store/store";
 import { Message } from "./ChatBox";
 import axios from "axios";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3000");
 
 interface ChatRoomProps {
   chatRooms: ChatRoomInterface[];
@@ -24,11 +27,16 @@ const ChatRoom: FC<ChatRoomProps> = ({
   const messagesRef = useRef<HTMLDivElement>(null);
 
   const chatRoom = useMemo(() => {
-    return chatRooms.filter((chatRoom) => chatRoom.chatRoomId === currentChatRoom)[0];
+    console.log(chatRooms)
+    console.log(currentChatRoom)
+    let updatedRoom = chatRooms.filter((chatRoom) => chatRoom.chatRoomId === currentChatRoom)[0];
+    console.log(updatedRoom, "UseMemo")
+    setMessagesArray(updatedRoom.messages)
+    return updatedRoom
   }, [chatRooms, currentChatRoom])
   
     useEffect(() => {
-      getMessageArray();
+      // getMessageArray();
     }, [currentChatRoom]);
   
     useEffect(() => {
@@ -38,13 +46,16 @@ const ChatRoom: FC<ChatRoomProps> = ({
     }, [messagesArray]);
 
 
-  const getMessageArray = async () => {
-    let getMessageArrayResponse = await axios.get(
-      `http://localhost:3000/getMessages/${currentChatRoom}`
-    );
-    console.log(getMessageArrayResponse);
-    setMessagesArray(getMessageArrayResponse.data);
-  };
+  // const getMessageArray = async () => {
+  //   let getMessageArrayResponse = await axios.get(
+  //     `http://localhost:3000/getMessages/${currentChatRoom}`
+  //   );
+
+  //   console.log(getMessageArrayResponse);
+  //   setMessagesArray(getMessageArrayResponse.data);
+  // };
+
+
 
   const handleMessageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -60,6 +71,8 @@ const ChatRoom: FC<ChatRoomProps> = ({
     let recipientId;
     let senderId = loggedInUser.userId;
 
+    console.log(chatRoom)
+
 
     if(senderId === chatRoom.user1Id){
         recipientId = chatRoom.user2Id
@@ -69,6 +82,12 @@ const ChatRoom: FC<ChatRoomProps> = ({
 
     console.log(chatRoom)
     let createNewMessageResponse = await axios.post(`http://localhost:3000/createNewMessage`, {content: message, chatRoomId: currentChatRoom, recipientId: recipientId, senderId: senderId})
+
+    socket.emit("sendMessage", {
+      newMessageArray: createNewMessageResponse.data,
+      roomId: currentChatRoom
+
+    });
 
     console.log(createNewMessageResponse.data)
     setMessagesArray(createNewMessageResponse.data)

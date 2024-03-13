@@ -1,9 +1,12 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import ChatRooms from "./ChatRooms";
 import { useAppSelector } from "../../store/store";
 import ChatRoom from "./ChatRoom";
 import { ProfileData } from "./ProfilePage";
 import NewChatRoom from "./NewChatRoom"
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3000")
 
 export interface MessageUser {
   profilePicture: string;
@@ -37,6 +40,7 @@ interface MessagesProps {
   chatRooms: ChatRoomInterface[]
   profileData: ProfileData;
   getChatRooms: () => void
+  handleSetChatRooms: (newChatRoomArray: ChatRoomInterface[]) => void
 }
 
 const Messages: FC<MessagesProps> = ({
@@ -44,10 +48,74 @@ const Messages: FC<MessagesProps> = ({
   currentChatRoom,
   chatRooms,
   profileData,
-  getChatRooms
+  getChatRooms,
+  handleSetChatRooms
 }) => {
   
   let loggedInUser = useAppSelector((state) => state.login);
+
+  useEffect(() => {
+    // Join chat rooms when component mounts
+    chatRooms.forEach(chatRoom => {
+      socket.emit('joinRoom', chatRoom.chatRoomId);
+    });
+
+    socket.emit('joinRoom', `userRoom${loggedInUser.userId}`)
+
+    // Listen for incoming messages
+    socket.on('message', (message) => {
+      console.log(message)
+      if(message.roomId !== typeof("string")){
+
+      }
+        // Handle incoming message
+        let newChatRoomArray = chatRooms.map((chatRoom) => {
+          if(chatRoom.chatRoomId === message.roomId){
+            chatRoom.messages = message.newMessageArray
+          }
+          return chatRoom
+        })
+        
+      // Put chat room at front of array
+      for(let i = 0; i < newChatRoomArray.length; i++){
+        if(newChatRoomArray[i].chatRoomId === message.roomId){
+          let newChatRoom = newChatRoomArray[i]
+          newChatRoomArray.splice(i, 1)
+          newChatRoomArray.unshift(newChatRoom)
+          }
+      }
+      console.log('Received message:', message);
+      handleSetChatRooms(newChatRoomArray)
+    });
+
+    socket.on('newChatRoom', ({newChatRoom}) => {
+
+      // Join new chat room
+      console.log(newChatRoom)
+      socket.emit('joinRoom', newChatRoom.chatRoomId);
+      
+      // add new chatRoom obj to chatRoomArray
+      let newChatRoomArray = chatRooms
+      newChatRoomArray = [newChatRoom, ... newChatRoomArray]
+
+      console.log(newChatRoomArray)
+
+      handleSetChatRooms(newChatRoomArray)
+    })
+
+    // Clean up when component unmounts
+    // return () => {
+    //   // Leave chat rooms when component unmounts or when chatRooms change
+    //   chatRooms.forEach(chatRoom => {
+    //     socket.emit('leaveRoom', chatRoom.chatRoomId);
+    //   });
+      
+    //   // Close Socket.IO connection when component unmounts
+    //   socket.disconnect();
+    // };
+  }, [chatRooms]);
+
+  console.log(chatRooms)
   
 
   return (

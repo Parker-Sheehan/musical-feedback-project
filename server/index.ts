@@ -12,9 +12,16 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
+const { Server } = require("socket.io"); // Import Socket.IO library
 const app = express();
 const server = http.createServer(app);
-require("dotenv").config();
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 
 // const SequelizeStore = require('express-session-sequelize')(session.Store);
 
@@ -52,7 +59,6 @@ require("dotenv").config();
 
 // app.use(session(sessionConfig));
 
-// console.log("why",session,"what")
 
 app.use(express.json());
 app.use(
@@ -110,10 +116,59 @@ app.get("/getMessages/:chatRoomId", verifyToken, getMessages)
 app.post("/createChatRoom", verifyToken, createChatRoom)
 
 
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  // Handle joining chat rooms
+  socket.on("joinRoom", (roomId) => {
+    if(typeof(roomId) == typeof('string')){
+      socket.join(roomId)
+    }else{
+
+      socket.join(roomId.toString());
+    }
+    console.log(`User joined chat room ${roomId}`);
+  });
+
+  // Handle leaving chat rooms
+  socket.on("leaveRoom", (roomId) => {
+    socket.leave(roomId.toString());
+
+    if(typeof(roomId) == typeof('string')){
+      socket.leave(roomId);
+    }else{
+
+      socket.leave(roomId.toString());
+    }
+
+    console.log(`User left chat room ${roomId}`);
+  });
+
+  // Handle message broadcasting
+  socket.on("sendMessage", (data) => {
+    // Broadcast message to everyone in the same room
+    console.log(data)
+    io.to(data.roomId.toString()).emit("message", data);
+  });
+
+  socket.on("newChatRoom", (data) => {
+    console.log(data)
+    io.to(data.roomId).emit("newChatRoom", data)  
+  });
+
+  // Handle disconnection
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
+// await db.sync();  
+
 await db
   .sync
-  ()  
-    // ({ force: true });
-  // seed()
+  // ()  
+    ({ force: true });
+  seed()
+server.listen(3000, console.log("Express server listening on port 3000"));
 
-server.listen(3000, console.log("listening on port 3000"));
+// server.listen(3000, console.log("listening on port 3000"));

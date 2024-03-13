@@ -37,16 +37,9 @@ const ProfileInfo: FC<ProfileDataProp> = ({
     getChatRooms();
   }, []);
 
-  if(profileData.userId === loggedInUserId && currentChatRoom !== 0){
-    setCurrentChatRoom(0)
-  }
 
   const openChatRoomHandler = (chatRoomId: number) => {
-    chatRooms.map((chatRoom)=>{
-      if(chatRoom.chatRoomId === chatRoomId){
-        // let 
-      }
-    })
+
     setCurrentChatRoom(chatRoomId);
   };
 
@@ -63,6 +56,9 @@ const ProfileInfo: FC<ProfileDataProp> = ({
     }
   };
 
+  const handleSetChatRooms = (newChatRoomArray: ChatRoomInterface[]) => {
+    setChatRooms(newChatRoomArray)
+  }
 
   const messageButtonHandler = () => {
     console.log(chatRooms);
@@ -196,6 +192,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
           chatRooms={chatRooms || []}
           profileData={profileData}
           getChatRooms={getChatRooms}
+          handleSetChatRooms={handleSetChatRooms}
         />
         <div className="bg-sec2 grid-cols-subgrid col-span-3 row-span-2 rounded-lg text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
           <h1 className="text-2xl text-break text-center">
