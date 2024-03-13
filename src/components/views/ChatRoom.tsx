@@ -4,7 +4,7 @@ import { useAppSelector } from "../../store/store";
 import { Message } from "./ChatBox";
 import axios from "axios";
 import io from "socket.io-client";
-
+import { Link } from "react-router-dom";
 const socket = io("http://localhost:3000");
 
 interface ChatRoomProps {
@@ -99,18 +99,56 @@ const ChatRoom: FC<ChatRoomProps> = ({
       <div className="h-full w-full p-1">
         <div className="h-full text-wrap rounded">
           <h5
-            className="absolute ml-1"
+            className="absolute ml-1 hover:cursor-pointer"
             onClick={() => {
               openChatRoomHandler(0);
             }}
           >
             {"<"}
           </h5>
-          <h3 className="text-black text-m font-heading text-center">
-          {chatRoom && (chatRoom.user1Id === loggedInUser.userId ? chatRoom.user2.displayName : chatRoom.user1.displayName)}
+          {chatRoom && (chatRoom.user1Id === loggedInUser.userId ? 
+            (
+              <Link className=" decoration-transparent " to={"/Profile/" + chatRoom.user2Id}>
+          <h3 className="text-black text-m font-heading text-center hover:cursor-pointer">
+            {chatRoom.user2.displayName}
           </h3>
+          </Link>
+            )
+             : 
+             (
+              <Link className=" decoration-transparent" to={"/Profile/" + chatRoom.user1Id}>
+          <h3 className="text-black text-m font-heading text-center hover:cursor-pointer">
+            {chatRoom.user1.displayName}
+          </h3>
+          </Link>
+             )
+            
+            )}
+          
           <div className="  h-4/5 w-full flex flex-col overflow-scroll max-w-[240px]" ref={messagesRef}>
-            {messagesArray && messagesArray.map((mappingMessage) => {
+            {messagesArray && messagesArray.map((mappingMessage, index) => {
+              if(!messagesArray[index - 1] || mappingMessage.createdAt.split("T")[0] !== messagesArray[index - 1].createdAt.split("T")[0]){
+                // console
+                <h6>{mappingMessage.createdAt.split("T")[0]}</h6>
+                if(mappingMessage.senderId === loggedInUser.userId){
+
+                  return (
+                    <>
+                    <div className=" text-center text-text font-body bg-slate-400 w-1/2 place-self-center m-3">{mappingMessage.createdAt.split("T")[0]}</div>
+                    <div className=" bg-white size-fit self-end mb-1 rounded-md px-1">{mappingMessage.content}</div>
+                    </>
+                  ) 
+              }else {
+                return (
+                  <>
+                    <div className=" text-center text-text font-body bg-slate-400 w-1/2 place-self-center m-3">{mappingMessage.createdAt.split("T")[0]}</div>
+                  <div className=" bg-blue-100 size-fit text-left mb-1 rounded-md px-1">{mappingMessage.content}</div>
+                    </>
+                  )
+              }
+                
+              }
+
             if(mappingMessage.senderId === loggedInUser.userId){
                 return <div className=" bg-white size-fit self-end mb-1 rounded-md px-1">{mappingMessage.content}</div>
             }else {

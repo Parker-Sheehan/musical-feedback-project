@@ -105,7 +105,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
           {loggedInUserId === profileData.userId && profileData.userId && (
             <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
               <div
-                className="bg-cover bg-center bg-no-repeat size-36 rounded-full"
+                className="bg-cover bg-center bg-no-repeat size-36 rounded-full hover:cursor-pointer"
                 style={{
                   backgroundImage: `url(${profileData.profilePicture})`,
                 }}
@@ -123,7 +123,6 @@ const ProfileInfo: FC<ProfileDataProp> = ({
                 style={{
                   backgroundImage: `url(${profileData.profilePicture})`,
                 }}
-                onClick={handleProfilePictureClick}
               ></div>
               <div className="text-text font-heading text-xl">
                 {profileData.displayName}
