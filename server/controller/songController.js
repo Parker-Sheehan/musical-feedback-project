@@ -284,7 +284,7 @@ const addTokenToSong = async(req, res) => {
   try{
     let song = await Song.update(
       {
-        userReviewToken: Sequelize.literal("song_review_token + 1"),
+        songReviewToken: Sequelize.literal("song_review_token + 1"),
       },
       { where: { songId:  req.params.songId} }
     )
@@ -296,8 +296,8 @@ const addTokenToSong = async(req, res) => {
       { where: { userId: userId} }
     );
   
-    console.log(song)
-    console.log(user)
+    console.log(song, "song")
+    console.log(user, "user")
   
     res.send(song)
 
@@ -308,6 +308,15 @@ const addTokenToSong = async(req, res) => {
 
 }
 
+const submitCritiqueScore = async (req, res) => {
+  let { reviewId, critiqueScore} = req.body
+  await Review.update({
+    critiqueScore: critiqueScore
+  }, {
+    where: {reviewId: reviewId}
+  })
+}
+
 export {
   createNewSong,
   getSong,
@@ -315,5 +324,6 @@ export {
   getSongProfileInfo,
   postCritique,
   getReviewInfo,
-  addTokenToSong
+  addTokenToSong,
+  submitCritiqueScore
 };

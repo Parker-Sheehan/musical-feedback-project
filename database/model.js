@@ -58,6 +58,12 @@ export class ChatRoom extends Model {
   }
 }
 
+export class RecipientSeen extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
 User.init(
   {
     userId: {
@@ -152,6 +158,10 @@ Review.init(
     artistCritique: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    critiqueScore: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   },
   {
@@ -248,6 +258,11 @@ Message.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    recipientSeen: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
+    ,
     content: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -262,6 +277,30 @@ Message.init(
     sequelize: db,
   }
 );
+
+RecipientSeen.init(
+  {
+    messageId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+    },
+    recipientId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+    },
+    seen: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  },
+  {
+    modelName: "recipientSeen",
+    sequelize: db,
+  }
+);
+
 
 ChatRoom.init(
   {

@@ -4,8 +4,8 @@ import { db } from "../database/model";
 import { seed } from "../script/seed";
 import { signUp, login, verifyToken } from "./controller/authController";
 import session from "express-session";
-import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom } from "./controller/userController";
-import {createNewSong, getSong, getRandomSong, getSongProfileInfo, postCritique, getReviewInfo, addTokenToSong} from './controller/songController'
+import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen } from "./controller/userController";
+import {createNewSong, getSong, getRandomSong, getSongProfileInfo, postCritique, getReviewInfo, addTokenToSong, submitCritiqueScore} from './controller/songController'
 const require = createRequire(import.meta.url);
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -115,6 +115,10 @@ app.get("/getMessages/:chatRoomId", verifyToken, getMessages)
 
 app.post("/createChatRoom", verifyToken, createChatRoom)
 
+app.post('/messageSeen', verifyToken, messageSeen)
+
+app.post('/submitCritiqueScore', verifyToken, submitCritiqueScore)
+
 
 io.on("connection", (socket) => {
   console.log("A user connected");
@@ -162,13 +166,13 @@ io.on("connection", (socket) => {
   });
 });
 
-// await db.sync();  
+// await db.sync();   
 
 await db
   .sync
-  // ()  
-    ({ force: true });
-  seed()
+  ()  
+    // ({ force: true });
+  // seed()
 server.listen(3000, console.log("Express server listening on port 3000"));
 
 // server.listen(3000, console.log("listening on port 3000"));

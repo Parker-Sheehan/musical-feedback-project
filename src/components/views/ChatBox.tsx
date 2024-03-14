@@ -20,6 +20,7 @@ export interface Message {
   createdAt: string;
   messageId: number;
   recipientId: number;
+  recipientSeen: boolean;
   senderId: number;
 }
 
@@ -132,8 +133,14 @@ const Messages: FC<MessagesProps> = ({
                   chatRooms.map((chatRoom: ChatRoomInterface) => {
                     if (loggedInUser.userId === chatRoom.user1Id) {
                       let { profilePicture, displayName } = chatRoom.user2;
-                      let message =
-                        chatRoom.messages[chatRoom.messages.length - 1].content;
+                      let message = chatRoom.messages[chatRoom.messages.length - 1].content;
+                      let seen = true
+                      for(let i = chatRoom.messages.length -1; i >= 0; i--){
+                        if(chatRoom.messages[i].recipientId === loggedInUser.userId){
+                          seen = chatRoom.messages[i].recipientSeen 
+                          break
+                        }
+                      }
                       return (
                         <ChatRooms
                           openChatRoomHandler={openChatRoomHandler}
@@ -142,13 +149,20 @@ const Messages: FC<MessagesProps> = ({
                           displayName={displayName}
                           message={message}
                           chatRoomId={chatRoom.chatRoomId}
-
+                          chatRooms={chatRooms}
+                          seen={seen}
+                          handleSetChatRooms={handleSetChatRooms}
                         />
                       );
                     } else {
-                      let { profilePicture, displayName } = chatRoom.user1;
-                      let message =
-                        chatRoom.messages[chatRoom.messages.length - 1].content;
+                      let { profilePicture, displayName } = chatRoom.user1; 
+                      let message = chatRoom.messages[chatRoom.messages.length - 1].content;
+                      let seen = true
+                      for(let i = chatRoom.messages.length -1; i >= 0; i--){
+                        if(chatRoom.messages[i].recipientId === loggedInUser.userId){
+                          seen = chatRoom.messages[i].recipientSeen 
+                        }
+                      }
                       return (
                         <ChatRooms
                         openChatRoomHandler={openChatRoomHandler}
@@ -157,6 +171,10 @@ const Messages: FC<MessagesProps> = ({
                         displayName={displayName}
                         message={message}
                         chatRoomId={chatRoom.chatRoomId}
+                        chatRooms={chatRooms}
+                        seen={seen}
+                        handleSetChatRooms={handleSetChatRooms}
+
                         />
                       );
                     }

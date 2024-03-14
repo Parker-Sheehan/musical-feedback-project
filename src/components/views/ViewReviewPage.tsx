@@ -1,51 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 import SongInfoCard from "../main/SongInfoCard";
+import { useAppSelector } from "../../store/store";
 
 import { ReviewInfo } from "./SongProfilePage";
 import { SongAndUser } from "./ReviewSong";
 
 interface CritiqueObject {
-  aestheticCritique: string
-  technicalCritique: string
-  artistCritique: string
+  aestheticCritique: string;
+  technicalCritique: string;
+  artistCritique: string;
+  critiqueScore: number | null;
+  reviewId: number
 }
 
 const ViewReviewPage = () => {
+  let loggedInUser = useAppSelector((state) => state.login);
+
   const [reviewInfo, setReviewInfo] = useState<CritiqueObject>();
   const [songInfo, setSongInfo] = useState<SongAndUser | null>(null);
-  const [reviewByName, setReviewByName] = useState<string>()
-  let [artistQuestion, setArtistQuestion] = useState<string>('')
+  const [reviewByName, setReviewByName] = useState<string>();
+  let [artistQuestion, setArtistQuestion] = useState<string>("");
 
-
+  const [critiqueScore, setCritiqueScore] = useState<number | undefined>();
 
   console.log(reviewInfo);
 
   const { id } = useParams();
 
+  const submitCritiqueScoreHandler = async() => {
+    if (critiqueScore !== undefined && critiqueScore >= 0 && critiqueScore <= 5 && reviewInfo?.critiqueScore === null) {
+      console.log(critiqueScore)
+      // Submit the critique score to the server
+      let submitCritiqueScore = await axios.post(`http://localhost:3000/submitCritiqueScore`, {reviewId: reviewInfo.reviewId, critiqueScore: critiqueScore});
+
+      console.log("Submitting critique score:", critiqueScore);
+    } else {
+      console.error("Invalid critique score");
+    }
+  };
+  
+
   const getReviewInfo = async () => {
     console.log("yay");
     let reviewData = await axios.get(`http://localhost:3000/getReview/${id}`);
 
-
-
-    // setReviewInfo()
-    let {aestheticCritique, technicalCritique, artistCritique} = reviewData.data
-
-    let critiqueObject:CritiqueObject = {
-      aestheticCritique,
-      technicalCritique,
-      artistCritique
-    }
-
-    setReviewInfo(critiqueObject)
-
     console.log(reviewData.data)
 
-    let {song, reviewFor, reviewBy} = reviewData.data
+    // setReviewInfo()
+    let { aestheticCritique, technicalCritique, artistCritique, critiqueScore, reviewId } =
+      reviewData.data;
 
-    setArtistQuestion(song.artistQuestion)
+    let critiqueObject: CritiqueObject = {
+      aestheticCritique,
+      technicalCritique,
+      artistCritique,
+      critiqueScore,
+      reviewId
+    };
+
+    setReviewInfo(critiqueObject);
+
+    console.log(reviewData.data);
+
+    let { song, reviewFor, reviewBy } = reviewData.data;
+
+    setArtistQuestion(song.artistQuestion);
 
     let songAndUser = {
       songInfo: {
@@ -54,6 +75,8 @@ const ViewReviewPage = () => {
         embeddedLink: song.embeddedLink,
         artLink: "",
         userId: song.userId,
+        artistQuestion: song.artistQuestion,
+        songReviewToken: song.songReviewToken,
       },
       userInfo: {
         displayName: reviewFor.displayName,
@@ -62,23 +85,21 @@ const ViewReviewPage = () => {
       },
     };
 
-    setSongInfo(songAndUser)
-    setReviewByName(reviewBy.displayName)
+    setSongInfo(songAndUser);
+    setReviewByName(reviewBy.displayName);
     // console.log(songAndUser)
     // setSongInfo(songAndUser);
     console.log(reviewData.data, "review data");
     // setReviewInfo(reviewData.data);
   };
 
-
   useEffect(() => {
     // if (location.state) {
     //   setReviewInfo(location.state.reviewObj);
     // } else {
-      getReviewInfo();
+    getReviewInfo();
     // }
   }, []);
-
 
   return (
     <main className="flex flex-column items-center size-full bg-background h-fit">
@@ -89,27 +110,66 @@ const ViewReviewPage = () => {
         <div className="bg-red-500 size-4/5 flex flex-col items-center m-6 rounded-md h-72 justify-evenly">
           <p className="text-background font-body">Aesthetic question</p>
           <p className="text-background font-body w-11/12">
-            {reviewByName}'s opinion on the aesthetic of this song, what sort of imagery or
-            feelings it invokes?
+            {reviewByName}'s opinion on the aesthetic of this song, what sort of
+            imagery or feelings it invokes?
           </p>
-          <textarea className="w-11/12 h-50 pointer-events-none" value={reviewInfo?.aestheticCritique}>{}</textarea>
+          <textarea
+            className="w-11/12 h-50 pointer-events-none"
+            value={reviewInfo?.aestheticCritique}
+          >
+            {}
+          </textarea>
         </div>
         <div className="bg-red-500 size-4/5 flex flex-col items-center m-6 rounded-md h-72 justify-evenly">
           <p className="text-background font-body">Technical question</p>
           <p className="text-background font-body w-11/12">
-          {reviewByName}'s opinion on what technical aspects of the production they think could be
-            improved {"(EQ, ryhthm, mix, sound design, musicality, etc...)"} and
-            which ones they think were executed well?
+            {reviewByName}'s opinion on what technical aspects of the production
+            they think could be improved{" "}
+            {"(EQ, ryhthm, mix, sound design, musicality, etc...)"} and which
+            ones they think were executed well?
           </p>
-          <textarea className="w-11/12 h-50 pointer-events-none" value={reviewInfo?.technicalCritique}></textarea>
+          <textarea
+            className="w-11/12 h-50 pointer-events-none"
+            value={reviewInfo?.technicalCritique}
+          ></textarea>
         </div>
         <div className="bg-red-500 size-4/5 flex flex-col items-center m-6 rounded-md h-72 justify-evenly pb-2">
           <p className="text-background font-body">Artist's question</p>
           <p className="text-background font-body w-11/12">
-          {reviewByName}'s opinion on your personal question of... {artistQuestion}
+            {reviewByName}'s opinion on your personal question of...{" "}
+            {artistQuestion}
           </p>
-          <textarea className="w-11/12 h-50 pointer-events-none" value={reviewInfo?.artistCritique}></textarea>
+          <textarea
+            className="w-11/12 h-50 pointer-events-none"
+            value={reviewInfo?.artistCritique}
+          ></textarea>
         </div>
+        {loggedInUser.userId === songInfo?.userInfo.userId && (
+          <>
+            <div className="bg-red-500 size-2/5 flex flex-col items-center m-6 rounded-md h-72 justify-evenly pb-2">
+              <p className="text-background font-body">Critique Score</p>
+              <p className="text-background font-body w-11/12">
+                how do you think {reviewByName} did in critiquing your song
+              </p>
+              <input
+                type="number"
+                min={0}
+                max={5}
+                value={critiqueScore || ""}
+                onChange={(e) => setCritiqueScore(parseInt(e.target.value))}
+              />
+
+              <button
+                className=" size-fit bg-white"
+                onClick={() => {
+                  submitCritiqueScoreHandler();
+                }}
+              >
+                Submit
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </main>
   );

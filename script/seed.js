@@ -317,13 +317,13 @@ export const seed = async () => {
 
           const senderId = chatRoom.user1Id; // Assume user1 is the sender
           const recipientId = chatRoom.user2Id; // Assume user2 is the recipient
-          const content = "yayyy"
+          const content = "yayyy" + i
           let messages = await Message.create({ senderId, recipientId, content, chatRoomId: chatRoom.chatRoomId });
           console.log(messages)
         } else if(1%2 === 1){
           const senderId = chatRoom.user2Id; // Assume user1 is the sender
           const recipientId = chatRoom.user1Id; // Assume user2 is the recipient
-          const content = "yayyy"
+          const content = "yayyy" + i
           let messages = await Message.create({ senderId, recipientId, content, chatRoomId: chatRoom.chatRoomId });
           console.log(messages)
         }

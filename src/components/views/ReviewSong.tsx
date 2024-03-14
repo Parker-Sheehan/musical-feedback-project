@@ -26,15 +26,17 @@ const ReviewSong = () => {
     console.log(loginState.userId)
     let randomSong = await axios.get(`http://localhost:3000/getRandomSong/${loginState.userId}`)
     console.log(randomSong.data)
-    let {songId, title, embeddedLink} = randomSong.data
+    let {songId, title, embeddedLink, artistQuestion, songReviewToken} = randomSong.data
     let {displayName, userId, profilePicture} = randomSong.data.user
-    let songAndUser = {
+    let songAndUser: SongAndUser = {
       songInfo: {
         songId: songId,
         title,
         embeddedLink,
         artLink: '',
-        userId
+        userId,
+        artistQuestion,
+        songReviewToken
       },
       userInfo: {
         displayName,
@@ -54,7 +56,7 @@ const ReviewSong = () => {
   const getSongInReview = async() => {
   let songToReview = await axios.get(`http://localhost:3000/getSong/${loginState.songInReview}`)
     console.log(songToReview.data)
-    let {songId, title, embeddedLink} = songToReview.data
+    let {songId, title, embeddedLink, artistQuestion, songReviewToken} = songToReview.data
     let {displayName, userId, profilePicture} = songToReview.data.user
     console.log(songToReview.data)
 
@@ -66,7 +68,9 @@ const ReviewSong = () => {
         title,
         embeddedLink,
         artLink: '',
-        userId
+        userId,
+        artistQuestion,
+        songReviewToken
       },
       userInfo: {
         displayName,

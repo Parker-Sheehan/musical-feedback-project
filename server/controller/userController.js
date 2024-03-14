@@ -15,6 +15,7 @@ const getProfileInfo = async (req, res) => {
       {
         model: Song,
       },
+      
     ],
   });
   console.log(req.session.userId);
@@ -174,34 +175,37 @@ const getChatRooms = async (req,res) => {
   let {loggedInUserId} = req.params
   console.log(loggedInUserId)
 
+  try{
+    let chatRooms = await ChatRoom.findAll({
+      where: {
+        [Op.or]: [
+          {user1Id : loggedInUserId},
+          {user2Id: loggedInUserId}
+        ]
+      },
+      include: [{
+        model: Message,
+      },
+      {
+        model: User,
+        as: 'user1', 
+        attributes: ['userId', 'displayName', 'profilePicture'] 
+      },
+      {
+        model: User,
+        as: 'user2',
+        attributes: ['userId', 'displayName', 'profilePicture'] 
+      }],
+      order: [['updatedAt', 'DESC'], [[Message ,"messageId", "ASC"]]]
+    })
+  
+    // console.log(chatRooms)
+    res.status(200).send(chatRooms)
+    
+  }catch(err){
+    res.status(400).send(err)
+  }
 
-
-  let chatRooms = await ChatRoom.findAll({
-    where: {
-      [Op.or]: [
-        {user1Id : loggedInUserId},
-        {user2Id: loggedInUserId}
-      ]
-    },
-    include: [{
-      model: Message,
-      // order: [["messageId", "ASC"]]
-    },
-    {
-      model: User,
-      as: 'user1', 
-      attributes: ['userId', 'displayName', 'profilePicture'] 
-    },
-    {
-      model: User,
-      as: 'user2',
-      attributes: ['userId', 'displayName', 'profilePicture'] 
-    }],
-    order: [['updatedAt', 'DESC']]
-  })
-
-  console.log(chatRooms)
-  res.status(200).send(chatRooms)
 }
 
 const getMessages = async (req,res) =>{
@@ -241,7 +245,8 @@ const createNewMessage = async (req,res) => {
     let messageArray = await Message.findAll({
       where: {
         chatRoomId: chatRoomId
-      }
+      },
+      order: [["messageId", "ASC"]]
     })
 
     console.log(messageArray)
@@ -278,7 +283,7 @@ const createChatRoom = async(req,res) => {
       },
       include: [{
         model: Message,
-        // order: [["messageId", "ASC"]]
+        order: [["messageId", "DESC"]]
       },
       {
         model: User,
@@ -290,6 +295,7 @@ const createChatRoom = async(req,res) => {
         as: 'user2',
         attributes: ['userId', 'displayName', 'profilePicture'] 
       }],
+      order: [['updatedAt', 'DESC'], [[Message ,"messageId", "ASC"]]]
     })
 
     console.log(chatRoom, "controller")
@@ -301,4 +307,20 @@ const createChatRoom = async(req,res) => {
 
 }
 
-export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom };
+const messageSeen = (req, res) => {
+  console.log(req.body)
+  let {chatRoomId, userId} = req.body
+
+  Message.update({recipientSeen: true},{
+    where: {
+      [Op.and]: [
+        {chatRoomId: chatRoomId},
+        {recipientId: userId}
+      ]
+  }
+  })
+
+  res.status(200).send()
+}
+
+export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen };
