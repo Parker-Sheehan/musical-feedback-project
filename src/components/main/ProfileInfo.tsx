@@ -163,11 +163,11 @@ const ProfileInfo: FC<ProfileDataProp> = ({
           )}
           <div className="bg-background3 lg:row-span-1 grid-cols-subgrid lg:col-span-2 col-span-2 w-full lg:rounded-tr-lg rounded-bl-lg text-text flex flex-col justify-center items-center">
             <h1 className="text-2xl">Followers</h1>
-            <h2 className="text-1xl">180</h2>
+            <h2 className="text-1xl">{profileData.followers}</h2>
           </div>
           <div className="bg-background3 lg:row-span-1 grid-cols-subgrid lg:col-span-2 col-span-2 w-full lg:rounded-br-lg rounded-br-lg text-text flex flex-col justify-center items-center">
             <h1 className="text-2xl">Following</h1>
-            <h2 className="text-1xl">180</h2>
+            <h2 className="text-1xl">{profileData.followings}</h2>
           </div>
         </div>
         <div className="bg-background2 lg:grid-cols-2 lg:col-span-3 lg:row-span-2 rounded-lg lg:flex lg:flex-wrap lg:mb-0 mb-3 grid grid-cols-2 grid-rows-2">
@@ -197,11 +197,11 @@ const ProfileInfo: FC<ProfileDataProp> = ({
           <h1 className="text-2xl text-break text-center">
             Critiques Completed
           </h1>
-          <h2 className="text-3xl">180</h2>
+          <h2 className="text-3xl">{profileData.totalCritiques}</h2>
         </div>
         <div className="bg-sec2 grid-cols-subgrid col-span-3 grid-row-subgrid row-span-2 rounded-lg  text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
           <h1 className="text-2xl text-break  text-center">Critique Score</h1>
-          <h2 className="text-3xl">180</h2>
+          <h2 className="text-3xl">{profileData.critiqueScore}</h2>
         </div>
         <div className="bg-sec2 grid-cols-subgrid col-span-2 rounded-lg  text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
           <h1 className="text-2xl">Tokens</h1>

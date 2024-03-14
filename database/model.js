@@ -371,8 +371,8 @@ Genre.belongsToMany(User, { foreignKey: "genreId", through: "usergenre" });
 Song.belongsToMany(Genre, { foreignKey: "songId", through: "songgenre" });
 Genre.belongsToMany(Song, { foreignKey: "genreId", through: "songgenre" });
 
-User.hasMany(Follow, { foreignKey: "followerId", as: "followers" });
-User.hasMany(Follow, { foreignKey: "followingId", as: "followings" });
+User.hasMany(Follow, { foreignKey: "followerId", as: "followings" });
+User.hasMany(Follow, { foreignKey: "followingId", as: "followers" });
 
 Follow.belongsTo(User, { foreignKey: "followerId", as: "follower" });
 Follow.belongsTo(User, { foreignKey: "followingId", as: "following" });

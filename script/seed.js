@@ -279,7 +279,8 @@ export const seed = async () => {
       artistCritique: arrayOfReviews[i].rhythmText,
       songId: arrayOfReviews[i].song_id,
       reviewByUserId: arrayOfReviews[i].reviewee,
-      reviewForUserId: arrayOfReviews[i].reviewer
+      reviewForUserId: arrayOfReviews[i].reviewer,
+      critiqueScore: 2
     });
 
     console.log("end of for each ================================")

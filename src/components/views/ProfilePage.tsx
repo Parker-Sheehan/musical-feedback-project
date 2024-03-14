@@ -26,6 +26,10 @@ export interface ProfileData {
   profilePicture: string;
   userId: number;
   following: boolean;
+  critiqueScore: number | null;
+  totalCritiques: number;
+  followings: number;
+  followers: number;
 }
 
 const ProfilePage = () => {
@@ -47,7 +51,7 @@ const ProfilePage = () => {
 
       console.log(newProfileData);
 
-      let { songs, displayName, genres, profilePicture, following, userId } = newProfileData.data;
+      let {songs, displayName, genres, profilePicture, following, userId, critiqueScore, totalCritiques,  followings, followers} = newProfileData.data;
 
       let genreArray: Genre[] = genres.map((genre: any) => {
         return {
@@ -58,13 +62,20 @@ const ProfilePage = () => {
 
       console.log(userId)
 
+
       let data: ProfileData = {
         displayName,
         genres: genreArray,
         profilePicture,
         userId,
-        following
+        following,
+        critiqueScore,
+        totalCritiques,
+        followings: followings.length,
+        followers: followers.length
       };
+
+
       setProfileData(data);
       setSongsArray(songs);
       return;
@@ -75,7 +86,7 @@ const ProfilePage = () => {
 
       console.log(newProfileData);
 
-      let { songs, displayName, genres, profilePicture, userId, following } = newProfileData.data;
+      let { songs, displayName, genres, profilePicture, userId, following, critiqueScore, totalCritiques, followings, followers} = newProfileData.data;
 
       console.log(newProfileData.data)
 
@@ -93,7 +104,11 @@ const ProfilePage = () => {
         genres: genreArray,
         profilePicture,
         userId,
-        following
+        following,
+        critiqueScore,
+        totalCritiques,
+        followings: followings.length,
+        followers: followers.length
       };
       setProfileData(data);
       setSongsArray(songs);

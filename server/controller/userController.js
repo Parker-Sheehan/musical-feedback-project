@@ -1,11 +1,10 @@
-import { Op } from "sequelize";
-import { User, Song, Genre, UserGenre, Follow, ChatRoom, Message } from "../../database/model";
+import { Op, fn, col } from "sequelize";
+import { User, Song, Genre, UserGenre, Follow, ChatRoom, Message, Review } from "../../database/model";
 
 const getProfileInfo = async (req, res) => {
   console.log("in getProfileInfo");
-  console.log(req.session);
-  try {
-  const profileInfo = await User.findOne({
+
+  let profileInfo = await User.findOne({
     where: { userId: req.params.userId },
     include: [
       {
@@ -15,12 +14,42 @@ const getProfileInfo = async (req, res) => {
       {
         model: Song,
       },
-      
+      {
+        model: Review,
+        as: "reviewsBy",
+      },
+      {
+        model: Follow,
+        as: "followers",
+        include: [
+          {
+            model: User,
+            as: "follower",
+            attributes: ["userId", "displayName", "profilePicture"]
+          }
+        ]
+      },
+      {
+        model: Follow,
+        as: "followings",
+        include: [
+          {
+            model: User,
+            as: "following",
+            attributes: ["userId", "displayName", "profilePicture"]
+          }
+        ]
+      }
     ],
   });
-  console.log(req.session.userId);
-  let newProfileInfo = { ...profileInfo, following: true };
-  // console.log(newProfileInfo);
+  
+  console.log(profileInfo)
+  try {
+    let critiqueScore = profileInfo.reviewsBy.reduce((accumulator, current) => {
+      console.log(current.critiqueScore, "critique sorcoedcon")
+      return accumulator + current.critiqueScore
+    }, 0)
+
   if (req.session.userId !== +req.params.userId) {
     // Checking if they are following user
     try{
@@ -44,6 +73,10 @@ const getProfileInfo = async (req, res) => {
         genres: profileInfo.genres,
         songs: profileInfo.songs,
         following: true,
+        critiqueScore: critiqueScore,
+        totalCritiques: profileInfo.reviewsBy.length,
+        followers: profileInfo.followers,
+        followings: profileInfo.followings
       };
       console.log(newProfileInfo);
       res.send(newProfileInfo);
@@ -60,6 +93,11 @@ const getProfileInfo = async (req, res) => {
         genres: profileInfo.genres,
         songs: profileInfo.songs,
         following: false,
+        critiqueScore: critiqueScore,
+        totalCritiques: profileInfo.reviewsBy.length,
+        followers: profileInfo.followers,
+        followings: profileInfo.followings
+
       };
       console.log(newProfileInfo);
       res.send(newProfileInfo);
@@ -82,6 +120,10 @@ const getProfileInfo = async (req, res) => {
       genres: profileInfo.genres,
       songs: profileInfo.songs,
       following: false,
+      critiqueScore: critiqueScore,
+      totalCritiques: profileInfo.reviewsBy.length,
+      followers: profileInfo.followers,
+      followings: profileInfo.followings
     };
     // console.log(newProfileInfo);
     res.send(newProfileInfo);
