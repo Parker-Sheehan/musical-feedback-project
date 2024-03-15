@@ -365,4 +365,23 @@ const messageSeen = (req, res) => {
   res.status(200).send()
 }
 
-export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen };
+const userSearch = async (req, res) => {
+  console.log(req.params)
+
+  let {userSearch} = req.params
+  
+  let userArray = await User.findAll({
+    where: {
+      displayName: {
+        [Op.like]: `%${userSearch}%`
+      }
+    },
+    attributes: ["userId", "displayName", "profilePicture"],
+    limit: 4
+  })
+  console.log(userArray)
+
+  res.status(200).send(userArray)
+}
+
+export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen, userSearch };
