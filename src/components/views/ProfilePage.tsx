@@ -140,7 +140,7 @@ const ProfilePage = () => {
       // Unfollow
       console.log("unfolow++++++++++++")
       let unfollowUserResult = await axios.post(`http://localhost:3000/unfollowUser/${loggedInUser.userId}`, {followingUserId: profileData!.userId})
-      let newProfileData = {...profileData, following: unfollowUserResult.data}
+      let newProfileData = {...profileData, following: unfollowUserResult.data, followers : profileData.followers - 1}
       console.log(newProfileData)
       setProfileData(newProfileData)
 
@@ -148,7 +148,8 @@ const ProfilePage = () => {
       // Follow
       console.log("FolLow++++++++++++")
       let followUserResult = await axios.post(`http://localhost:3000/followUser/${loggedInUser.userId}`, {followingUserId: profileData!.userId})
-      let newProfileData = {...profileData, following: followUserResult.data}
+      console.log(followUserResult.data)
+      let newProfileData = {...profileData, following: followUserResult.data, followers: profileData.followers + 1}
       console.log(newProfileData)
       setProfileData(newProfileData)
     }
