@@ -1,6 +1,6 @@
 import NavBar from "./components/main/NavBar";
 import {Routes, Route} from 'react-router-dom'
-import Splash from "./components/views/Splash";
+import Home from "./components/views/Home";
 import LogIn from "./components/views/LogIn";
 import SignUp from "./components/views/SignUp";
 import ProfilePage from "./components/views/ProfilePage";
@@ -17,7 +17,7 @@ function App() {
       <NavBar/>
       <>
         <Routes>
-          <Route path="/" element={<Splash/>}/>
+          <Route path="/" element={<Home/>}/>
           <Route path="/LogIn" element={<LogIn/>}/>
           <Route path="/SignUp" element={<SignUp/>}/>
           <Route path="/Profile" element={<ProfilePage/>}/>

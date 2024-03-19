@@ -57,7 +57,7 @@ const LogIn = () => {
   return (
     <main className="size-full flex justify-center items-center">
       <div
-        className="h-3/4 w-full xl:w-1/2 m-8 flex flex-col justify-between items-center bg-background2 rounded-lg py-20"
+        className="h-3/4 w-full md:w-1/2 m-8 flex flex-col justify-between items-center bg-background2 rounded-lg py-20"
       >
         <div
           className="text-prim flex justify-center items-center w-full flex-col"

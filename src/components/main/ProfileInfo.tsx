@@ -37,9 +37,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
     getChatRooms();
   }, []);
 
-
   const openChatRoomHandler = (chatRoomId: number) => {
-
     setCurrentChatRoom(chatRoomId);
   };
 
@@ -57,27 +55,38 @@ const ProfileInfo: FC<ProfileDataProp> = ({
   };
 
   const handleSetChatRooms = (newChatRoomArray: ChatRoomInterface[]) => {
-    setChatRooms(newChatRoomArray)
-  }
+    setChatRooms(newChatRoomArray);
+  };
 
   const messageButtonHandler = () => {
     console.log(chatRooms);
+    let chatRoomNumber
     if (chatRooms) {
-      console.log("in if of messageButton handler")
+      console.log("in if of messageButton handler");
       chatRooms.forEach((chatRoom) => {
-        console.log(chatRoom);
+        // console.log(chatRoom);
+        console.log(chatRoom.user1Id, profileData.userId);
+        console.log(chatRoom.user2Id, profileData.userId);
+        console.log(
+          chatRoom.user1Id === profileData.userId ||
+            chatRoom.user2Id === profileData.userId
+        );
+
         if (
           chatRoom.user1Id === profileData.userId ||
           chatRoom.user2Id === profileData.userId
         ) {
-          setCurrentChatRoom(chatRoom.chatRoomId);
-          return;
-        } 
+          chatRoomNumber = chatRoom.chatRoomId
+        }
       });
     }
-      setCurrentChatRoom(-1)
-      return
-  }
+    if(chatRoomNumber){
+      setCurrentChatRoom(chatRoomNumber)
+      return 
+    }
+    setCurrentChatRoom(-1);
+    return;
+  };
 
   const handleProfilePictureClick = () => {
     setTogglePfpModal(true);

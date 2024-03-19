@@ -3,17 +3,7 @@ import { FC, useState } from "react";
 import Messages from "./ChatBox";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 
-// import MyVerticallyCenteredModal from '../ui/MyVerticallyCenteredModal'
-
-// import { ProfileData } from "../views/ProfilePage";
-
-// interface ProfileDataProp {
-//   profileData: ProfileData;
-//   setProfileDataHandler : (profileDataObj: ProfileData) => void
-// }
-
-
-const ProfileInfo = () => {
+const Post = () => {
   let [liked, setLiked] = useState(false)
 
   let likeSongHandler = () => {
@@ -62,4 +52,4 @@ const ProfileInfo = () => {
   );
 };
 
-export default ProfileInfo;
+export default Post;

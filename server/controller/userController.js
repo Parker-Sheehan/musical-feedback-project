@@ -1,5 +1,5 @@
 import { Op, fn, col } from "sequelize";
-import { User, Song, Genre, UserGenre, Follow, ChatRoom, Message, Review } from "../../database/model";
+import { User, Song, Genre, UserGenre, Follow, ChatRoom, Message, Review, SongLikes } from "../../database/model";
 
 const getProfileInfo = async (req, res) => {
   console.log("in getProfileInfo");
@@ -384,4 +384,42 @@ const userSearch = async (req, res) => {
   res.status(200).send(userArray)
 }
 
-export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen, userSearch };
+const getPosts = async (req, res) => {
+  console.log("getPosts Hit")
+  
+  let {userId} = req.params
+
+  let postFollowingInfo = await Follow.findAll({
+    where: {
+      followerId : userId
+    },
+    attributes: ["followingId"]
+  })
+
+  console.log(postFollowingInfo)
+
+  console.log()
+
+  let mapOfUser = postFollowingInfo.map((user) => {
+    console.log(user.followingId)
+    return {userId: user.followingId}
+  })
+
+  console.log(mapOfUser)
+
+  const postInfo = await Song.findAll({
+    include: [
+      {
+        model: User,
+        through: {
+          model: SongLikes,
+        },
+        attributes: ['userId'], // Include only necessary attributes of User
+      },
+    ],
+  });
+
+  console.log(postInfo)
+}
+
+export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen, userSearch, getPosts };

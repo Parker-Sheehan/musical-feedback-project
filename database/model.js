@@ -64,6 +64,12 @@ export class RecipientSeen extends Model {
   }
 }
 
+export class SongLikes extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
 User.init(
   {
     userId: {
@@ -242,6 +248,38 @@ Follow.init(
   }
 );
 
+
+ChatRoom.init(
+  {
+    chatRoomId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    user1Id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    user2Id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    }
+  },
+  {
+    modelName: "chatroom",
+    sequelize: db,
+  }
+);
+
 Message.init(
   {
     messageId: {
@@ -301,38 +339,20 @@ RecipientSeen.init(
   }
 );
 
-
-ChatRoom.init(
+SongLikes.init(
   {
-    chatRoomId: {
+    likeId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       unique: true,
-    },
-    user1Id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    user2Id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
     }
   },
   {
-    modelName: "chatroom",
+    modelName: "songLikes",
     sequelize: db,
   }
-);
-
+)
 
 // UserReviewed.init(
 //   {
@@ -382,3 +402,6 @@ ChatRoom.hasMany(Message, { foreignKey: 'chatRoomId' });
 
 ChatRoom.belongsTo(User, { as: 'user1', foreignKey: 'user1Id' });
 ChatRoom.belongsTo(User, { as: 'user2', foreignKey: 'user2Id' });
+
+User.belongsToMany(Song, { through: 'SongLikes', foreignKey: 'userId' });
+Song.belongsToMany(User, { through: 'SongLikes', foreignKey: 'songId' });

@@ -4,7 +4,7 @@ import { db } from "../database/model";
 import { seed } from "../script/seed";
 import { signUp, login, verifyToken } from "./controller/authController";
 import session from "express-session";
-import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen, userSearch } from "./controller/userController";
+import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen, userSearch, getPosts } from "./controller/userController";
 import {createNewSong, getSong, getRandomSong, getSongProfileInfo, postCritique, getReviewInfo, addTokenToSong, submitCritiqueScore} from './controller/songController'
 const require = createRequire(import.meta.url);
 const cookieParser = require("cookie-parser");
@@ -120,6 +120,8 @@ app.post('/messageSeen', verifyToken, messageSeen)
 app.post('/submitCritiqueScore', verifyToken, submitCritiqueScore)
 
 app.get("/userSearch/:userSearch", verifyToken, userSearch)
+
+app.get("/getPosts/:userId", verifyToken, getPosts)
 
 
 io.on("connection", (socket) => {
