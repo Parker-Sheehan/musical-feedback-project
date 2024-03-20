@@ -6,6 +6,7 @@ import {
   SongGenre,
   User,
   UserGenre,
+  SongLikes
 } from "../../database/model";
 
 const createNewSong = async (req, res) => {
@@ -126,6 +127,11 @@ const getRandomSong = async (req, res) => {
   });
 
   console.log(newSongArray, "potential songs");
+
+  if(newSongArray[0] === undefined){
+    res.status(200).send(newSongArray)
+    console.log("no songs in array")
+  }
 
   let randomNumMultiplyer = newSongArray.reduce(
     (accumulator, song) => song.songReviewToken + accumulator,
@@ -317,6 +323,29 @@ const submitCritiqueScore = async (req, res) => {
   })
 }
 
+const likeSong = async (req, res) => {
+  console.log(req.body)
+   let { userId, songId, likeStatus } = req.body
+   let result
+   if(likeStatus){
+    result = await SongLikes.destroy({
+      where: {
+        [Op.and]: [
+          {userId: userId},
+          {songId: songId}
+        ]
+      }
+    })
+   }else{
+    result = await SongLikes.create({
+      userId: userId,
+      songId: songId
+    })
+   }
+
+   console.log(result)
+}
+
 export {
   createNewSong,
   getSong,
@@ -325,5 +354,6 @@ export {
   postCritique,
   getReviewInfo,
   addTokenToSong,
-  submitCritiqueScore
+  submitCritiqueScore,
+  likeSong
 };

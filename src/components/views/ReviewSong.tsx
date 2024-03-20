@@ -27,6 +27,9 @@ const ReviewSong = () => {
     let randomSong = await axios.get(`http://localhost:3000/getRandomSong/${loginState.userId}`)
     console.log(randomSong.data)
     let {songId, title, embeddedLink, artistQuestion, songReviewToken} = randomSong.data
+    if(songId === undefined){
+      alert("Try expanding genre preferences there are no songs to critique right now.")
+    }
     let {displayName, userId, profilePicture} = randomSong.data.user
     let songAndUser: SongAndUser = {
       songInfo: {

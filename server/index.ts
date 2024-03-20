@@ -5,7 +5,7 @@ import { seed } from "../script/seed";
 import { signUp, login, verifyToken } from "./controller/authController";
 import session from "express-session";
 import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen, userSearch, getPosts } from "./controller/userController";
-import {createNewSong, getSong, getRandomSong, getSongProfileInfo, postCritique, getReviewInfo, addTokenToSong, submitCritiqueScore} from './controller/songController'
+import {createNewSong, getSong, getRandomSong, getSongProfileInfo, postCritique, getReviewInfo, addTokenToSong, submitCritiqueScore, likeSong} from './controller/songController'
 const require = createRequire(import.meta.url);
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -123,6 +123,8 @@ app.get("/userSearch/:userSearch", verifyToken, userSearch)
 
 app.get("/getPosts/:userId", verifyToken, getPosts)
 
+app.post("/likeSong", verifyToken, likeSong)
+
 
 io.on("connection", (socket) => {
   console.log("A user connected");
@@ -174,9 +176,9 @@ io.on("connection", (socket) => {
 
 await db
   .sync
-  // ()  
-    ({ force: true });
-  seed()
+  ()  
+    // ({ force: true });
+  // seed()
 server.listen(3000, console.log("Express server listening on port 3000"));
 
 // server.listen(3000, console.log("listening on port 3000"));

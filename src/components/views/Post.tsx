@@ -2,29 +2,45 @@
 import { FC, useState } from "react";
 import Messages from "./ChatBox";
 import { GoHeart, GoHeartFill } from "react-icons/go";
+import { PostInfo } from "./FeadPage";
+import axios from "axios";
+import { useAppSelector } from "../../store/store";
+import { Link } from "react-router-dom";
 
-const Post = () => {
-  let [liked, setLiked] = useState(false)
+const Post:FC<PostInfo> = ({songId, embeddedLink, user, songLikes}) => {
+  let [liked, setLiked] = useState(songLikes)
 
-  let likeSongHandler = () => {
+  let loggedInUserId = useAppSelector((state) => state.login.userId);
+
+
+
+
+  let likeSongHandler = async() => {
     let newLikedValue = !liked
     setLiked(newLikedValue)
+    let likeSong = await axios.post(`http://localhost:3000/likeSong`, {userId: loggedInUserId, songId: songId, likeStatus: liked})
+
   }
 
+  console.log(songId, embeddedLink, user, songLikes)
+
   return (
-    <div className="size-full">
-      <div className="h-3/4 w-full flex justify-center items-center my-5">
+    <div className="h-3/4 w-full">
+      <div className="h-full w-full flex justify-center items-center my-5">
         <div className="h-full w-full lg:w-1/2 m-8 flex flex-col items-center bg-background2 rounded-lg p-2">
           <div className=" w-full h-14 mb-4 flex items-center">
+          <Link className=" decoration-transparent size-fit flex items-center" to={"/Profile/" + user.userId}>
+
             <div
               className="bg-cover bg-center bg-no-repeat h-10 w-10 rounded-full ml-1"
               style={{
-                backgroundImage: `url(https://i.pinimg.com/originals/50/f0/c3/50f0c3351809f62d2d8d3fe255a72fa5.jpg)`,
+                backgroundImage: `url(${user.profilePicture})`,
               }}
-            ></div>
+              ></div>
             <div className=" h-5/6 w-fit text-heading flex items-end font-heading text-xl text-text ml-2">
-              Of The Trees
+              {user.displayName}
             </div>
+          </Link>
           </div>
           <div className="bg-blue-100 w-full h-3/4 mb-2">
             <iframe
@@ -32,7 +48,7 @@ const Post = () => {
               height="100%"
               allow="autoplay"
               src={
-                "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F474445329"
+                `${embeddedLink}`
               }
             ></iframe>
           </div>
@@ -45,9 +61,6 @@ const Post = () => {
           </div>
         </div>
       </div>
-      
-      
-      
     </div>
   );
 };

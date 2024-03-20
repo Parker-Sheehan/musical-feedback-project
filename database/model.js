@@ -407,5 +407,6 @@ ChatRoom.hasMany(Message, { foreignKey: 'chatRoomId' });
 ChatRoom.belongsTo(User, { as: 'user1', foreignKey: 'user1Id' });
 ChatRoom.belongsTo(User, { as: 'user2', foreignKey: 'user2Id' });
 
-Song.hasMany(SongLikes, { foreignKey: 'userId'});
-User.hasMany(SongLikes, { foreignKey: 'songId'});
+User.hasMany(SongLikes, { foreignKey: 'userId' });
+Song.hasMany(SongLikes, { foreignKey: 'songId' });
+

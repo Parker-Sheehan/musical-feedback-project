@@ -427,6 +427,7 @@ const getPosts = async (req, res) => {
       res.status(200).send(postInfo)
 
   }catch(err){
+    res.status(400).send(err)
 
   }
 
