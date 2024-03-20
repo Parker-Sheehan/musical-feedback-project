@@ -135,6 +135,10 @@ Song.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 1
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
     }
   },
   {
@@ -346,7 +350,7 @@ SongLikes.init(
       autoIncrement: true,
       primaryKey: true,
       unique: true,
-    }
+    },
   },
   {
     modelName: "songLikes",
@@ -403,5 +407,5 @@ ChatRoom.hasMany(Message, { foreignKey: 'chatRoomId' });
 ChatRoom.belongsTo(User, { as: 'user1', foreignKey: 'user1Id' });
 ChatRoom.belongsTo(User, { as: 'user2', foreignKey: 'user2Id' });
 
-User.belongsToMany(Song, { through: 'SongLikes', foreignKey: 'userId' });
-Song.belongsToMany(User, { through: 'SongLikes', foreignKey: 'songId' });
+Song.hasMany(SongLikes, { foreignKey: 'userId'});
+User.hasMany(SongLikes, { foreignKey: 'songId'});

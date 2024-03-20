@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User, Song, Review, Genre, UserGenre, SongGenre, ChatRoom, Message} from "../database/model.js";
+import { User, Song, Review, Genre, UserGenre, SongGenre, ChatRoom, Message, SongLikes} from "../database/model.js";
 
 console.log("Syncing Database...");
 
@@ -234,10 +234,14 @@ export const seed = async () => {
        await Song.create({
         title: song.title + " " + i,
         embeddedLink: song.embeddedLink,
-        userId: i + 1,
+        userId: i + 2,
         songReviewToken: 1,
         artistQuestion: "It good?"
       });
+        await SongLikes.create({
+          songId: i+2,
+          userId: i+1
+        })
     });
   }
 

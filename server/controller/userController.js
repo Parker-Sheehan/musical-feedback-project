@@ -389,37 +389,48 @@ const getPosts = async (req, res) => {
   
   let {userId} = req.params
 
-  let postFollowingInfo = await Follow.findAll({
-    where: {
-      followerId : userId
-    },
-    attributes: ["followingId"]
-  })
-
-  console.log(postFollowingInfo)
-
-  console.log()
-
-  let mapOfUser = postFollowingInfo.map((user) => {
-    console.log(user.followingId)
-    return {userId: user.followingId}
-  })
-
-  console.log(mapOfUser)
-
-  const postInfo = await Song.findAll({
-    include: [
-      {
-        model: User,
-        through: {
-          model: SongLikes,
-        },
-        attributes: ['userId'], // Include only necessary attributes of User
+  try{
+    let postFollowingInfo = await Follow.findAll({
+      where: {
+        followerId : userId
       },
-    ],
-  });
+      attributes: ["followingId"]
+    })
+  
+    console.log(postFollowingInfo)
+  
+    console.log()
+  
+    let mapOfUser = postFollowingInfo.map((user) => {
+      console.log(user.followingId)
+      return {userId: user.followingId}
+    })
+  
+    let postInfo = await Song.findAll({
+      where: {
+        [Op.or]: mapOfUser
+      },
+      include: [
+        {
+          model: User,
+          as: 'user', 
+          attributes: ['userId', 'displayName', 'profilePicture'] 
+        },
+        {
+          model: SongLikes,
+          where: { userId: userId }, 
+          required: false
+        }
+      ],
+      order: [['createdAt', 'DESC']]})
+  
+      res.status(200).send(postInfo)
 
-  console.log(postInfo)
+  }catch(err){
+
+  }
+
+
 }
 
 export { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen, userSearch, getPosts };
