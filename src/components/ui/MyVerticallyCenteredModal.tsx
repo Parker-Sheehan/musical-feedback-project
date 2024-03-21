@@ -14,8 +14,9 @@ interface ModalProps {
 }
 
 const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
-  let { profilePicture, displayName, genres, userId, following } =
-    props.profileData;
+  let { profilePicture, displayName, genres, userId, following } = props.profileData;
+
+  console.log(props.profileData)
 
   let loggedInUserId = useAppSelector((state) => state.login.userId);
 

@@ -131,7 +131,9 @@ const ProfilePage = () => {
       `http://localhost:3000/updateProfileInfo/${loggedInUser.userId}`,
       profileDataObj
     );
-    setProfileData(profileDataObj);
+    let newProfileDataObj = {...profileData, ...profileDataObj}
+    console.log(newProfileDataObj)
+    setProfileData(newProfileDataObj);
   };
 
   const followUserHandler = async() =>{

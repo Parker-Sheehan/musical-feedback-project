@@ -67,7 +67,7 @@ const NavBar = () => {
     <>
       {
         !loggedInUser.userId &&
-        <nav className="flex items-center justify-around h-12 w-full bg-background-100 border-b-2 border-background2">
+        <nav className="flex items-center justify-around min-h-12 w-full bg-background-100 border-b-2 border-background2">
           <Link to="/" className="text-text text-sm no-underline">
             <TbMusicHeart size="25px" />
           </Link>
@@ -85,7 +85,7 @@ const NavBar = () => {
       {
         loggedInUser.userId &&
         <>
-        <nav className="flex items-center justify-around h-16 w-full bg-purple border-b-2 border-background2">
+        <nav className="flex items-center justify-around min-h-12 w-full bg-purple border-b-2 border-background2">
           <div className="flex flex-row justify-evenly w-1/3">
           <Link className="text-text text-sm no-underline" to="/">
             <TbMusicHeart size="25px" />

@@ -44,7 +44,7 @@ const SongCard: FC<SongCardProps> = ({ song, profileUserId }) => {
   }
 
   return (
-    <div className="lg:w-1/2 lg:h-1/2 w-full h-full flex justify-center items-center p-3">
+    <div className="lg:w-1/2 max-h-1/2 w-full flex justify-center items-center p-3">
       <div className="size-full bg-sec flex flex-col justify-between rounded-lg p-3">
         <div className=" flex justify-around">
           <h2 className="text-text font-heading text-wrap break-words">{song.title}</h2>

@@ -109,12 +109,13 @@ const ProfileInfo: FC<ProfileDataProp> = ({
         setProfileDataHandler={setProfileDataHandler}
         profileData={profileData}
       />
-      <div className="m-10 w-8/12 h-3/4 rounded-lg lg:grid lg:grid-rows-2 lg:grid-cols-10 gap-3">
+      <div className="m-10 w-8/12 h-full rounded-lg lg:grid lg:grid-rows-2 lg:grid-cols-10 gap-3">
         <div className="lg:w-2/5 w-full mb-3 lg:mb-0 bg-background2 lg:grid-cols-subgrid lg:col-span-5 lg:grid-row-subgrid lg:row-span-2 rounded-lg grid grid-col-2 grid-row-6 lg:gap-1 ">
           {loggedInUserId === profileData.userId && profileData.userId && (
             <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
               <div
-                className="bg-cover bg-center bg-no-repeat size-36 rounded-full hover:cursor-pointer"
+                className="bg-cover bg-center bg-no-repeat size-36 rounded-full hover:cursor-pointer bg-zinc-600 hover:opacity-70"
+                
                 style={{
                   backgroundImage: `url(${profileData.profilePicture})`,
                 }}
@@ -128,7 +129,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
           {loggedInUserId !== profileData.userId && profileData.userId && (
             <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
               <div
-                className="bg-cover bg-center bg-no-repeat size-36 rounded-full"
+                className="bg-cover bg-center bg-no-repeat size-36 rounded-full bg-zinc-600 hover:opacity-80"
                 style={{
                   backgroundImage: `url(${profileData.profilePicture})`,
                 }}
@@ -202,7 +203,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
           getChatRooms={getChatRooms}
           handleSetChatRooms={handleSetChatRooms}
         />
-        <div className="bg-sec2 grid-cols-subgrid col-span-3 row-span-2 rounded-lg text-text flex flex-col justify-center items-center mb-2 lg:mb-0">
+        <div className="bg-sec2 grid-cols-subgrid col-span-3 row-span-2 rounded-lg text-text flex flex-col justify-center items-center mb-2 lg:mb-0 p-1">
           <h1 className="text-2xl text-break text-center">
             Critiques Completed
           </h1>
