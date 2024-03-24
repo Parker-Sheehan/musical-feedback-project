@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAppSelector } from "../../store/store.ts";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { UserBasics } from "./FeadPage.tsx";
 
 export interface SongInfo {
   songId: number;
@@ -30,6 +31,8 @@ export interface ProfileData {
   totalCritiques: number;
   followings: number;
   followers: number;
+  followingArray: UserBasics[];
+  followerArray: UserBasics[]
 }
 
 const ProfilePage = () => {
@@ -61,8 +64,18 @@ const ProfilePage = () => {
         };
       });
 
-      console.log(userId)
+      console.log(followings)
+      console.log(followers)
 
+      let followingArray = followings.map(({following}:any) => {
+        return following
+      })
+
+      let followerArray = followers.map(({follower}:any) => {
+        return follower
+      })
+
+      console.log(followingArray)
 
       let data: ProfileData = {
         displayName,
@@ -73,7 +86,9 @@ const ProfilePage = () => {
         critiqueScore,
         totalCritiques,
         followings: followings.length,
-        followers: followers.length
+        followers: followers.length,
+        followingArray: followingArray,
+        followerArray: followerArray
       };
 
 
@@ -88,6 +103,19 @@ const ProfilePage = () => {
       console.log(newProfileData);
 
       let { songs, displayName, genres, profilePicture, userId, following, critiqueScore, totalCritiques, followings, followers} = newProfileData.data;
+      
+      console.log(followings)
+      console.log(followers)
+
+      let followingArray = followings.map(({following}:any) => {
+        return following
+      })
+
+      let followerArray = followers.map(({follower}:any) => {
+        return follower
+      })
+
+      console.log(followingArray)
 
       console.log(newProfileData.data)
 
@@ -109,7 +137,9 @@ const ProfilePage = () => {
         critiqueScore,
         totalCritiques,
         followings: followings.length,
-        followers: followers.length
+        followers: followers.length,
+        followingArray: followingArray,
+        followerArray: followerArray
       };
       setProfileData(data);
       setSongsArray(songs);

@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { useAppSelector } from "../../store/store";
 import axios from "axios";
 import { ChatRoomInterface } from "./ChatBox";
+
 interface ChatRoomProps {
   pfp: string;
   message: string;

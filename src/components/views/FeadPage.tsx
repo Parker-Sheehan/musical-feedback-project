@@ -3,14 +3,17 @@ import Post from './Post'
 import axios from 'axios'
 import { useAppSelector } from '../../store/store'
 
-export interface PostInfo {
-  songId: number;
-  embeddedLink: string;
-  user: {
+export interface UserBasics {
     displayName: string;
     profilePicture: string;
     userId: 4
   }
+
+
+export interface PostInfo {
+  songId: number;
+  embeddedLink: string;
+  user: UserBasics;
   songLikes: boolean;
 }
 

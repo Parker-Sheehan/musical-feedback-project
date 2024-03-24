@@ -8,6 +8,7 @@ import GenreCard from "../views/GenreCard";
 import { useAppSelector } from "../../store/store";
 
 import { ChatRoomInterface } from "../views/ChatBox";
+import FollowModal from "../ui/FollowModal";
 
 interface ProfileDataProp {
   profileData: ProfileData;
@@ -31,6 +32,8 @@ const ProfileInfo: FC<ProfileDataProp> = ({
   const [currentChatRoom, setCurrentChatRoom] = useState<number>(0);
 
   const [chatRooms, setChatRooms] = useState<ChatRoomInterface[]>([]);
+
+  const [followModalShow ,setFollowModalShow] = useState<string>("")
 
   useEffect(() => {
     console.log("inUseEffect getchatrooms");
@@ -109,6 +112,13 @@ const ProfileInfo: FC<ProfileDataProp> = ({
         setProfileDataHandler={setProfileDataHandler}
         profileData={profileData}
       />
+      <FollowModal
+      show={followModalShow}
+      onHide={() => setFollowModalShow("")}
+      followerArray={profileData.followerArray}
+      followingArray={profileData.followingArray}
+
+      />
       <div className="m-10 w-8/12 h-full rounded-lg lg:grid lg:grid-rows-2 lg:grid-cols-10 gap-3">
         <div className="lg:w-2/5 w-full mb-3 lg:mb-0 bg-background2 lg:grid-cols-subgrid lg:col-span-5 lg:grid-row-subgrid lg:row-span-2 rounded-lg grid grid-col-2 grid-row-6 lg:gap-1 ">
           {loggedInUserId === profileData.userId && profileData.userId && (
@@ -171,11 +181,11 @@ const ProfileInfo: FC<ProfileDataProp> = ({
               )}
             </div>
           )}
-          <div className="bg-background3 lg:row-span-1 grid-cols-subgrid lg:col-span-2 col-span-2 w-full lg:rounded-tr-lg rounded-bl-lg text-text flex flex-col justify-center items-center">
+          <div className="bg-background3 lg:row-span-1 grid-cols-subgrid lg:col-span-2 col-span-2 w-full lg:rounded-tr-lg rounded-bl-lg text-text flex flex-col justify-center items-center" onClick={() => setFollowModalShow("Followers")}>
             <h1 className="text-2xl">Followers</h1>
             <h2 className="text-1xl">{profileData.followers}</h2>
           </div>
-          <div className="bg-background3 lg:row-span-1 grid-cols-subgrid lg:col-span-2 col-span-2 w-full lg:rounded-br-lg rounded-br-lg text-text flex flex-col justify-center items-center">
+          <div className="bg-background3 lg:row-span-1 grid-cols-subgrid lg:col-span-2 col-span-2 w-full lg:rounded-br-lg rounded-br-lg text-text flex flex-col justify-center items-center" onClick={() => setFollowModalShow("Following")}>
             <h1 className="text-2xl">Following</h1>
             <h2 className="text-1xl">{profileData.followings}</h2>
           </div>
