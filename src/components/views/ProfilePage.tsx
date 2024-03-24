@@ -48,6 +48,7 @@ const ProfilePage = () => {
       let newProfileData = await axios.get(
         `http://localhost:3000/getProfileInfo/${id.id}`
       );
+      
 
       console.log(newProfileData);
 
@@ -191,3 +192,4 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+
