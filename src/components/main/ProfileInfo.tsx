@@ -2,6 +2,8 @@ import axios from "axios";
 import { FC, useState, useEffect } from "react";
 import MyVerticallyCenteredModal from "../ui/MyVerticallyCenteredModal";
 import ChatBox from "../views/ChatBox";
+import { TiMessageTyping } from "react-icons/ti";
+
 
 import { ProfileData } from "../views/ProfilePage";
 import GenreCard from "../views/GenreCard";
@@ -121,6 +123,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
       />
       <div className="m-10 w-8/12 h-full rounded-lg lg:grid lg:grid-rows-2 lg:grid-cols-10 gap-3">
         <div className="lg:w-2/5 w-full mb-3 lg:mb-0 bg-background2 lg:grid-cols-subgrid lg:col-span-5 lg:grid-row-subgrid lg:row-span-2 rounded-lg grid grid-col-2 grid-row-6 lg:gap-1 ">
+        <TiMessageTyping className=" lg:hidden text-prim size-8 " />
           {loggedInUserId === profileData.userId && profileData.userId && (
             <div className="bg-background2 p-10 lg:m-0 lg:p-0 grid-row-subgrid row-span-2 grid-cols-subgrid col-span-4 lg:col-span-3 lg:rounded-lg rounded-t-lg flex flex-col justify-center items-center gap-3">
               <div
