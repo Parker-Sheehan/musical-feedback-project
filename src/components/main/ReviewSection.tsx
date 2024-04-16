@@ -74,7 +74,7 @@ const ReviewSection: FC<ReviewSectionProps> = ({reviewForId, songId, artistQuest
         <p className="text-background font-body w-11/12">{artistQuestion}</p>
         <textarea ref={artistCritiqueRef} className="w-11/12 h-50"></textarea>
       </div>
-      <button className="bg-prim mb-2 rounded-sm p-1" onClick={submitReviewHandler}>Submit</button>
+      {songId && <button className="bg-prim mb-2 rounded-sm p-1" onClick={submitReviewHandler}>Submit</button>}
     </div>
   );
 };
