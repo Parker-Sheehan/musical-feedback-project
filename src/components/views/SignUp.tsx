@@ -5,6 +5,8 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../store/store"; 
 import { signIn } from "../../store/slices/loginSlice";
 import { useNavigate } from "react-router-dom";
+import { LoginDispatchBody } from "./LogIn";
+
 axios.defaults.withCredentials = true
 
 const SignUp = () => {
@@ -32,10 +34,16 @@ const SignUp = () => {
       }
       console.log(bodyObj)
       
-      const newAccount = await axios.post("http://localhost:3000/signUp", bodyObj)
-      console.log(newAccount.data.userId)
+      const account = await axios.post("http://localhost:3000/signUp", bodyObj)
 
-      dispatch(signIn(newAccount.data.userId))
+      let loginDispatchBody: LoginDispatchBody = {
+        userId: account.data.userId,
+        genreArray: [],
+        songInReview: account.data.songInReview,
+        userReviewToken: account.data.userReviewToken
+      };
+
+      dispatch(signIn(loginDispatchBody))
 
       return navigate("/Profile")
 

@@ -66,11 +66,10 @@ let signUp = async (req, res) => {
 };
 
 let login = async (req, res) => {
-
-  console.log(req.body, "hit longin from authController");
+  console.log(req.body, "hit login from authController");
   let { email, password } = req.body;
 
-  try{
+  try {
     let user = await User.findOne({
       where: {
         email: email,
@@ -78,27 +77,31 @@ let login = async (req, res) => {
       include: [{
         model: Genre,
         through: UserGenre,
-      }
-    ],
+      }]
     });
-    console.log(user,"user")
 
-    if (user) {
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (!result) {
-          console.log('logging in')
-          const sess = req.session;
-          sess.email = email;
-          sess.userId = user.userId
-          res.send(user);
-        } else {
-          res.send("incorrect user and password combination",err);
-        }
-      });
+    if (!user) {
+      return res.status(400).send("No user with that email");
     }
-  }catch(err){
-    res.send("no user with that email", err)
+
+    // Compare passwords using bcrypt
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(400).send("Incorrect email or password");
+    }
+
+    // Passwords match, set session variables
+    const sess = req.session;
+    sess.email = email;
+    sess.userId = user.userId;
+
+    res.send(user);
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).send("Internal server error");
   }
 };
+
 
 export { signUp, login, verifyToken };

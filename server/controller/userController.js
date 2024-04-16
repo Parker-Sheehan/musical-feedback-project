@@ -324,8 +324,7 @@ const createChatRoom = async(req,res) => {
         ]
       },
       include: [{
-        model: Message,
-        order: [["messageId", "DESC"]]
+        model: Message
       },
       {
         model: User,
@@ -336,8 +335,7 @@ const createChatRoom = async(req,res) => {
         model: User,
         as: 'user2',
         attributes: ['userId', 'displayName', 'profilePicture'] 
-      }],
-      order: [['updatedAt', 'DESC'], [[Message ,"messageId", "ASC"]]]
+      }]
     })
 
     console.log(chatRoom, "controller")
