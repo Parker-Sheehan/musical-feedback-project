@@ -32,27 +32,33 @@ const LogIn = () => {
       };
       console.log(bodyObj);
 
-      const account = await axios.post("http://localhost:3000/login", bodyObj);
-      let genreArray: number[] = account.data.genres.map((genre: Genre) => {
-        return genre.genreId;
-      });
-
-      console.log(account.data);
-
-      let loginDispatchBody: LoginDispatchBody = {
-        userId: account.data.userId,
-        genreArray: genreArray,
-        songInReview: account.data.songInReview,
-        userReviewToken: account.data.userReviewToken
-      };
-
-      console.log(account);
-
-      dispatch(signIn(loginDispatchBody));
-
-      return navigate("/Profile");
-    }
-  };
+      try{
+        
+              const account = await axios.post("http://localhost:3000/login", bodyObj);
+              let genreArray: number[] = account.data.genres.map((genre: Genre) => {
+                return genre.genreId;
+              });
+        
+              console.log(account.data);
+        
+              let loginDispatchBody: LoginDispatchBody = {
+                userId: account.data.userId,
+                genreArray: genreArray,
+                songInReview: account.data.songInReview,
+                userReviewToken: account.data.userReviewToken
+              };
+        
+              console.log(account);
+        
+              dispatch(signIn(loginDispatchBody));
+        
+              return navigate("/Profile");
+            
+      }catch(err){
+        alert(err.response.data)
+      }
+  }
+}
 
   return (
     <main className="size-full flex justify-center items-center">

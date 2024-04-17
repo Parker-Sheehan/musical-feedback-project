@@ -140,7 +140,7 @@ const updateProfile = async (req, res) => {
 
   let { displayName, profilePicture, genres } = req.body;
   let { userId } = req.params;
-  try {
+  // try {
     const updatedProfileInfo = await User.update(
       {
         displayName: displayName,
@@ -153,6 +153,8 @@ const updateProfile = async (req, res) => {
       }
     );
 
+    console.log(updatedProfileInfo)
+
     await UserGenre.destroy({
       where: { userId: req.params.userId },
     });
@@ -162,9 +164,9 @@ const updateProfile = async (req, res) => {
     if (req.session.email) {
       res.send("yay");
     }
-  } catch (err) {
-    res.error(err, "user id not found");
-  }
+  // } catch (err) {
+  //   res.error(err, "user id not found");
+  // }
 };
 
 const followUser = async (req, res) => {

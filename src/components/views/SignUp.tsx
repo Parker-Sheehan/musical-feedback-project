@@ -21,11 +21,22 @@ const SignUp = () => {
   const passwordRef = useRef<HTMLInputElement>(null)
   const confirmPasswordRef = useRef<HTMLInputElement>(null)
 
+  let validateEmail = (email:string) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+  
+
 
   const signUpHandler = async() => {
     console.log("sign up handler hit")
     console.log(displayNameRef.current?.value)
     if(displayNameRef.current?.value && emailRef.current?.value && passwordRef.current?.value && passwordRef.current?.value === confirmPasswordRef.current?.value){
+
+      console.log(validateEmail(emailRef.current?.value))
+      if(validateEmail(emailRef.current?.value) === false){
+        return alert("please enter valid email")
+      }
 
       let bodyObj = {
         displayName: displayNameRef.current?.value,
@@ -34,19 +45,25 @@ const SignUp = () => {
       }
       console.log(bodyObj)
       
-      const account = await axios.post("http://localhost:3000/signUp", bodyObj)
+      try{
+        const account = await axios.post("http://localhost:3000/signUp", bodyObj)
 
-      let loginDispatchBody: LoginDispatchBody = {
-        userId: account.data.userId,
-        genreArray: [],
-        songInReview: account.data.songInReview,
-        userReviewToken: account.data.userReviewToken
-      };
-
-      dispatch(signIn(loginDispatchBody))
-
-      return navigate("/Profile")
-
+        let loginDispatchBody: LoginDispatchBody = {
+          userId: account.data.userId,
+          genreArray: [],
+          songInReview: account.data.songInReview,
+          userReviewToken: account.data.userReviewToken
+        };
+  
+        dispatch(signIn(loginDispatchBody))
+  
+        return navigate("/Profile")
+      }catch(err){
+        console.log(err)
+        return alert(err.response.data)
+      }
+    }else{
+      return alert("Make sure all fields are filled out and passwords match")
     }
   }
 
