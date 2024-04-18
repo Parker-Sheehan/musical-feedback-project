@@ -1,7 +1,6 @@
 import { useRef } from "react";
 // import "./LogIn.css";
-import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch} from "../../store/store";
 import { signIn } from "../../store/slices/loginSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -54,7 +53,7 @@ const LogIn = () => {
         
               return navigate("/Profile");
             
-      }catch(err){
+      }catch(err: any){
         alert(err.response.data)
       }
   }

@@ -58,8 +58,7 @@ const SignUp = () => {
         dispatch(signIn(loginDispatchBody))
   
         return navigate("/Profile")
-      }catch(err){
-        console.log(err)
+      }catch(err: any){
         return alert(err.response.data)
       }
     }else{

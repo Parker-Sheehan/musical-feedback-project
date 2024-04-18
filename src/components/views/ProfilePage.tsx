@@ -158,13 +158,18 @@ const ProfilePage = () => {
   let setProfileDataHandler: (profileDataObj: ProfileData) => void = async (
     profileDataObj: ProfileData
   ) => {
-    await axios.post(
-      `http://localhost:3000/updateProfileInfo/${loggedInUser.userId}`,
-      profileDataObj
-    );
-    let newProfileDataObj = {...profileData, ...profileDataObj}
-    console.log(newProfileDataObj)
-    setProfileData(newProfileDataObj);
+    try{
+      await axios.post(
+        `http://localhost:3000/updateProfileInfo/${loggedInUser.userId}`,
+        profileDataObj
+      );
+      let newProfileDataObj = {...profileData, ...profileDataObj}
+      console.log(newProfileDataObj)
+      setProfileData(newProfileDataObj);
+
+    }catch(err: any){
+      alert(err.response.data)
+    }
   };
 
   const followUserHandler = async() =>{

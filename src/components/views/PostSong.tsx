@@ -17,7 +17,6 @@ const PostSong = () => {
 
   const dispatch = useAppDispatch();
 
-
   const titleRef = useRef<HTMLInputElement | null>(null);
   const linkRef = useRef<HTMLInputElement | null>(null);
   const genreRef = useRef<HTMLSelectElement | null>(null);
@@ -38,8 +37,21 @@ const PostSong = () => {
       ) {
         let embeddedLink: string = "";
         let artLink: string = "";
+        let trimmedLink: string = linkRef.current?.value;
 
         console.log(genreRef.current.value);
+
+        if (linkRef.current?.value.includes("?in=")) {
+          trimmedLink = linkRef.current?.value.split("?in=")[0];
+        }
+
+        if (linkRef.current?.value.includes("?si=")) {
+          trimmedLink = linkRef.current?.value.split("?si=")[0];
+        }
+
+        if (linkRef.current?.value.includes("/sets/")) {
+         return alert("It seems you're submitting a playlist")
+        }
 
         try {
           const url = "https://soundcloud.com/oembed";
@@ -84,20 +96,23 @@ const PostSong = () => {
             artistQuestion: inputedArtistQuestion,
           };
 
-          await axios.post(
-            `http://localhost:3000/createNewSong/${userId}`,
-            newSongInfoObj
-          );
-          console.log(newSongInfoObj);
-          dispatch(updateReviewTokens("decrese"));
+          try {
+            await axios.post(
+              `http://localhost:3000/createNewSong/${userId}`,
+              newSongInfoObj
+            );
+            console.log(newSongInfoObj);
+            dispatch(updateReviewTokens("decrese"));
 
-
-          return navigate("/Profile");
+            return navigate("/Profile");
+          } catch (err: any) {
+            return alert(err.response.data);
+          }
         } else {
-          return alert("please enter all feilds properly");
+          return alert("please enter all fields properly");
         }
       } else {
-        return alert("please enter all feilds");
+        return alert("please enter all fields");
       }
     } else {
       return alert("insufficient tokens, give a song a critique first");
