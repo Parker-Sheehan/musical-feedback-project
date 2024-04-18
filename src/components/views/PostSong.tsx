@@ -49,14 +49,14 @@ const PostSong = () => {
           trimmedLink = linkRef.current?.value.split("?si=")[0];
         }
 
-        if (linkRef.current?.value.includes("/sets/")) {
+        if (trimmedLink.includes("/sets/")) {
          return alert("It seems you're submitting a playlist")
         }
 
         try {
           const url = "https://soundcloud.com/oembed";
 
-          const data = "format=json&url=" + linkRef.current?.value;
+          const data = "format=json&url=" + trimmedLink;
 
           const response = await fetch(url, {
             method: "POST",
