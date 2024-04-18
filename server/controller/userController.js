@@ -140,7 +140,7 @@ const updateProfile = async (req, res) => {
 
   let { displayName, profilePicture, genres } = req.body;
   let { userId } = req.params;
-  // try {
+  try {
     const updatedProfileInfo = await User.update(
       {
         displayName: displayName,
@@ -162,11 +162,11 @@ const updateProfile = async (req, res) => {
     UserGenre.bulkCreate(genres.map(({ genreId }) => ({ userId, genreId })));
     // console.log(updatedProfileInfo, "updated prfoile info");
     if (req.session.email) {
-      res.send("yay");
+      res.status(200).send("yay");
     }
-  // } catch (err) {
-  //   res.error(err, "user id not found");
-  // }
+  } catch (err) {
+    return res.status(400).send("Display name already taken");
+  }
 };
 
 const followUser = async (req, res) => {

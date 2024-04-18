@@ -229,63 +229,63 @@ export const seed = async () => {
     }
   }
 
-  for (let i = 0; i < 3; i++) {
-    arrayOfSongs.forEach( async (song) => {
-       await Song.create({
-        title: song.title + " " + i,
-        embeddedLink: song.embeddedLink,
-        userId: i + 2,
-        songReviewToken: 1,
-        artistQuestion: "It good?"
-      });
-        await SongLikes.create({
-          songId: i+2,
-          userId: i+1
-        })
-    });
-  }
+  // for (let i = 0; i < 3; i++) {
+  //   arrayOfSongs.forEach( async (song) => {
+  //      await Song.create({
+  //       title: song.title + " " + i,
+  //       embeddedLink: song.embeddedLink,
+  //       userId: i + 2,
+  //       songReviewToken: 1,
+  //       artistQuestion: "It good?"
+  //     });
+  //       await SongLikes.create({
+  //         songId: i+2,
+  //         userId: i+1
+  //       })
+  //   });
+  // }
 
-  for (let i = 0; i < 9; i++){
-    let randomGenres = [i+1,i+2]
-    for(let j = 0; j< 2; j++){
-      await SongGenre.create({
-        songId: i+1,
-        genreId: randomGenres[j]
-      })
-    }
-  }
+  // for (let i = 0; i < 9; i++){
+  //   let randomGenres = [i+1,i+2]
+  //   for(let j = 0; j< 2; j++){
+  //     await SongGenre.create({
+  //       songId: i+1,
+  //       genreId: randomGenres[j]
+  //     })
+  //   }
+  // }
 
-  let total;
-  let arrOfScores = [];
+  // let total;
+  // let arrOfScores = [];
 
-  const createRandomScores = () => {
-    total = 0;
-    arrOfScores = [];
+  // const createRandomScores = () => {
+  //   total = 0;
+  //   arrOfScores = [];
 
-    for (let i = 0; i < 5; i++) {
-      let num = Math.ceil(Math.random() * 5);
-      total += num;
-      arrOfScores.push(num);
+  //   for (let i = 0; i < 5; i++) {
+  //     let num = Math.ceil(Math.random() * 5);
+  //     total += num;
+  //     arrOfScores.push(num);
 
-    }
-  };
+  //   }
+  // };
 
 
   for(let i = 0; i < arrayOfReviews.length; i++){
     console.log("beginning of for each ================================")
 
-    createRandomScores()
+    // createRandomScores()
 
-    await Review.create({
-      // foreign keys of reviewer reviewee and song_id not included yet
-      aestheticCritique: arrayOfReviews[i].overallText,
-      technicalCritique: arrayOfReviews[i].musicalityText,
-      artistCritique: arrayOfReviews[i].rhythmText,
-      songId: arrayOfReviews[i].song_id,
-      reviewByUserId: arrayOfReviews[i].reviewee,
-      reviewForUserId: arrayOfReviews[i].reviewer,
-      critiqueScore: 2
-    });
+    // await Review.create({
+    //   // foreign keys of reviewer reviewee and song_id not included yet
+    //   aestheticCritique: arrayOfReviews[i].overallText,
+    //   technicalCritique: arrayOfReviews[i].musicalityText,
+    //   artistCritique: arrayOfReviews[i].rhythmText,
+    //   songId: arrayOfReviews[i].song_id,
+    //   reviewByUserId: arrayOfReviews[i].reviewee,
+    //   reviewForUserId: arrayOfReviews[i].reviewer,
+    //   critiqueScore: 2
+    // });
 
     console.log("end of for each ================================")
  }

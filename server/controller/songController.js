@@ -6,7 +6,7 @@ import {
   SongGenre,
   User,
   UserGenre,
-  SongLikes
+  SongLikes,
 } from "../../database/model";
 
 const createNewSong = async (req, res) => {
@@ -16,7 +16,7 @@ const createNewSong = async (req, res) => {
 
   let { title, embeddedLink, genre, artistQuestion } = req.body;
 
-  console.log(artistQuestion)
+  console.log(artistQuestion);
 
   if (req.session.email) {
     try {
@@ -25,7 +25,7 @@ const createNewSong = async (req, res) => {
         title: title,
         embeddedLink: embeddedLink,
         genre: genre,
-        artistQuestion: artistQuestion
+        artistQuestion: artistQuestion,
       });
 
       let user = await User.update(
@@ -36,8 +36,7 @@ const createNewSong = async (req, res) => {
         { where: { userId: req.params.userId } }
       );
 
-
-      console.log(user)
+      console.log(user);
 
       console.log(genre);
       console.log("making song 1");
@@ -46,7 +45,11 @@ const createNewSong = async (req, res) => {
 
       res.send("yay");
     } catch (err) {
-      res.send(err, "error");
+      res
+        .status(400)
+        .send(
+          "Are you sure this your song? It seems somebody's already posted this."
+        );
     }
   } else {
     res.send("you need to log in");
@@ -128,9 +131,9 @@ const getRandomSong = async (req, res) => {
 
   console.log(newSongArray, "potential songs");
 
-  if(newSongArray[0] === undefined){
-    res.status(200).send(newSongArray)
-    console.log("no songs in array")
+  if (newSongArray[0] === undefined) {
+    res.status(200).send(newSongArray);
+    console.log("no songs in array");
   }
 
   let randomNumMultiplyer = newSongArray.reduce(
@@ -152,10 +155,6 @@ const getRandomSong = async (req, res) => {
       await User.update(
         { songInReview: newSongArray[i].songId },
         { where: { userId: userId } }
-      );
-      await Song.update(
-        { songReviewToken: newSongArray[i].songReviewToken - 1 },
-        { where: { songId: newSongArray[i].songId } }
       );
       console.log(newSongArray[i], "updatedSong");
       res.send(newSongArray[i]);
@@ -226,7 +225,6 @@ const postCritique = async (req, res) => {
 
     console.log(userId);
 
-
     let newReview = await Review.create({
       reviewByUserId: +userId,
       reviewForUserId: +reviewForId,
@@ -245,6 +243,24 @@ const postCritique = async (req, res) => {
       { where: { userId: +userId } }
     );
     console.log(user);
+
+    try {
+      let updatedSong = await Song.update(
+        { songReviewToken: Sequelize.literal("song_review_token - 1") },
+        { where: { songId: +songId } }
+      );
+      if(updatedSong.songReviewToken === 0){
+        await User.update(
+          {
+            songInReview: 0,
+          },
+          { where: { songInReview: +songId } }
+        );
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
 
     // console.log(newReview);
     res.send("success");
@@ -276,75 +292,73 @@ const getReviewInfo = async (req, res) => {
     console.log(reviewInfo);
 
     res.send(reviewInfo);
-  } catch(err) {
-    res.send(err, "invalid reviewId")
+  } catch (err) {
+    res.send(err, "invalid reviewId");
   }
 };
 
-const addTokenToSong = async(req, res) => {
-  let {songId} = req.params
-  let {userId} = req.body
-  console.log(songId)
-  console.log("add token hit")
+const addTokenToSong = async (req, res) => {
+  let { songId } = req.params;
+  let { userId } = req.body;
+  console.log(songId);
+  console.log("add token hit");
 
-  try{
+  try {
     let song = await Song.update(
       {
         songReviewToken: Sequelize.literal("song_review_token + 1"),
       },
-      { where: { songId:  req.params.songId} }
-    )
-  
+      { where: { songId: req.params.songId } }
+    );
+
     let user = await User.update(
       {
         userReviewToken: Sequelize.literal("user_review_token - 1"),
       },
-      { where: { userId: userId} }
+      { where: { userId: userId } }
     );
-  
-    console.log(song, "song")
-    console.log(user, "user")
-  
-    res.send(song)
 
-  }catch{
-    console.log('failed')
-    res.send("failure")
+    console.log(song, "song");
+    console.log(user, "user");
+
+    res.send(song);
+  } catch {
+    console.log("failed");
+    res.send("failure");
   }
-
-}
+};
 
 const submitCritiqueScore = async (req, res) => {
-  let { reviewId, critiqueScore} = req.body
-  await Review.update({
-    critiqueScore: critiqueScore
-  }, {
-    where: {reviewId: reviewId}
-  })
-}
+  let { reviewId, critiqueScore } = req.body;
+  await Review.update(
+    {
+      critiqueScore: critiqueScore,
+    },
+    {
+      where: { reviewId: reviewId },
+    }
+  );
+};
 
 const likeSong = async (req, res) => {
-  console.log(req.body)
-   let { userId, songId, likeStatus } = req.body
-   let result
-   if(likeStatus){
+  console.log(req.body);
+  let { userId, songId, likeStatus } = req.body;
+  let result;
+  if (likeStatus) {
     result = await SongLikes.destroy({
       where: {
-        [Op.and]: [
-          {userId: userId},
-          {songId: songId}
-        ]
-      }
-    })
-   }else{
+        [Op.and]: [{ userId: userId }, { songId: songId }],
+      },
+    });
+  } else {
     result = await SongLikes.create({
       userId: userId,
-      songId: songId
-    })
-   }
+      songId: songId,
+    });
+  }
 
-   console.log(result)
-}
+  console.log(result);
+};
 
 export {
   createNewSong,
@@ -355,5 +369,5 @@ export {
   getReviewInfo,
   addTokenToSong,
   submitCritiqueScore,
-  likeSong
+  likeSong,
 };

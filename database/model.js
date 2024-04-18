@@ -127,7 +127,7 @@ Song.init(
     embeddedLink: {
       type: DataTypes.TEXT,
       allowNull: false,
-      // unique: true,
+      unique: true,
     },
     artistQuestion: {
       type: DataTypes.TEXT,
@@ -136,7 +136,10 @@ Song.init(
     songReviewToken: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 1
+      defaultValue: 1,
+      validate: {
+        min: 0
+      },
     },
     createdAt: {
       type: DataTypes.DATE,
