@@ -70,10 +70,10 @@ const getSong = async (req, res) => {
   res.send(song);
 };
 
-const getRandomSong = async (req, res) => {
+const getRandomSong = async (userId) => {
   console.log("hit getRandomSong");
-  console.log(req.params);
-  let { userId } = req.params;
+  // console.log(req.params);
+  // let { userId } = req.params;
   // need to create array of song ID that can't be chosen using songs reviewed by user and songs created by user
   // also need to use genre array to make sure song chosen is within the genres chosen by user
   // also also need to make sure it priotitizes lowest review count
@@ -132,8 +132,7 @@ const getRandomSong = async (req, res) => {
   console.log(newSongArray, "potential songs");
 
   if (newSongArray[0] === undefined) {
-    res.status(200).send(newSongArray);
-    console.log("no songs in array");
+    return newSongArray[0]
   }
 
   let randomNumMultiplyer = newSongArray.reduce(
@@ -157,13 +156,45 @@ const getRandomSong = async (req, res) => {
         { where: { userId: userId } }
       );
       console.log(newSongArray[i], "updatedSong");
-      res.send(newSongArray[i]);
+      return(newSongArray[i]);
 
-      return newSongArray[i];
+      // return newSongArray[i];
     }
   }
 
   // console.log(newSongArray, "new song")
+};
+
+const getReviewSong = async (req, res) => {
+  let { userId } = req.params;
+
+  let userInfo = await User.findOne({
+    where: {
+      userId: userId,
+    },
+  });
+
+  if(userInfo.songInReview === 0){
+    let reviewSong = await getRandomSong(userId)
+    console.log(reviewSong, "review Song")
+    if(reviewSong !== undefined){
+      await User.update({songInReview : reviewSong.songId},{where: {userId : userId}})
+      res.status(200).send(reviewSong)
+    }else{
+      res.status(400).send("No songs to critique in specified genres, try expanding genre selection")
+    }
+  }else{
+    let song = await Song.findByPk(userInfo.songInReview, {
+      include: [
+        {
+          model: User,
+        },
+      ],
+    });
+    console.log(song,"this is song in else")
+    res.status(200).send(song)
+
+  }
 };
 
 const getSongProfileInfo = async (req, res) => {
@@ -211,10 +242,10 @@ const getSongProfileInfo = async (req, res) => {
 
 const postCritique = async (req, res) => {
   try {
-    console.log(req.params.userId);
+    // console.log(req.params.userId);
     let { userId } = req.params;
-    console.log(userId);
-    console.log(req.body);
+    // console.log(userId);
+    // console.log(req.body);
     let {
       aestheticCritique,
       technicalCritique,
@@ -242,30 +273,45 @@ const postCritique = async (req, res) => {
       },
       { where: { userId: +userId } }
     );
-    console.log(user);
+    // console.log(user);
+
+    console.log("rah");
+
+    // try{
+    const [rowsAffected, updatedSongs] = await Song.update(
+      {
+        songReviewToken: Sequelize.literal("song_review_token - 1"),
+      },
+      {
+        where: {
+          songId: +songId,
+          songReviewToken: { [Sequelize.Op.gt]: 0 },
+        },
+        returning: true,
+      }
+    );
+
+    console.log("rah");
+
+    console.log(updatedSongs, "raaaaah");
 
     try {
-      let updatedSong = await Song.update(
-        { songReviewToken: Sequelize.literal("song_review_token - 1") },
-        { where: { songId: +songId } }
-      );
-      if(updatedSong.songReviewToken === 0){
+      if (updatedSongs[0].songReviewToken === 0) {
+        console.log("inside update song in review");
         await User.update(
           {
             songInReview: 0,
           },
           { where: { songInReview: +songId } }
         );
-
       }
-    } catch (err) {
-      console.log(err);
+    } catch {
+      console.log("already set stuff to 0");
     }
 
-    // console.log(newReview);
     res.send("success");
   } catch (err) {
-    res.send(err, "error");
+    res.status(400).send(err, "error");
   }
 };
 
@@ -364,6 +410,7 @@ export {
   createNewSong,
   getSong,
   getRandomSong,
+  getReviewSong,
   getSongProfileInfo,
   postCritique,
   getReviewInfo,

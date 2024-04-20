@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Genre from "../../components/views/ProfilePage";
 
-interface LoginState {
+export interface LoginState {
   userId: number | null;
   genreArray: number[] | null;
   songInReview: number | null;

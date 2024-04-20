@@ -19,31 +19,86 @@ let genreArray = [
 ]
 
 let arrayOfSongs = [
-  {
-    id: 1,
-    userId: 1,
-    title: "Angel Voices",
-    artLink: "https://i1.sndcdn.com/artworks-000377038188-z3jm7h-t500x500.jpg",
-    embeddedLink:
-      "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F474445329",
-  },
-  {
-    id: 2,
-    userId: 2,
-    title: "Good Space",
-    artLink:
-      "https://i1.sndcdn.com/artworks-ylbfQTWEvsleLDep-6oWVdA-t500x500.jpg",
-    embeddedLink:
-      "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1448872240",
-  },
-  {
-    id: 3,
-    userId: 3,
-    title: "moment",
-    artLink: "https://i1.sndcdn.com/artworks-000572434217-zrbos8-t500x500.jpg",
-    embeddedLink:
-      "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F656099120",
-  },
+    {
+      title: "VOXCUTR",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1644812037",
+      artist_question: "Vox rox?",
+    },
+    {
+      title: "Shypop",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1599760020",
+      artist_question: "I'm shy",
+    },
+    {
+      title: "Presuer",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1644811713",
+      artist_question: "raaaraaar",
+    },
+    {
+      title: "OKOKOK",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1644809730",
+      artist_question: "rah",
+    },
+    {
+      title: "SkyLit",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1644810492",
+      artist_question: "Up in the sky?",
+    },
+    {
+      title: "SNORT",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1803069078",
+      artist_question: "raah??",
+    },
+    {
+      title: "spanish moss",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1607716800",
+      artist_question: "raaah",
+    },
+    {
+      title: "sappy",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1645013763",
+      artist_question: "aarraa",
+    },
+    {
+      title: "Push up",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1482099679",
+      artist_question: "I got that good stuff",
+    },
+    {
+      title: "After glow",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1329954901",
+      artist_question: "Wanna get caught in the middle?",
+    },
+    {
+      title: "MAKE A MOVE",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1015691320",
+      artist_question: "Better make a move",
+    },
+    {
+      title: "Funkonaut",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1331390566",
+      artist_question: "oh snap?",
+    },
+    {
+      title: "Age Of Love",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1105920433",
+      artist_question: "do you like beeps?",
+    },
+    {
+      title: "All I Need Is Bass",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1656130965",
+      artist_question: "Do you like bass?",
+    },
+    {
+      title: "Morning Coffee",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1196261269",
+      artist_question: "Try to be the best you can possibly be",
+    },
+    {
+      title: "Antinomy & Symbolic",
+      embedded_link: "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1547858047",
+      artist_question: "Do you like?",
+    }  
 ];
 
 let arrayOfReviews = [

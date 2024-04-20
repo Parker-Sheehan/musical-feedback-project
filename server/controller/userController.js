@@ -43,7 +43,7 @@ const getProfileInfo = async (req, res) => {
     ],
   });
   
-  console.log(profileInfo)
+  // console.log(profileInfo)
   try {
     let critiqueScore = profileInfo.reviewsBy.reduce((accumulator, current) => {
       console.log(current.critiqueScore, "critique sorcoedcon")
@@ -59,8 +59,8 @@ const getProfileInfo = async (req, res) => {
         followingId: req.params.userId,
       },
     });
-    console.log("following hcekc");
-    console.log(followingCheck);
+    // console.log("following hcekc");
+    // console.log(followingCheck);
     if (req.session.email && followingCheck) {
       console.log("true hit");
       let newProfileInfo = {
@@ -78,7 +78,7 @@ const getProfileInfo = async (req, res) => {
         followers: profileInfo.followers,
         followings: profileInfo.followings
       };
-      console.log(newProfileInfo);
+      // console.log(newProfileInfo);
       res.send(newProfileInfo);
       return;
     } else if (req.session.email) {
@@ -99,7 +99,7 @@ const getProfileInfo = async (req, res) => {
         followings: profileInfo.followings
 
       };
-      console.log(newProfileInfo);
+      // console.log(newProfileInfo);
       res.send(newProfileInfo);
       return;
     }
@@ -108,7 +108,7 @@ const getProfileInfo = async (req, res) => {
     }
   }
   if (req.session.email) {
-    console.log("default");
+    // console.log("default");
     // console.log(profileInfo)
     let newProfileInfo = {
       userId: profileInfo.userId,
