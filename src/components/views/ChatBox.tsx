@@ -104,6 +104,7 @@ const Messages: FC<MessagesProps> = ({
       handleSetChatRooms(newChatRoomArray)
     })
 
+    
     // Clean up when component unmounts
     // return () => {
     //   // Leave chat rooms when component unmounts or when chatRooms change

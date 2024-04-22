@@ -20,6 +20,7 @@ const persistConfig = {
   storage,
 };
 
+
 // Create persisted reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
