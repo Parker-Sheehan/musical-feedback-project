@@ -126,6 +126,7 @@ app.get("/getPosts/:userId", verifyToken, getPosts)
 app.post("/likeSong", verifyToken, likeSong)
 
 
+
 io.on("connection", (socket) => {
   console.log("A user connected");
 
