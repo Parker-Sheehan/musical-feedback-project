@@ -5,6 +5,8 @@ import ChatRoom from "./ChatRoom";
 import { ProfileData } from "./ProfilePage";
 import NewChatRoom from "./NewChatRoom"
 import io from "socket.io-client";
+import { ImProfile } from "react-icons/im";
+
 
 const socket = io("http://localhost:3000")
 
@@ -42,6 +44,8 @@ interface MessagesProps {
   profileData: ProfileData;
   getChatRooms: () => void
   handleSetChatRooms: (newChatRoomArray: ChatRoomInterface[]) => void
+  showChatMobile: boolean
+  handleSetShowChatMobile: () => void
 }
 
 const Messages: FC<MessagesProps> = ({
@@ -50,7 +54,9 @@ const Messages: FC<MessagesProps> = ({
   chatRooms,
   profileData,
   getChatRooms,
-  handleSetChatRooms
+  handleSetChatRooms,
+  showChatMobile,
+  handleSetShowChatMobile
 }) => {
   
   let loggedInUser = useAppSelector((state) => state.login);
@@ -122,7 +128,7 @@ const Messages: FC<MessagesProps> = ({
 
   return (
     <>
-      {currentChatRoom === 0 && (
+      {currentChatRoom === 0 && !showChatMobile && (
         <div className="bg-gradient-to-br from-prim to-accent grid-cols-subgrid col-span-2 grid-row-subgrid row-span-4 rounded-lg hidden lg:flex min-w-[240px] h-[720px]">
           <div className="h-full w-full p-1">
             <div className="h-full overflow-y-scroll overflow-x-hidden scroll rounded ">
@@ -185,10 +191,74 @@ const Messages: FC<MessagesProps> = ({
           </div>
         </div>
       )}
+      {currentChatRoom === 0 && showChatMobile &&(
+        <div className="bg-gradient-to-br from-prim to-accent grid-cols-subgrid col-span-2 grid-row-subgrid row-span-4 rounded-lg lg:flex min-w-[240px] h-[720px] mt-10">
+          <div className="h-full w-full p-1">
+            <div className="h-full overflow-y-scroll overflow-x-hidden scroll rounded ">
+            <ImProfile className="inline float-start size-6 absolute" onClick={handleSetShowChatMobile}/>
+              <h3 className="text-black text-m font-heading text-center ">
+                Messages
+              </h3>
+              <div className="">
+                {chatRooms &&
+                  chatRooms.map((chatRoom: ChatRoomInterface) => {
+                    if (loggedInUser.userId === chatRoom.user1Id) {
+                      let { profilePicture, displayName } = chatRoom.user2;
+                      let message = chatRoom.messages[chatRoom.messages.length - 1].content;
+                      let seen = true
+                      for(let i = chatRoom.messages.length -1; i >= 0; i--){
+                        if(chatRoom.messages[i].recipientId === loggedInUser.userId){
+                          seen = chatRoom.messages[i].recipientSeen 
+                          break
+                        }
+                      }
+                      return (
+                        <ChatRooms
+                          openChatRoomHandler={openChatRoomHandler}
+                          key={chatRoom.chatRoomId}
+                          pfp={profilePicture}
+                          displayName={displayName}
+                          message={message}
+                          chatRoomId={chatRoom.chatRoomId}
+                          chatRooms={chatRooms}
+                          seen={seen}
+                          handleSetChatRooms={handleSetChatRooms}
+                        />
+                      );
+                    } else {
+                      let { profilePicture, displayName } = chatRoom.user1; 
+                      let message = chatRoom.messages[chatRoom.messages.length - 1].content;
+                      let seen = true
+                      for(let i = chatRoom.messages.length -1; i >= 0; i--){
+                        if(chatRoom.messages[i].recipientId === loggedInUser.userId){
+                          seen = chatRoom.messages[i].recipientSeen 
+                        }
+                      }
+                      return (
+                        <ChatRooms
+                        openChatRoomHandler={openChatRoomHandler}
+                        key={chatRoom.chatRoomId}
+                        pfp={profilePicture}
+                        displayName={displayName}
+                        message={message}
+                        chatRoomId={chatRoom.chatRoomId}
+                        chatRooms={chatRooms}
+                        seen={seen}
+                        handleSetChatRooms={handleSetChatRooms}
+
+                        />
+                      );
+                    }
+                  })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {currentChatRoom > 0 && chatRooms && 
-      <ChatRoom openChatRoomHandler={openChatRoomHandler} chatRooms={chatRooms} currentChatRoom={currentChatRoom}/>}
+      <ChatRoom openChatRoomHandler={openChatRoomHandler} chatRooms={chatRooms} currentChatRoom={currentChatRoom} showChatMobile={showChatMobile}/>}
       {currentChatRoom === -1 && profileData && 
-      <NewChatRoom profileData={profileData} openChatRoomHandler={openChatRoomHandler} getChatRooms={getChatRooms}/>
+      <NewChatRoom profileData={profileData} openChatRoomHandler={openChatRoomHandler} getChatRooms={getChatRooms} showChatMobile={showChatMobile}/>
       }
     </>
   );
