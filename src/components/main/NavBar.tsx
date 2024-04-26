@@ -2,7 +2,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { TbMusicHeart } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../store/store";
-import { signIn, signOut } from "../../store/slices/loginSlice";
+import { signOut } from "../../store/slices/loginSlice";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Alert } from "react-bootstrap";
@@ -13,6 +13,7 @@ const NavBar = () => {
   const dispatch = useAppDispatch();
 
   let loggedInUser = useAppSelector((state) => state.login);
+  
   let handleSignOut = () => {
     console.log(document.cookie, 'cookie')
     dispatch(signOut())
@@ -21,16 +22,10 @@ const NavBar = () => {
   let [search, setSearch] = useState("")
   let [searchResults ,setSearchResults] = useState<MessageUser[]>()
 
-
-  
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearch(value);
   };
-  
-
-
-  console.log(search)
 
   useEffect(() => {
     // debounce function
@@ -48,19 +43,19 @@ const NavBar = () => {
   },[search])
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    let authenticateAndLogIn = async () => {
-      let data = await axios.get('http://localhost:3000/authenticateAndLogIn')
-      console.log('yay')
-      console.log(data.data, "inside the function")
-      console.log(typeof (data.data))
-      dispatch(signIn(data.data))
-    }
+  //   let authenticateAndLogIn = async () => {
+  //     let data = await axios.get('http://localhost:3000/authenticateAndLogIn')
+  //     console.log('yay')
+  //     console.log(data.data, "inside the function")
+  //     console.log(typeof (data.data))
+  //     dispatch(signIn(data.data))
+  //   }
 
-    authenticateAndLogIn()
+  //   authenticateAndLogIn()
 
-  }, [])
+  // }, [])
 
   console.log(loggedInUser.userId);
   return (

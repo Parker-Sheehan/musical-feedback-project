@@ -9,30 +9,17 @@ import {Op} from "sequelize"
 dotenv.config();
 
 const saltRounds = 10;
-
+ 
 let SECRET = process.env.SECRET;
 
 const verifyToken = (req, res, next) => {
-  const accessToken = req.cookies["access-token"];
-
-  console.log(accessToken, "access token");
-
-  if (!accessToken) {
-    res.status(400).json({ error: "User not authenticated" });
-  }
-  try {
-    const validToken = jwt.verify(accessToken, SECRET);
-    console.log(validToken, "valid token");
-    if (validToken) {
-      req.authenticated = true;
-      console.log("returning next next");
-      res.locals.userId = validToken.userId;
-      return next();
-    }
-  } catch (err) {
-    res.status(400).json({ err });
-  }
-  console.log(accessToken);
+  console.log(req.session, req.session.email, "these are session email and thing" )
+  if (!req.session || !req.session.email) {
+    console.error('Unauthorized access attempt:', req.originalUrl);
+    return res.status(302).send('http://localhost:5173/LogIn');
+  } 
+// If user is authenticated, proceed to the next middleware
+next();
 };
 
 let signUp = async (req, res) => {

@@ -1,5 +1,5 @@
 import NavBar from "./components/main/NavBar";
-import {Routes, Route} from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 import Home from "./components/views/Home";
 import LogIn from "./components/views/LogIn";
 import SignUp from "./components/views/SignUp";
@@ -8,9 +8,10 @@ import ReviewSong from "./components/views/ReviewSong";
 import PostSong from "./components/views/PostSong";
 import SongProfilePage from "./components/views/SongProfilePage";
 import ViewReviewPage from "./components/views/ViewReviewPage";
-import axios from "axios";
 
 function App() {  
+
+  
 
   return (
     <>

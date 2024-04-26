@@ -1,7 +1,7 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 // import "./LogIn.css";
 import { useAppDispatch} from "../../store/store";
-import { signIn } from "../../store/slices/loginSlice";
+import { signIn, signOut } from "../../store/slices/loginSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Genre } from "./ProfilePage";
@@ -21,6 +21,16 @@ const LogIn = () => {
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    console.log("use effect jhit")
+    signOutHandler(); // Ensure user is logged out on component mount
+  }, []);
+
+  const signOutHandler = async () => {
+    console.log("handler hit log out")
+    await dispatch(signOut());
+  };
 
   const loginHandler = async () => {
     console.log("login handler hit");
@@ -70,22 +80,6 @@ const LogIn = () => {
           <h1>Login</h1>
           <h4>Hi, Welcome back</h4>
         </div>
-{/* 
-        <div
-          className="login-with flex justify-center items-center h-40 w-full border border-gray-300 rounded bg-white"
-          id="with-google"
-        >
-          <p>Login with Google</p>
-        </div>
-
-        <div
-          className="flex justify-around items-center w-full text-gray-500"
-        >
-          <div className="line w-30 h-px bg-gray-300"></div>
-          <p>or Login with Email</p>
-          <div className="line w-30 h-px bg-gray-300"></div>
-        </div> */}
-
         <div
           className="flex flex-col justify-around size-10/12 sm:w-1/2 lg:w-1/3 text-text"
         >

@@ -43,7 +43,7 @@ const getProfileInfo = async (req, res) => {
     ],
   });
   
-  // console.log(profileInfo)
+  console.log(profileInfo, "profile info")
   try {
     let critiqueScore = profileInfo.reviewsBy.reduce((accumulator, current) => {
       console.log(current.critiqueScore, "critique sorcoedcon")

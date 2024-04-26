@@ -15,59 +15,34 @@ const http = require("http");
 const { Server } = require("socket.io"); // Import Socket.IO library
 const app = express();
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true
   }
-});
+}); 
 
-// const SequelizeStore = require('express-session-sequelize')(session.Store);
-
-// const sessionStore = new SequelizeStore({
-//   db 
-// });
-
-
-// interface SessionData {
-//   key: string;
-//   secret?: string;
-//   resave?: boolean | undefined;
-//   saveUninitialized?: boolean | undefined;
-//   genid?: Function | undefined;
-//   name?: string | undefined;
-//   proxy?: boolean | undefined;
-//   rolling?: boolean | undefined;
-//   store?: any;
-//   unset?: string | undefined;
-//   cookie?: any;
-// }
-
-// const sessionConfig: SessionData = {
-//   key: "userId",
-//   secret: process.env.SESSION_SECRET_KEY,
-//   resave: false,
-//   saveUninitialized: false,
-//   store: sessionStore,
-//   cookie: {
-//     expires:1000*60*60*24,
-//     sameSite: "none", // Set to 'none' for cross-origin access
-//     // secure: true, // Set to true if served over HTTPS
-//   },
-// };
-
-// app.use(session(sessionConfig));
-
-
+ 
+  
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    methods: ["GET", "POST"],
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: function(origin, callback) {
+    // Check if the request origin is allowed to access the resource
+    // You may have more sophisticated logic here, this is just a basic example
+    const allowedOrigins = ['http://localhost:5173'];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ["GET", "POST"],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 app.use(
   session({
@@ -76,6 +51,9 @@ app.use(
     secret: 'some random string',
   })
 )
+
+app.options('*', cors()); // Respond to all OPTIONS requests with CORS headers
+
 
 app.use(cookieParser());
 
@@ -106,7 +84,7 @@ app.post("/addTokenToSong/:songId", verifyToken, addTokenToSong)
 app.post("/followUser/:loggedInUserId", verifyToken, followUser)
 
 app.post("/unfollowUser/:loggedInUserId", verifyToken, unfollowUser)
-
+  
 app.get("/getChatRooms/:loggedInUserId", verifyToken, getChatRooms)
 
 app.post("/createNewMessage", verifyToken, createNewMessage)

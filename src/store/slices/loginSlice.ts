@@ -64,9 +64,9 @@ export const LoginSlice = createSlice({
         songInReview,
         userReviewToken: userReviewToken! - 1
       })
-    }
-    ,
+    } ,
     signOut: (state) => {
+      console.log("hit signout in slice")
       return (state = {
         userId: null,
         genreArray: null,
