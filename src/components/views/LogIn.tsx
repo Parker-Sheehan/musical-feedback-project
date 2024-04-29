@@ -1,11 +1,12 @@
 import { useEffect, useRef } from "react";
 // import "./LogIn.css";
+import instance from "../../utils/axios";
 import { useAppDispatch} from "../../store/store";
 import { signIn, signOut } from "../../store/slices/loginSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Genre } from "./ProfilePage";
-axios.defaults.withCredentials = true;
+instance.defaults.withCredentials = true;
 
 export interface LoginDispatchBody {
   userId: number;

@@ -6,15 +6,25 @@ export default {
   ],
   theme: {
     extend:{
-        colors: {
-          'text': '#def4dc',
-          'background': '#0a2912',
-          'background2': '#2B4331',
-          'background3': '#0D3913',
-          'prim': '#9be198',
-          'sec': '#DC0937',
-          'sec2': "#531D1F",
-          'accent': '#24c304',
+        // colors: {
+        //   'text': '#def4dc',
+        //   'background': '#0a2912',
+        //   'background2': '#2B4331',
+        //   'background3': '#0D3913',
+        //   'prim': '#9be198',
+        //   'sec': '#DC0937',
+        //   'sec2': "#531D1F",
+        //   'accent': '#24c304',
+        //  },
+         colors: {
+          'text': '#eee2f9',
+          'background': '#11051a',
+          'background2': '#941e4c',
+          'background3': '#251432',
+          'prim': '#b989e6',
+          'sec': '#851c66',
+          'sec2': "#390C33",
+          'accent': '#da4d84',
          },
        fontSize: {
         sm: '0.85rem',
