@@ -67,6 +67,7 @@ export const LoginSlice = createSlice({
     } ,
     signOut: (state) => {
       console.log("hit signout in slice")
+      
       return (state = {
         userId: null,
         genreArray: null,

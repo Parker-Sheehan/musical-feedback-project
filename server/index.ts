@@ -2,7 +2,7 @@
 import { createRequire } from "module";
 import { db } from "../database/model";
 import { seed } from "../script/seed";
-import { signUp, login, verifyToken } from "./controller/authController";
+import { signUp, login, verifyToken, signOut } from "./controller/authController";
 import session from "express-session";
 import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen, userSearch, getPosts } from "./controller/userController";
 import {createNewSong, getSong, getReviewSong, getSongProfileInfo, postCritique, getReviewInfo, addTokenToSong, submitCritiqueScore, likeSong} from './controller/songController'
@@ -62,6 +62,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post("/signUp", signUp);
 
 app.post("/login", login);
+
+app.get("/signOut", signOut)
 
 app.get("/getProfileInfo/:userId", verifyToken, getProfileInfo);
 

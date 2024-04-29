@@ -30,6 +30,8 @@ const LogIn = () => {
 
   const signOutHandler = async () => {
     console.log("handler hit log out")
+    let sessionDestory = await instance.get("http://localhost:3000/signOut")
+    console.log(sessionDestory)
     await dispatch(signOut());
   };
 

@@ -92,4 +92,17 @@ let login = async (req, res) => {
   }
 };
 
-export { signUp, login, verifyToken };
+let signOut = (req, res) => {
+  // Destroy the session
+  let rah = req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return res.status(500).send('Internal server error');
+    }
+    // Redirect the user to the login page or any other appropriate page
+    res.status(200).send("session destoryed")
+  });
+  console.log(rah, "tjos os rah")
+}
+
+export { signUp, login, verifyToken, signOut };
