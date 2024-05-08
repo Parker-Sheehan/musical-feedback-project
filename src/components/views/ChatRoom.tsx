@@ -2,7 +2,8 @@ import React, { FC, useEffect, useState, useMemo, useRef } from "react";
 import { ChatRoomInterface } from "./ChatBox";
 import { useAppSelector } from "../../store/store";
 import { Message } from "./ChatBox";
-import axios from "axios";
+import instance from "../../utils/axios";
+
 import io from "socket.io-client";
 import { Link } from "react-router-dom";
 const socket = io("http://localhost:3000");
@@ -80,7 +81,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
     }
 
     console.log(chatRoom);
-    let createNewMessageResponse = await axios.post(
+    let createNewMessageResponse = await instance.post(
       `http://localhost:3000/createNewMessage`,
       {
         content: message,
@@ -120,7 +121,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
                 className=" decoration-transparent "
                 to={"/Profile/" + chatRoom.user2Id}
               >
-                <h3 className="text-black text-m font-heading text-center hover:cursor-pointer">
+                <h3 className="text-black text-m text-center hover:cursor-pointer">
                   {chatRoom.user2.displayName}
                 </h3>
               </Link>
@@ -129,7 +130,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
                 className=" decoration-transparent"
                 to={"/Profile/" + chatRoom.user1Id}
               >
-                <h3 className="text-black text-m font-heading text-center hover:cursor-pointer">
+                <h3 className="text-black text-m text-center hover:cursor-pointer">
                   {chatRoom.user1.displayName}
                 </h3>
               </Link>
@@ -151,7 +152,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
                   if (mappingMessage.senderId === loggedInUser.userId) {
                     return (
                       <>
-                        <div className=" text-center text-text font-body bg-slate-400 w-1/2 place-self-center m-3">
+                        <div className=" text-center text-text bg-slate-400 w-1/2 place-self-center m-3">
                           {mappingMessage.createdAt.split("T")[0]}
                         </div>
                         <div className=" bg-white size-fit self-end mb-1 rounded-md px-1">
@@ -162,10 +163,10 @@ const ChatRoom: FC<ChatRoomProps> = ({
                   } else {
                     return (
                       <>
-                        <div className=" text-center text-text font-body bg-slate-400 w-1/2 place-self-center m-3">
+                        <div className=" text-center text-text bg-slate-400 w-1/2 place-self-center m-3">
                           {mappingMessage.createdAt.split("T")[0]}
                         </div>
-                        <div className=" bg-blue-100 size-fit text-left mb-1 rounded-md px-1">
+                        <div className=" bg-accent size-fit text-left mb-1 rounded-md px-1">
                           {mappingMessage.content}
                         </div>
                       </>
@@ -181,7 +182,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
                   );
                 } else {
                   return (
-                    <div className=" bg-blue-100 size-fit text-left mb-1 rounded-md px-1">
+                    <div className=" bg-accent size-fit text-left mb-1 rounded-md px-1">
                       {mappingMessage.content}
                     </div>
                   );
@@ -224,7 +225,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
                 className=" decoration-transparent "
                 to={"/Profile/" + chatRoom.user2Id}
               >
-                <h3 className="text-black text-m font-heading text-center hover:cursor-pointer">
+                <h3 className="text-black text-m text-center hover:cursor-pointer">
                   {chatRoom.user2.displayName}
                 </h3>
               </Link>
@@ -233,7 +234,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
                 className=" decoration-transparent"
                 to={"/Profile/" + chatRoom.user1Id}
               >
-                <h3 className="text-black text-m font-heading text-center hover:cursor-pointer">
+                <h3 className="text-black text-m text-center hover:cursor-pointer">
                   {chatRoom.user1.displayName}
                 </h3>
               </Link>
@@ -255,7 +256,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
                   if (mappingMessage.senderId === loggedInUser.userId) {
                     return (
                       <>
-                        <div className=" text-center text-text font-body bg-slate-400 w-1/2 place-self-center m-3">
+                        <div className=" text-center text-text bg-sec w-1/2 place-self-center m-3">
                           {mappingMessage.createdAt.split("T")[0]}
                         </div>
                         <div className=" bg-white size-fit self-end mb-1 rounded-md px-1">
@@ -266,10 +267,10 @@ const ChatRoom: FC<ChatRoomProps> = ({
                   } else {
                     return (
                       <>
-                        <div className=" text-center text-text font-body bg-slate-400 w-1/2 place-self-center m-3">
+                        <div className=" text-center text-text bg-slate-400 w-1/2 place-self-center m-3">
                           {mappingMessage.createdAt.split("T")[0]}
                         </div>
-                        <div className=" bg-blue-100 size-fit text-left mb-1 rounded-md px-1">
+                        <div className=" bg-accent size-fit text-left mb-1 rounded-md px-1">
                           {mappingMessage.content}
                         </div>
                       </>
@@ -285,7 +286,7 @@ const ChatRoom: FC<ChatRoomProps> = ({
                   );
                 } else {
                   return (
-                    <div className=" bg-blue-100 size-fit text-left mb-1 rounded-md px-1">
+                    <div className=" bg-accent text-text size-fit text-left mb-1 rounded-md px-1">
                       {mappingMessage.content}
                     </div>
                   );

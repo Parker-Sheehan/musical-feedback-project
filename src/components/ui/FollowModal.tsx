@@ -38,7 +38,7 @@ const FollowModal: FC<FollowModalProps> = (props) => {
                       }}
                     ></div>
                     <div className="size-full flex flex-col justify-around ml-3">
-                      <p className="m-0 text-background text-m font-body mt-2">
+                      <p className="m-0 text-background text-m mt-2">
                         {result.displayName}
                       </p>
                     </div>
@@ -59,7 +59,7 @@ const FollowModal: FC<FollowModalProps> = (props) => {
                       }}
                     ></div>
                     <div className="size-full flex flex-col justify-around ml-3">
-                      <p className="m-0 text-background text-m font-body mt-2">
+                      <p className="m-0 text-background text-m mt-2">
                         {result.displayName}
                       </p>
                     </div>

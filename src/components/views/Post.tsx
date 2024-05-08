@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import Messages from "./ChatBox";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { PostInfo } from "./FeadPage";
-import axios from "axios";
+import instance from "../../utils/axios";
 import { useAppSelector } from "../../store/store";
 import { Link } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const Post:FC<PostInfo> = ({songId, embeddedLink, user, songLikes}) => {
   let likeSongHandler = async() => {
     let newLikedValue = !liked
     setLiked(newLikedValue)
-    let likeSong = await axios.post(`http://localhost:3000/likeSong`, {userId: loggedInUserId, songId: songId, likeStatus: liked})
+    let likeSong = await instance.post(`http://localhost:3000/likeSong`, {userId: loggedInUserId, songId: songId, likeStatus: liked})
 
   }
 
@@ -37,7 +37,7 @@ const Post:FC<PostInfo> = ({songId, embeddedLink, user, songLikes}) => {
                 backgroundImage: `url(${user.profilePicture})`,
               }}
               ></div>
-            <div className=" h-5/6 w-fit text-heading flex items-end font-heading text-xl text-text ml-2">
+            <div className=" h-5/6 w-fit text-heading flex items-end text-xl text-text ml-2">
               {user.displayName}
             </div>
           </Link>

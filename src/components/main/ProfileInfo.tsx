@@ -1,4 +1,4 @@
-import axios from "axios";
+import instance from "../../utils/axios";
 import { FC, useState, useEffect } from "react";
 import MyVerticallyCenteredModal from "../ui/MyVerticallyCenteredModal";
 import ChatBox from "../views/ChatBox";
@@ -48,7 +48,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
 
   const getChatRooms = async () => {
     try {
-      const getChatRoomsRes = await axios.get(
+      const getChatRoomsRes = await instance.get(
         `http://localhost:3000/getChatRooms/${loggedInUserId}`
       );
       console.log(getChatRoomsRes.data);
@@ -157,7 +157,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
                     }}
                     onClick={handleProfilePictureClick}
                   ></div>
-                  <div className="text-text font-heading text-xl">
+                  <div className="text-text text-xl">
                     {profileData.displayName}
                   </div>
                 </div>
@@ -170,13 +170,13 @@ const ProfileInfo: FC<ProfileDataProp> = ({
                       backgroundImage: `url(${profileData.profilePicture})`,
                     }}
                   ></div>
-                  <div className="text-text font-heading text-xl">
+                  <div className="text-text text-xl">
                     {profileData.displayName}
                   </div>
                   {profileData.following && (
                     <>
                       <button
-                        className="h-8 w-48 bg-accent rounded-full  text-text "
+                        className="h-8 w-48 bg-prim rounded-full  text-text "
                         onClick={followUserHandler}
                       >
                         Unfollow
@@ -189,7 +189,7 @@ const ProfileInfo: FC<ProfileDataProp> = ({
                       </button>
                       {/* Render the button for screens lg and larger */}
                       <button
-                        className="hidden lg:block h-8 w-48 bg-black rounded-full text-text"
+                        className="hidden lg:block h-8 w-48 bg-prim rounded-full text-text"
                         onClick={messageButtonHandler}
                       >
                         Message
@@ -199,20 +199,20 @@ const ProfileInfo: FC<ProfileDataProp> = ({
                   {!profileData.following && (
                     <>
                       <button
-                        className="h-8 w-48 bg-accent rounded-full  text-text "
+                        className="h-8 w-48 bg-prim rounded-full  text-text "
                         onClick={followUserHandler}
                       >
                         Follow
                       </button>
                       <button
-                        className="lg:hidden h-8 w-48 bg-accent rounded-full text-text"
+                        className="lg:hidden h-8 w-48 bg-prim rounded-full text-text"
                         onClick={mobileMessageButtonHandle}
                       >
                         Message
                       </button>
                       {/* Render the button for screens lg and larger */}
                       <button
-                        className="hidden lg:block h-8 w-48 bg-accent rounded-full text-text"
+                        className="hidden lg:block h-8 w-48 bg-prim rounded-full text-text"
                         onClick={messageButtonHandler}
                       >
                         Message

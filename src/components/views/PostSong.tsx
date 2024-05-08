@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/store";
-import axios from "axios";
+import instance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import { updateReviewTokens } from "../../store/slices/loginSlice";
 
@@ -97,7 +97,7 @@ const PostSong = () => {
           };
 
           try {
-            await axios.post(
+            await instance.post(
               `http://localhost:3000/createNewSong/${userId}`,
               newSongInfoObj
             );

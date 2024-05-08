@@ -1,6 +1,6 @@
 import ProfileInfo from "../main/ProfileInfo.tsx";
 import SongCard from "../main/SongCard.tsx";
-import axios from "axios";
+import instance from "../../utils/axios";
 import { useAppSelector } from "../../store/store.ts";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -48,7 +48,7 @@ const ProfilePage = () => {
     console.log(id.id)
     if (id.id) {
       console.log(id.id, "id is here");
-      let newProfileData = await axios.get(
+      let newProfileData = await instance.get(
         `http://localhost:3000/getProfileInfo/${id.id}`
       );
       
@@ -96,7 +96,7 @@ const ProfilePage = () => {
       setSongsArray(songs);
       return;
     } else {
-      let newProfileData = await axios.get(
+      let newProfileData = await instance.get(
         `http://localhost:3000/getProfileInfo/${loggedInUser.userId}`
       );
 
@@ -159,7 +159,7 @@ const ProfilePage = () => {
     profileDataObj: ProfileData
   ) => {
     try{
-      await axios.post(
+      await instance.post(
         `http://localhost:3000/updateProfileInfo/${loggedInUser.userId}`,
         profileDataObj
       );
@@ -177,7 +177,7 @@ const ProfilePage = () => {
     if(profileData?.following){
       // Unfollow
       console.log("unfolow++++++++++++")
-      let unfollowUserResult = await axios.post(`http://localhost:3000/unfollowUser/${loggedInUser.userId}`, {followingUserId: profileData!.userId})
+      let unfollowUserResult = await instance.post(`http://localhost:3000/unfollowUser/${loggedInUser.userId}`, {followingUserId: profileData!.userId})
       let newProfileData = {...profileData, following: unfollowUserResult.data, followers : profileData.followers - 1}
       console.log(newProfileData)
       setProfileData(newProfileData)
@@ -185,7 +185,7 @@ const ProfilePage = () => {
     }else if(profileData?.following === false){
       // Follow
       console.log("FolLow++++++++++++")
-      let followUserResult = await axios.post(`http://localhost:3000/followUser/${loggedInUser.userId}`, {followingUserId: profileData!.userId})
+      let followUserResult = await instance.post(`http://localhost:3000/followUser/${loggedInUser.userId}`, {followingUserId: profileData!.userId})
       console.log(followUserResult.data)
       let newProfileData = {...profileData, following: followUserResult.data, followers: profileData.followers + 1}
       console.log(newProfileData)

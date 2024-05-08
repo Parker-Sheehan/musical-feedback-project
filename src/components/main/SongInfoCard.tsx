@@ -45,7 +45,7 @@ const SongInfoCard: FC<SongInfoProp> = ({ SongAndUser }) => {
   } else {
     return (
       <div className="flex justify-center items-center h-75vh">
-        <h1 className="text-xl font-heading text-text">Retrieving Song</h1>
+        <h1 className="text-xl text-text">Retrieving Song</h1>
       </div>
     );
   }

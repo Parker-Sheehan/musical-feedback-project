@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState, useMemo, useRef } from "react";
 import { ChatRoomInterface } from "./ChatBox";
 import { useAppSelector } from "../../store/store";
 import { Message } from "./ChatBox";
-import axios from "axios";
+import instance from "../../utils/axios";
 import { ProfileData } from "./ProfilePage";
 import io from "socket.io-client";
 
@@ -43,7 +43,7 @@ const NewChatRoom: FC<NewChatRoomProps> = ({
     console.log(profileData.userId);
     
     console.log(profileData);
-    let createChatRoomResponse = await axios.post(
+    let createChatRoomResponse = await instance.post(
       "http://localhost:3000/createChatRoom",
       { user1Id: loggedInUser.userId, user2Id: profileData.userId, content: message }
     );
@@ -72,7 +72,7 @@ const NewChatRoom: FC<NewChatRoomProps> = ({
           >
             {"<"}
           </h5>
-          <h3 className="text-black text-m font-heading text-center">
+          <h3 className="text-black text-m text-center">
           {profileData && profileData.displayName}
           </h3>
           <div className="  h-4/5 w-full flex flex-col" ref={messagesRef}>
@@ -106,7 +106,7 @@ const NewChatRoom: FC<NewChatRoomProps> = ({
           >
             {"<"}
           </h5>
-          <h3 className="text-black text-m font-heading text-center">
+          <h3 className="text-black text-m text-center">
           {profileData && profileData.displayName}
           </h3>
           <div className="  h-4/5 w-full flex flex-col" ref={messagesRef}>

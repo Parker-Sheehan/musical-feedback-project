@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import SongInfoCard from "../main/SongInfoCard";
 import { useAppSelector, useAppDispatch } from "../../store/store";
-import axios from "axios";
+import instance from "../../utils/axios";
 import { SongInfo } from "./ProfilePage";
 import {updateSongInReview} from "../../store/slices/loginSlice"
 import ReviewSection from "../main/ReviewSection";
@@ -21,7 +21,7 @@ const ReviewSong = () => {
 
   const getReviewSong = async() => {
     // try{
-      let songToReview = await axios.get(`http://localhost:3000/getReviewSong/${loginState.userId}`)
+      let songToReview = await instance.get(`http://localhost:3000/getReviewSong/${loginState.userId}`)
         console.log(songToReview.data)
         let {songId, title, embeddedLink, artistQuestion, songReviewToken} = songToReview.data
         let {displayName, userId, profilePicture} = songToReview.data.user

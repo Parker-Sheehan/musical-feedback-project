@@ -132,7 +132,7 @@ const Messages: FC<MessagesProps> = ({
         <div className="bg-gradient-to-br from-prim to-accent grid-cols-subgrid col-span-2 grid-row-subgrid row-span-4 rounded-lg hidden lg:flex min-w-[240px] h-[720px]">
           <div className="h-full w-full p-1">
             <div className="h-full overflow-y-scroll overflow-x-hidden scroll rounded ">
-              <h3 className="text-black text-m font-heading text-center">
+              <h3 className="text-black text-m text-center">
                 Messages
               </h3>
               <div className="">
@@ -196,7 +196,7 @@ const Messages: FC<MessagesProps> = ({
           <div className="h-full w-full p-1">
             <div className="h-full overflow-y-scroll overflow-x-hidden scroll rounded ">
             <ImProfile className="inline float-start size-6 absolute" onClick={handleSetShowChatMobile}/>
-              <h3 className="text-black text-m font-heading text-center ">
+              <h3 className="text-black text-m  text-center ">
                 Messages
               </h3>
               <div className="">

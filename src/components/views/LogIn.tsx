@@ -4,7 +4,6 @@ import instance from "../../utils/axios";
 import { useAppDispatch} from "../../store/store";
 import { signIn, signOut } from "../../store/slices/loginSlice";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Genre } from "./ProfilePage";
 instance.defaults.withCredentials = true;
 
@@ -46,7 +45,7 @@ const LogIn = () => {
 
       try{
         
-              const account = await axios.post("http://localhost:3000/login", bodyObj);
+              const account = await instance.post("http://localhost:3000/login", bodyObj);
               let genreArray: number[] = account.data.genres.map((genre: Genre) => {
                 return genre.genreId;
               });
@@ -108,11 +107,11 @@ const LogIn = () => {
             id="extra-login-actions-container"
             className="flex justify-between mt-25"
           >
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <input type="checkbox" id="remember-me" />
               <label htmlFor="remember-me">Remember Me</label>
-            </div>
-            <a className="text-sec" href="#">Forgot Password?</a>
+            </div> */}
+            {/* <a className="text-sec" href="#">Forgot Password?</a> */}
           </div>
           <button
             onClick={loginHandler}
@@ -123,7 +122,7 @@ const LogIn = () => {
         </div>
 
         <p className="text-text">
-          Not registered yet? <a className="text-sec" href="/SignUp">Create an account</a>
+          Not registered yet? <a className="text-sec2" href="/SignUp">Create an account</a>
         </p>
       </div>
     </main>

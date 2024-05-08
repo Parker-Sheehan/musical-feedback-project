@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Post from './Post'
 import instance from "../../utils/axios";
-
-import axios from 'axios'
 import { useAppSelector } from '../../store/store'
 
 export interface UserBasics {

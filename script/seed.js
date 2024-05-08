@@ -1,4 +1,3 @@
-import axios from "axios";
 import { User, Song, Review, Genre, UserGenre, SongGenre, ChatRoom, Message, SongLikes} from "../database/model.js";
 
 console.log("Syncing Database...");

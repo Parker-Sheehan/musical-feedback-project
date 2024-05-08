@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 // import "./SignUp.css"
-import axios from "axios";
+import instance from "../../utils/axios";
 import { useAppDispatch, useAppSelector } from "../../store/store"; 
 import { signIn } from "../../store/slices/loginSlice";
 import { useNavigate } from "react-router-dom";
 import { LoginDispatchBody } from "./LogIn";
 
-axios.defaults.withCredentials = true
+instance.defaults.withCredentials = true
 
 const SignUp = () => {
 
@@ -46,7 +46,7 @@ const SignUp = () => {
       console.log(bodyObj)
       
       try{
-        const account = await axios.post("http://localhost:3000/signUp", bodyObj)
+        const account = await instance.post("http://localhost:3000/signUp", bodyObj)
 
         let loginDispatchBody: LoginDispatchBody = {
           userId: account.data.userId,
@@ -108,7 +108,7 @@ const SignUp = () => {
         <button onClick={signUpHandler} className="flex justify-center items-center h-10 w-full bg-accent rounded">Sign Up</button>
       </div>
       <p className="text-text">
-        Already have an account? <Link to="/LogIn" className="text-sec">Login</Link>
+        Already have an account? <Link to="/LogIn" className="text-sec2">Login</Link>
       </p>
     </div>
     </main>

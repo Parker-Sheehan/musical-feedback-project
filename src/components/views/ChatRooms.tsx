@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useAppSelector } from "../../store/store";
-import axios from "axios";
+import instance from "../../utils/axios";
 import { ChatRoomInterface } from "./ChatBox";
 
 interface ChatRoomProps {
@@ -33,7 +33,7 @@ const Message: FC<ChatRoomProps> = ({
   const messageSeenHandler = async () => {
     console.log(chatRoomId)
     console.log(loggedInUser.userId)
-    axios.post(`http://localhost:3000/messageSeen`, {chatRoomId, userId: loggedInUser.userId})
+    instance.post(`http://localhost:3000/messageSeen`, {chatRoomId, userId: loggedInUser.userId})
 
     let newChatRoomArray = chatRooms
 
@@ -72,10 +72,10 @@ const Message: FC<ChatRoomProps> = ({
             }}
           ></div>
           <div className="size-full flex flex-col justify-around ml-3">
-            <p className="m-0 text-background text-m font-body mt-2">
+            <p className="m-0 text-background text-m mt-2">
               {displayName}
             </p>
-            <p className="m-0 text-sm text-background font-body mb-2 overflow-hidden">
+            <p className="m-0 text-sm text-background mb-2 overflow-hidden">
               {message}
             </p>
           </div>
@@ -97,10 +97,10 @@ const Message: FC<ChatRoomProps> = ({
             }}
           ></div>
           <div className="size-full flex flex-col justify-around ml-3">
-            <p className="m-0 text-background text-m font-body mt-2">
+            <p className="m-0 text-background text-m mt-2">
               {displayName}
             </p>
-            <p className="m-0 text-sm text-background font-body mb-2 overflow-hidden">
+            <p className="m-0 text-sm text-background mb-2 overflow-hidden">
               {message}
             </p>
           </div>

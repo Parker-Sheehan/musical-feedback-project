@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import ReviewCard from "../main/ReviewCard";
 import SongInfoCard from "../main/SongInfoCard";
-import axios from "axios";
+import instance from "../../utils/axios";
 import { SongInfo } from "./ProfilePage";
 import { SongAndUser } from "./ReviewSong";
 
@@ -33,14 +33,8 @@ const SongProfilePage = () => {
 
   let { id } = useParams();
 
-  // const retrieveCtitiqueData = async() => {
-  //   const res = await axios.put(`http://localhost:3000/getCritique/${id}`);
-  //   setReviewsArray(res.data)
-
-  // }
-
   const getSongInfo = async () => {
-    let songData = await axios.get(
+    let songData = await instance.get(
       `http://localhost:3000/getSongProfileInfo/${id}`
     );
     console.log(songData.data);

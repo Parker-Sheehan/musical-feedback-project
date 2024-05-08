@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { SongInfo } from "../views/ProfilePage";
 import { FC, useState } from "react";
-import axios from "axios";
+import instance from "../../utils/axios";
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import { updateReviewTokens } from "../../store/slices/loginSlice";
 
@@ -27,7 +27,7 @@ const SongCard: FC<SongCardProps> = ({ song, profileUserId }) => {
   const addTokenHandler = async () => {
     if(tokenState! > 0 ){
       try{
-        await axios.post(`http://localhost:3000/addTokenToSong/${song.songId}`, {userId: userId});
+        await instance.post(`http://localhost:3000/addTokenToSong/${song.songId}`, {userId: userId});
         dispatch(updateReviewTokens("decrese"));
         setSongToken(()=> {
           return songToken + 1
@@ -47,7 +47,7 @@ const SongCard: FC<SongCardProps> = ({ song, profileUserId }) => {
     <div className="lg:w-1/2 max-h-1/2 w-full flex justify-center items-center p-3">
       <div className="size-full bg-sec flex flex-col justify-between rounded-lg p-3">
         <div className=" flex justify-around">
-          <h2 className="text-text font-heading text-wrap break-words">{song.title}</h2>
+          <h2 className="text-text text-wrap break-words">{song.title}</h2>
           <Link
             to={"/SongProfilePage/" + song.songId}
             state={{ songObj: song }}

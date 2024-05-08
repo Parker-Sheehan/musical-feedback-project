@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import { signOut } from "../../store/slices/loginSlice";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import instance from "../../utils/axios";
 import { Alert } from "react-bootstrap";
 import { MessageUser } from "../views/ChatBox";
 
@@ -32,7 +32,7 @@ const NavBar = () => {
 
     const timeout = setTimeout(async() => {
       if(search !== ""){
-        let userSearchResults = await axios.get(`http://localhost:3000/userSearch/${search}`)
+        let userSearchResults = await instance.get(`http://localhost:3000/userSearch/${search}`)
         console.log(userSearchResults.data)
         setSearchResults(userSearchResults.data)
         console.log(userSearchResults)
@@ -43,19 +43,7 @@ const NavBar = () => {
   },[search])
 
 
-  // useEffect(() => {
 
-  //   let authenticateAndLogIn = async () => {
-  //     let data = await axios.get('http://localhost:3000/authenticateAndLogIn')
-  //     console.log('yay')
-  //     console.log(data.data, "inside the function")
-  //     console.log(typeof (data.data))
-  //     dispatch(signIn(data.data))
-  //   }
-
-  //   authenticateAndLogIn()
-
-  // }, [])
 
   console.log(loggedInUser.userId);
   return (
@@ -88,7 +76,7 @@ const NavBar = () => {
           <div>
 
           <div className="bg-prim rounded-full px-3 size-fit opacity-70">
-          <input type="text" placeholder="Search user..." className="bg-transparent size-full outline-none select-none rounded-full" onChange={(handleSearchChange)} onBlur={() => {setTimeout(() => {setSearch("")}, 222)}} value={(search)}/>
+          <input  type="text" placeholder="Search user..." className="bg-transparent size-full outline-none select-none rounded-full placeholder-text text-sec2" onChange={(handleSearchChange)} onBlur={() => {setTimeout(() => {setSearch("")}, 222)}} value={(search)}/>
           </div>
           {search !== "" && 
           <div className=" bg-prim w-52 size-fit absolute p-2">
@@ -105,7 +93,7 @@ const NavBar = () => {
                 }}
                 ></div>
               <div className="size-full flex flex-col justify-around ml-3">
-                <p className="m-0 text-background text-m font-body mt-2">
+                <p className="m-0 text-background text-m mt-2">
                   {result.displayName}
                 </p>
               </div>
