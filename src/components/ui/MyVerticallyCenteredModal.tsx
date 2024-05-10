@@ -88,6 +88,7 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
                 type="text"
                 placeholder="URL"
                 value={newPfpUrl}
+                className=" border-black border-1 rounded-sm"
                 onChange={(evt) => {
                   setNewPfpUrl(evt.target.value);
                 }}
@@ -95,6 +96,7 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
               <h4>Display Name</h4>
               <input
                 type="text"
+                className=" border-black border-1 rounded-sm"
                 value={newDisplayName}
                 onChange={(evt) => {
                   setNewDisplayName(evt.target.value);

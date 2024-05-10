@@ -164,7 +164,7 @@ const PostSong = () => {
           onClick={() => {
             submitSongHandler();
           }}
-          className="text-heading text-text bg-prim p-2 rounded-md mb-4"
+          className="text-heading bg-prim p-2 rounded-md mb-4"
         >
           submit song
         </button>
