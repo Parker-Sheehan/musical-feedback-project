@@ -7,6 +7,7 @@ import {
   User,
   UserGenre,
   SongLikes,
+  WebsiteFeedback
 } from "../../database/model";
 
 const createNewSong = async (req, res) => {
@@ -181,7 +182,7 @@ const getReviewSong = async (req, res) => {
       await User.update({songInReview : reviewSong.songId},{where: {userId : userId}})
       res.status(200).send(reviewSong)
     }else{
-      res.status(400).send("No songs to critique in specified genres, try expanding genre selection")
+      res.status(200).send(reviewSong)
     }
   }else{
     let song = await Song.findByPk(userInfo.songInReview, {
@@ -315,6 +316,35 @@ const postCritique = async (req, res) => {
   }
 };
 
+const postWebsiteCritique = async (req, res) => {
+  try{
+    let {userId} = req.params
+    let {websiteReview} = req.body
+
+    console.log("raaaaaaah")
+
+    await User.update(
+      {
+        userReviewToken: Sequelize.literal("user_review_token + 5"),
+        songInReview: 0,
+      },
+      { where: { userId: +userId } }
+    );
+
+    let createdFeadback = await WebsiteFeedback.create({
+      userId: userId,
+      websiteReview: websiteReview,
+    })
+
+    console.log(createdFeadback)
+
+    res.status(200).send(createdFeadback)
+
+  }catch(err){
+    res.status(400).send(err)
+  }
+}
+
 const getReviewInfo = async (req, res) => {
   console.log(req.params.reviewId);
   let { reviewId } = req.params;
@@ -413,6 +443,7 @@ export {
   getReviewSong,
   getSongProfileInfo,
   postCritique,
+  postWebsiteCritique,
   getReviewInfo,
   addTokenToSong,
   submitCritiqueScore,

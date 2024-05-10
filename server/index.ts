@@ -5,7 +5,7 @@ import { seed } from "../script/seed";
 import { signUp, login, verifyToken, signOut } from "./controller/authController";
 import session from "express-session";
 import { getProfileInfo, updateProfile, followUser, unfollowUser, getChatRooms, createNewMessage, getMessages, createChatRoom, messageSeen, userSearch, getPosts } from "./controller/userController";
-import {createNewSong, getSong, getReviewSong, getSongProfileInfo, postCritique, getReviewInfo, addTokenToSong, submitCritiqueScore, likeSong} from './controller/songController'
+import {createNewSong, getSong, getReviewSong, getSongProfileInfo, postCritique, postWebsiteCritique, getReviewInfo, addTokenToSong, submitCritiqueScore, likeSong} from './controller/songController'
 const require = createRequire(import.meta.url);
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -79,6 +79,8 @@ app.get("/getSongProfileInfo/:songId", verifyToken, getSongProfileInfo)
 
 app.post("/postCritique/:userId", verifyToken, postCritique)
 
+app.post("/postWebsiteCritique/:userId", verifyToken, postWebsiteCritique)
+
 app.get("/getReview/:reviewId", verifyToken, getReviewInfo)
 
 app.post("/addTokenToSong/:songId", verifyToken, addTokenToSong)
@@ -104,6 +106,7 @@ app.get("/userSearch/:userSearch", verifyToken, userSearch)
 app.get("/getPosts/:userId", verifyToken, getPosts)
 
 app.post("/likeSong", verifyToken, likeSong)
+
 
   
 
@@ -157,7 +160,7 @@ io.on("connection", (socket) => {
 
 await db
   .sync
-  ()  
+  // ()  
     // ({ force: true });
   // seed()
 server.listen(3000, console.log("Express server listening on port 3000"));

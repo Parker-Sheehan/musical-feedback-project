@@ -70,6 +70,12 @@ export class SongLikes extends Model {
   }
 }
 
+export class WebsiteFeedback extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
 User.init(
   {
     userId: {
@@ -152,7 +158,6 @@ Song.init(
   }
 );
 
-//rah
 
 Review.init(
   {
@@ -356,6 +361,33 @@ SongLikes.init(
       primaryKey: true,
       unique: true,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
+  },
+  {
+    modelName: "songLikes",
+    sequelize: db,
+  }
+)
+
+WebsiteFeedback.init(
+  {
+    critiqueId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    websiteReview: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    }
   },
   {
     modelName: "songLikes",

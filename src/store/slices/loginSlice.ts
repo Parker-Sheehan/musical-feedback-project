@@ -58,6 +58,15 @@ export const LoginSlice = createSlice({
           userReviewToken: userReviewToken! + 1
         })
       }
+      if(action.payload === "increase5"){
+        return (state = {
+          userId,
+          genreArray,
+          songInReview,
+          userReviewToken: userReviewToken! + 5
+        })
+      }
+      
       return (state = {
         userId,
         genreArray,
