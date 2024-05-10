@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 // import "./SignUp.css"
 import instance from "../../utils/axios";
@@ -14,6 +14,8 @@ const SignUp = () => {
   let navigate = useNavigate()
 
   const dispatch = useAppDispatch()
+
+  const [errorMessage, setErrorMessage] = useState<string>("")
 
 
   const displayNameRef = useRef<HTMLInputElement>(null)
@@ -35,7 +37,8 @@ const SignUp = () => {
 
       console.log(validateEmail(emailRef.current?.value))
       if(validateEmail(emailRef.current?.value) === false){
-        return alert("please enter valid email")
+        setErrorMessage("please enter valid email")
+        return
       }
 
       let bodyObj = {
@@ -59,10 +62,12 @@ const SignUp = () => {
   
         return navigate("/Profile")
       }catch(err: any){
-        return alert(err.response.data)
+        setErrorMessage(err.response.data)
+        return
       }
     }else{
-      return alert("Make sure all fields are filled out and passwords match")
+      setErrorMessage("Make sure all fields are filled out and passwords match")
+      return
     }
   }
 
@@ -105,6 +110,7 @@ const SignUp = () => {
         <label htmlFor="password-input">Confirm Password</label>
         <input ref={confirmPasswordRef} type="text" className="text-input h-35 w-full border border-gray-300 rounded text-black"  id="confirm-password-input" />
         </div>
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         <button onClick={signUpHandler} className="flex justify-center items-center h-10 w-full bg-accent rounded">Sign Up</button>
       </div>
       <p className="text-text">

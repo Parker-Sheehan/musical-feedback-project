@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 // import "./LogIn.css";
 import instance from "../../utils/axios";
 import { useAppDispatch} from "../../store/store";
@@ -21,6 +21,8 @@ const LogIn = () => {
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const [errorMessage, setErrorMessage] = useState(false)
 
   useEffect(() => {
     console.log("use effect jhit")
@@ -66,7 +68,7 @@ const LogIn = () => {
               return navigate("/Profile");
             
       }catch(err: any){
-        alert(err.response.data)
+        setErrorMessage(true)
       }
   }
 }
@@ -103,16 +105,20 @@ const LogIn = () => {
             ref={passwordRef}
           />
           </div>
-          <div
+          {/* <div
             id="extra-login-actions-container"
             className="flex justify-between mt-25"
-          >
-            {/* <div className="flex items-center">
+            >
+            <div className="flex items-center">
               <input type="checkbox" id="remember-me" />
               <label htmlFor="remember-me">Remember Me</label>
-            </div> */}
-            {/* <a className="text-sec" href="#">Forgot Password?</a> */}
-          </div>
+            </div>
+            <a className="text-sec" href="#">Forgot Password?</a>
+          </div> */}
+          {
+            errorMessage &&
+          <p className="text-red-500 m-0 inline">Incorrect Email or password</p>
+          }
           <button
             onClick={loginHandler}
             className="flex justify-center items-center h-10 w-full bg-accent rounded"

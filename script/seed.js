@@ -262,26 +262,26 @@ export const seed = async () => {
     })
   })
 
-  for (let i = 0; i < 5; i++) {
-    await User.create({
-      displayName: `dude${i}`,
-      email: `test${i}`,
-      password: `test${i}`,
-      profilePicture:
-        "https://i.pinimg.com/originals/50/f0/c3/50f0c3351809f62d2d8d3fe255a72fa5.jpg",
-      songInReview: 0,
-    });
-  }
+  // for (let i = 0; i < 5; i++) {
+  //   await User.create({
+  //     displayName: `dude${i}`,
+  //     email: `test${i}`,
+  //     password: `test${i}`,
+  //     profilePicture:
+  //       "https://i.pinimg.com/originals/50/f0/c3/50f0c3351809f62d2d8d3fe255a72fa5.jpg",
+  //     songInReview: 0,
+  //   });
+  // }
 
-  for(let i = 0; i< 5; i++){
-    let randomGenres = [i+1,i+2,i+3]
-    for(let j = 0; j< 3; j++){
-      await UserGenre.create({
-        userId: i+1,
-        genreId: randomGenres[j]
-      })
-    }
-  }
+  // for(let i = 0; i< 5; i++){
+  //   let randomGenres = [i+1,i+2,i+3]
+  //   for(let j = 0; j< 3; j++){
+  //     await UserGenre.create({
+  //       userId: i+1,
+  //       genreId: randomGenres[j]
+  //     })
+  //   }
+  // }
 
   // for (let i = 0; i < 3; i++) {
   //   arrayOfSongs.forEach( async (song) => {
@@ -358,9 +358,9 @@ export const seed = async () => {
   }
 }
 
- for(let i = 2; i <= 4; i++){
-  await createChatRoom(1,i)
- }
+//  for(let i = 2; i <= 4; i++){
+//   await createChatRoom(1,i)
+//  }
   
 
  async function seedMessages() {
@@ -397,7 +397,7 @@ export const seed = async () => {
   }
 }
 
-seedMessages()
+// seedMessages()
 console.log('end')
 
 };
