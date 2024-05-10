@@ -76,7 +76,7 @@ const NavBar = () => {
           <div>
 
           <div className="bg-prim rounded-full px-3 size-fit opacity-70">
-          <input  type="text" placeholder="Search user..." className="bg-transparent size-full outline-none select-none rounded-full placeholder-text text-sec2" onChange={(handleSearchChange)} onBlur={() => {setTimeout(() => {setSearch("")}, 222)}} value={(search)}/>
+          <input  type="text" placeholder="Search user..." className="bg-transparent size-full outline-none select-none rounded-full placeholder-sec2 text-sec" onChange={(handleSearchChange)} onBlur={() => {setTimeout(() => {setSearch("")}, 222)}} value={(search)}/>
           </div>
           {search !== "" && 
           <div className=" bg-prim w-52 size-fit absolute p-2">

@@ -7,7 +7,7 @@ import {
   User,
   UserGenre,
   SongLikes,
-  WebsiteFeedback
+  WebsiteFeedback,
 } from "../../database/model";
 
 const createNewSong = async (req, res) => {
@@ -133,7 +133,7 @@ const getRandomSong = async (userId) => {
   console.log(newSongArray, "potential songs");
 
   if (newSongArray[0] === undefined) {
-    return newSongArray[0]
+    return newSongArray[0];
   }
 
   let randomNumMultiplyer = newSongArray.reduce(
@@ -157,7 +157,7 @@ const getRandomSong = async (userId) => {
         { where: { userId: userId } }
       );
       console.log(newSongArray[i], "updatedSong");
-      return(newSongArray[i]);
+      return newSongArray[i];
 
       // return newSongArray[i];
     }
@@ -175,16 +175,19 @@ const getReviewSong = async (req, res) => {
     },
   });
 
-  if(userInfo.songInReview === 0){
-    let reviewSong = await getRandomSong(userId)
-    console.log(reviewSong, "review Song")
-    if(reviewSong !== undefined){
-      await User.update({songInReview : reviewSong.songId},{where: {userId : userId}})
-      res.status(200).send(reviewSong)
-    }else{
-      res.status(200).send(reviewSong)
+  if (userInfo.songInReview === 0) {
+    let reviewSong = await getRandomSong(userId);
+    console.log(reviewSong, "review Song");
+    if (reviewSong !== undefined) {
+      await User.update(
+        { songInReview: reviewSong.songId },
+        { where: { userId: userId } }
+      );
+      res.status(200).send(reviewSong);
+    } else {
+      res.status(200).send(reviewSong);
     }
-  }else{
+  } else {
     let song = await Song.findByPk(userInfo.songInReview, {
       include: [
         {
@@ -192,9 +195,8 @@ const getReviewSong = async (req, res) => {
         },
       ],
     });
-    console.log(song,"this is song in else")
-    res.status(200).send(song)
-
+    console.log(song, "this is song in else");
+    res.status(200).send(song);
   }
 };
 
@@ -317,33 +319,69 @@ const postCritique = async (req, res) => {
 };
 
 const postWebsiteCritique = async (req, res) => {
-  try{
-    let {userId} = req.params
-    let {websiteReview} = req.body
+  try {
+    let { userId } = req.params;
+    let { websiteReview } = req.body;
 
-    console.log("raaaaaaah")
+    console.log("raaaaaaah");
 
-    await User.update(
-      {
-        userReviewToken: Sequelize.literal("user_review_token + 5"),
-        songInReview: 0,
+    let existingFeedback = await WebsiteFeedback.findAll({
+      where: {
+        userId: userId,
       },
-      { where: { userId: +userId } }
-    );
+    });
 
-    let createdFeadback = await WebsiteFeedback.create({
-      userId: userId,
-      websiteReview: websiteReview,
-    })
 
-    console.log(createdFeadback)
+    let data;
 
-    res.status(200).send(createdFeadback)
+    if (existingFeedback[0]) {
+      const hoursDifference = Math.abs(new Date() - existingFeedback.pop().createdAt) / 36e5;
 
-  }catch(err){
-    res.status(400).send(err)
+      if (hoursDifference > 24) {
+        console.log("rah to me")
+        await User.update(
+          {
+            userReviewToken: Sequelize.literal("user_review_token + 1"),
+            songInReview: 0,
+          },
+          { where: { userId: +userId } }
+        );
+
+        let createdFeadback = await WebsiteFeedback.create({
+          userId: userId,
+          websiteReview: websiteReview,
+        });
+
+        data = "increase";
+
+      } else {
+        // Do something if the most recent feedback is older than 24 hours
+        console.log("roh to me")
+
+        data = "Hasn't been 24 hours";
+      }
+    } else {
+      await User.update(
+        {
+          userReviewToken: Sequelize.literal("user_review_token + 5"),
+          songInReview: 0,
+        },
+        { where: { userId: +userId } }
+      );
+
+      let createdFeadback = await WebsiteFeedback.create({
+        userId: userId,
+        websiteReview: websiteReview,
+      });
+
+      data = "increase5";
+    }
+    
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(400).send(err);
   }
-}
+};
 
 const getReviewInfo = async (req, res) => {
   console.log(req.params.reviewId);

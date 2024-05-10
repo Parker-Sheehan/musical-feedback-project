@@ -68,13 +68,18 @@ const ReviewSong = () => {
       console.log("all current values correct");
       let bodyObj = { websiteReview: websiteReviewRef.current?.value };
       try {
-        await instance.post(
+        let results = await instance.post(
           `http://localhost:3000/postWebsiteCritique/${loginState.userId}`,
           bodyObj
         );
-        dispatch(updateReviewTokens("increase5"));
 
-        return navigate("/Profile");
+        if(results.data === "Hasn't been 24 hours"){
+          alert("You can only gain tokens from submiting a reviews of a this website once a day")
+          return navigate("/Profile");
+        }else{
+          dispatch(updateReviewTokens(results.data));
+          return navigate("/Profile");
+        }
       } catch (err) {
         console.log(err);
       }
@@ -101,7 +106,7 @@ const ReviewSong = () => {
               To gain review tokens either
               expand genre prefrances or you can leave a critique of my website.
             </p>
-            <p className="text-text m-2">(this can be done once a week)</p>
+            <p className="text-text m-2">(this can be completed for 5 tokens once)</p>
             <div className="bg-sec2 size-4/5 flex flex-col items-center m-6 rounded-md h-72 justify-evenly">
               <p className="text-text w-11/12">
                 What imporovements, features, changes or bug fixes do you think

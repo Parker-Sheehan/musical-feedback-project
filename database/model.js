@@ -387,10 +387,14 @@ WebsiteFeedback.init(
     websiteReview: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
     }
   },
   {
-    modelName: "songLikes",
+    modelName: "WebsiteFeedback",
     sequelize: db,
   }
 )

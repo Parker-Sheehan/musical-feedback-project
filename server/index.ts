@@ -160,7 +160,7 @@ io.on("connection", (socket) => {
 
 await db
   .sync
-  // ()  
+  ()  
     // ({ force: true });
   // seed()
 server.listen(3000, console.log("Express server listening on port 3000"));
