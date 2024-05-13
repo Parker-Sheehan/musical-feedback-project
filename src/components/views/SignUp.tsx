@@ -76,6 +76,7 @@ const SignUp = () => {
   console.log(loggedInUser)
 
 
+  
 
   return (
     <main className="size-full flex justify-center items-center">
