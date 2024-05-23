@@ -12,7 +12,6 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from '@reduxjs/toolkit';
-import { SongInfo } from "../components/views/ProfilePage";
 import { LoginSlice, LoginState } from "./slices/loginSlice";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 

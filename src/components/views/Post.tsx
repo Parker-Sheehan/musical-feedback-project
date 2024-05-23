@@ -1,6 +1,5 @@
 // import "./ProfileInfo.css";
 import { FC, useState } from "react";
-import Messages from "./ChatBox";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { PostInfo } from "./FeadPage";
 import instance from "../../utils/axios";
@@ -18,7 +17,7 @@ const Post:FC<PostInfo> = ({songId, embeddedLink, user, songLikes}) => {
   let likeSongHandler = async() => {
     let newLikedValue = !liked
     setLiked(newLikedValue)
-    let likeSong = await instance.post(`http://localhost:3000/likeSong`, {userId: loggedInUserId, songId: songId, likeStatus: liked})
+    await instance.post(`http://localhost:3000/likeSong`, {userId: loggedInUserId, songId: songId, likeStatus: liked})
 
   }
 

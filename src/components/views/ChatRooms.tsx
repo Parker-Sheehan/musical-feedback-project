@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useAppSelector } from "../../store/store";
 import instance from "../../utils/axios";
 import { ChatRoomInterface } from "./ChatBox";

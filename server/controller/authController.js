@@ -16,7 +16,7 @@ const verifyToken = (req, res, next) => {
   console.log(req.session, req.session.email, "these are session email and thing" )
   if (!req.session || !req.session.email) {
     console.error('Unauthorized access attempt:', req.originalUrl);
-    return res.status(302).send('http://localhost:5173/LogIn');
+    return res.status(302).send('http://localhost:3000');
   } 
 // If user is authenticated, proceed to the next middleware
 next();

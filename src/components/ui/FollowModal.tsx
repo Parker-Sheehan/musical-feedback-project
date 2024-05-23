@@ -13,6 +13,7 @@ interface FollowModalProps {
 
 const FollowModal: FC<FollowModalProps> = (props) => {
   return (
+    // @ts-ignore
     <Modal
       {...props}
       size="lg"

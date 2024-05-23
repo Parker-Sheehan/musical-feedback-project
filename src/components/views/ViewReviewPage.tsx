@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import instance from "../../utils/axios";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SongInfoCard from "../main/SongInfoCard";
 import { useAppSelector } from "../../store/store";
 
-import { ReviewInfo } from "./SongProfilePage";
 import { SongAndUser } from "./ReviewSong";
 
 interface CritiqueObject {
@@ -33,7 +32,7 @@ const ViewReviewPage = () => {
     if (critiqueScore !== undefined && critiqueScore >= 0 && critiqueScore <= 5 && reviewInfo?.critiqueScore === null) {
       console.log(critiqueScore)
       // Submit the critique score to the server
-      let submitCritiqueScore = await instance.post(`http://localhost:3000/submitCritiqueScore`, {reviewId: reviewInfo.reviewId, critiqueScore: critiqueScore});
+       await instance.post(`http://localhost:3000/submitCritiqueScore`, {reviewId: reviewInfo.reviewId, critiqueScore: critiqueScore});
 
       console.log("Submitting critique score:", critiqueScore);
     } else {

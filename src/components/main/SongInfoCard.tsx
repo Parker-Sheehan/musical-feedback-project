@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { SongInfo } from "../views/ProfilePage";
 import { SongAndUser } from "../views/ReviewSong";
 import { Link } from "react-router-dom";
 export interface SongInfoProp {

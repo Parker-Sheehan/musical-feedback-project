@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ReviewCard from "../main/ReviewCard";
 import SongInfoCard from "../main/SongInfoCard";
 import instance from "../../utils/axios";
-import { SongInfo } from "./ProfilePage";
 import { SongAndUser } from "./ReviewSong";
 
 export interface ReviewInfo {

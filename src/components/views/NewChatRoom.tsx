@@ -1,7 +1,5 @@
-import React, { FC, useEffect, useState, useMemo, useRef } from "react";
-import { ChatRoomInterface } from "./ChatBox";
+import React, { FC, useState, useRef } from "react";
 import { useAppSelector } from "../../store/store";
-import { Message } from "./ChatBox";
 import instance from "../../utils/axios";
 import { ProfileData } from "./ProfilePage";
 import io from "socket.io-client";

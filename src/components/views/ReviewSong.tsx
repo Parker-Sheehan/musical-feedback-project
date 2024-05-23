@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import SongInfoCard from "../main/SongInfoCard";
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import instance from "../../utils/axios";

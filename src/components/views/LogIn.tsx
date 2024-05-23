@@ -5,6 +5,7 @@ import { useAppDispatch} from "../../store/store";
 import { signIn, signOut } from "../../store/slices/loginSlice";
 import { useNavigate } from "react-router-dom";
 import { Genre } from "./ProfilePage";
+import {Link} from 'react-router-dom'
 instance.defaults.withCredentials = true;
 
 export interface LoginDispatchBody {
@@ -47,7 +48,7 @@ const LogIn = () => {
 
       try{
         
-              const account = await instance.post("http://localhost:3000/login", bodyObj);
+              const account = await instance.post("/login", bodyObj);
               let genreArray: number[] = account.data.genres.map((genre: Genre) => {
                 return genre.genreId;
               });
@@ -127,9 +128,9 @@ const LogIn = () => {
           </button>
         </div>
 
-        <p className="text-text">
-          Not registered yet? <a className="text-sec2" href="/SignUp">Create an account</a>
-        </p>
+
+        <Link to="/SignUp" className="text-text">Dashboard</Link>
+
       </div>
     </main>
   );

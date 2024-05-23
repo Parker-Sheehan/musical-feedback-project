@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Genre from "../../components/views/ProfilePage";
 
 export interface LoginState {
   userId: number | null;
@@ -22,6 +21,7 @@ export const LoginSlice = createSlice({
     signIn: (state, action) => {
       let { userId, genreArray, songInReview, userReviewToken } = action.payload;
       console.log(action.payload, "in sign in");
+      console.log(state)
       return (state = {
         userId: userId,
         genreArray: genreArray,
@@ -75,7 +75,7 @@ export const LoginSlice = createSlice({
       })
     } ,
     signOut: (state) => {
-      console.log("hit signout in slice")
+      console.log(state)
       
       return (state = {
         userId: null,

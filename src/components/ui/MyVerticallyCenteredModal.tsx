@@ -64,6 +64,8 @@ const MyVerticallyCenteredModal: FC<ModalProps> = (props) => {
       userId,
       following,
     };
+        // @ts-ignore
+
     props.setProfileDataHandler(newProfileDataObj);
     props.onHide();
   };
