@@ -1,16 +1,17 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 // import { persistStore, persistReducer } from 'redux-persist';
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+// import {
+//   persistStore,
+//   persistReducer,
+//   FLUSH,
+//   REHYDRATE,
+//   PAUSE,
+//   PERSIST,
+//   PURGE,
+//   REGISTER,
+// } from 'redux-persist';
+// import storage from 'redux-persist/lib/storage';
+// import thunk from 'redux-thunk';
 import { combineReducers } from '@reduxjs/toolkit';
 import { LoginSlice, LoginState } from "./slices/loginSlice";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
@@ -24,27 +25,32 @@ const rootReducer = combineReducers<RootState>({
 });
 
 // Configuration for redux-persist
-const persistConfig = {
-  key: 'root',
-  storage,
-};
+// const persistConfig = {
+//   key: 'root',
+//   storage,
+// };
   
 
-// Create persisted reducer
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// // Create persisted reducer
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Configure store with persisted reducer
+// export const store = configureStore({
+//   reducer: persistedReducer,
+//   middleware: [thunk]
+//   getDefaultMiddleware({
+//     serializableCheck: {
+//       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+//     },
+//   }),
+// });
+
 export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
-  }),
-});
+  reducer: rootReducer
+})
 
 // Create a persistor object
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);
 
 export const useAppDispatch: () => typeof store.dispatch = useDispatch;
 export const useAppSelector:TypedUseSelectorHook<ReturnType<typeof store.getState>> = useSelector

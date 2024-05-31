@@ -22,6 +22,11 @@ export const LoginSlice = createSlice({
       let { userId, genreArray, songInReview, userReviewToken } = action.payload;
       console.log(action.payload, "in sign in");
       console.log(state)
+      localStorage.setItem("userId",`${userId}`)
+      localStorage.setItem("genreArray",`${genreArray}`)
+      localStorage.setItem("songInReview",`${songInReview}`)
+      localStorage.setItem("userReviewToken",`${userReviewToken}`)
+
       return (state = {
         userId: userId,
         genreArray: genreArray,
@@ -76,6 +81,10 @@ export const LoginSlice = createSlice({
     } ,
     signOut: (state) => {
       console.log(state)
+      localStorage.removeItem("userId")
+      localStorage.removeItem("genreArray")
+      localStorage.removeItem("songInReview")
+      localStorage.removeItem("userReviewToken")
       
       return (state = {
         userId: null,
